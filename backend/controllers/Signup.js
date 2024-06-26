@@ -6,11 +6,11 @@ const signup = async (req, res) => {
     const { username, email, password } = req.body;
 
     if (!username || !email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({ message: "All fields are required", success: false, error: true});
     } else {
       const userExist = await userModel.findOne({ email });
       if (userExist) {
-        return res.status(400).json({ message: "User already exist" });
+        return res.status(400).json({ message: "User already exist" , success: false, error: true});
       } else if (password.length < 6) {
         return res
           .status(400)
@@ -22,9 +22,10 @@ const signup = async (req, res) => {
           username,
           email,
           password: hashPassword,
+          profilePhoto: req.body.profilePhoto,
         });
         await newUser.save();
-        res.status(201).json({ message: "User created successfully" });
+        res.status(201).json({ message: "User created successfully", success: true, error: false});
       }
     }
   } catch (error) {
