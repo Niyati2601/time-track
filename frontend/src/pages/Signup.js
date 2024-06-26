@@ -5,12 +5,12 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { MdAddAPhoto } from "react-icons/md";
 import imageToBase64 from "../helpers/imageToBase64";
 import toast from "react-hot-toast";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import apiUrl from "../api/Api";
 
 
 const Signup = () => {
-//   const navigate = useNavigate();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setConfirmPassword] = useState(false);
   const [data, setData] = useState({
@@ -56,7 +56,7 @@ const Signup = () => {
               confirmPassword: "",
               profilePhoto: "",
             })
-            // navigate("/login")
+            navigate("/")
           }
 
           if(dataApi.error){

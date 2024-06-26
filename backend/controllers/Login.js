@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 async function userLoginController(req, res) {
     try {
         const { email, password } = req.body
-        console.log('email, password: ', email, password);
+        
         if (!email || !password) {
             throw new Error("Please Provide Email and Password")
         }
@@ -21,7 +21,6 @@ async function userLoginController(req, res) {
                 email: user.email,
             }
             const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET_KEY, {expiresIn: '30d'} )
-            console.log('token: ', token);
 
             const tokenOptions = {
                 httpOnly: true,
