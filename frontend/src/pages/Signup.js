@@ -185,7 +185,7 @@ const Signup = () => {
                 <p className="mt-6 text-xs text-gray-600 text-center">
                   Already a member?
                   <Link
-                    to="/login"
+                    to="/"
                     className="border-b border-gray-500 border-dotted"
                   >
                     Login
