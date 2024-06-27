@@ -46,7 +46,7 @@ const Login = () => {
         email: "",
         password: "",
       })
-      navigate("/");
+      navigate("/home");
       // fetchUserDetails();
     }
 
