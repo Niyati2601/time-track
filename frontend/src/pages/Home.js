@@ -1,10 +1,28 @@
 // src/pages/Home.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
 import MainButtons from '../components/MainButtons';
+import apiUrl from '../api/Api';
 
 const Home = () => {
+
+  const fetchUserDetails = async () => {
+    const response = await fetch(apiUrl.current_user.url, {
+      method: apiUrl.current_user.method,
+      credentials: "include",
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    console.log(data);
+  }
+
+  useEffect(() => {
+    fetchUserDetails();
+  },[]);
   return (
     <div className="flex h-screen relative">
       <Sidebar />
