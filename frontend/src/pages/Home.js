@@ -30,7 +30,7 @@ const Home = () => {
     fetchUserDetails();
   }, []);
   return (
-    <div className="flex h-screen relative">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar />
       <div className="flex flex-col flex-grow bg-gray-100">
         <Navbar />
