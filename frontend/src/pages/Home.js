@@ -19,6 +19,7 @@ const Home = () => {
     });
 
     const data = await response.json();
+    
 
     if (data.success) {
       dispatch(setUserDetails(data.data));
