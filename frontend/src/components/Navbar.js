@@ -6,6 +6,9 @@ import EditProfile from "../pages/EditProfile";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
+import { useNavigate } from "react-router-dom";
+import apiUrl from "../api/Api";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -13,6 +16,7 @@ const Navbar = () => {
 
   const MySwal = withReactContent(Swal);
   const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setOpen(!open);
@@ -22,29 +26,48 @@ const Navbar = () => {
     setModalOpen(!modalOpen);
   };
 
-  const handleLogout = () => {
-    const MySwal = Swal.mixin({
-      customClass: {
-        confirmButton: "btn btn-success",
-        cancelButton: "btn btn-danger",
-      },
-      buttonsStyling: true,
-    });
+  const handleLogout = async () => {
+    try {
+      // Call the logout API
+      const res = await fetch(apiUrl.logout.url, {
+        method: apiUrl.logout.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+
+      // Check if logout was successful
+      if (data.success) {
+        // toast.success("Logout Successful");
+       navigate('/')
+      } else {
+        // toast.error("Logout Failed");
+      }
+    } catch (error) {
+      toast.error("Error logging out");
+    }
+  };
+
+  const confirmLogout = () => {
     MySwal.fire({
       title: "Are you sure you want to logout?",
-      // icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, Logout!",
       cancelButtonText: "No, stay!",
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
+        // Call handleLogout to initiate logout process
         MySwal.fire({
-          title: "Logged Out!",
-          text: "You have been logged out successfully.",
+          title: "SuccessFull",
+          text: "User logged out successfully :)",
           icon: "success",
+          confirmButtonText: "Ok",
         });
-        
+        handleLogout();
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         MySwal.fire({
           title: "Cancelled",
@@ -73,7 +96,10 @@ const Navbar = () => {
               />
             )}
             {open && (
-              <div className="z-10 divide-y divide-gray-100 rounded-lg shadow w-48 bg-[#283046] dark:divide-gray-600 absolute right-0 top-9">
+              <div
+                id="dropdownAvatarName"
+                className="z-10 divide-y divide-gray-100 rounded-lg shadow w-48 bg-[#283046] dark:divide-gray-600 absolute right-0 top-9"
+              >
                 <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
                   <div className="font-medium">{user?.user?.username}</div>
                   <div className="truncate">{user?.user?.email}</div>
@@ -94,8 +120,8 @@ const Navbar = () => {
                 </ul>
                 <div className="py-2 text-md">
                   <button
-                    onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white flex items-center gap-2"
+                    onClick={confirmLogout}
+                    className="block w-full text-left px-4 py-2 text-gray-700 bg-primary hover:bg-primary-dark dark:bg-primary-dark hover:text-white dark:text-gray-200 dark:hover:text-white flex items-center gap-2 rounded"
                   >
                     <RiLogoutCircleRLine />
                     Logout

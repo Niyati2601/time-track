@@ -1,60 +1,85 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-// import { updateUser } from "../redux/actions"; 
 import { MdCloudUpload } from "react-icons/md";
-
+import apiUrl from "../api/Api";
+import { useNavigate } from "react-router-dom";
+import  toast  from "react-hot-toast";
+import imageToBase64 from "../helpers/imageToBase64";
 
 const EditProfile = ({ isOpen, onRequestClose }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
-      setFormData({
-        username: user.user.username || "",
-        email: user.user.email || "",
-        password: user.user.password || "",
-      });
+      setUsername(user.user.username || "");
+      setEmail(user.user.email || "");
+      setPassword(user.user.password || "");
       setPhotoPreview(user.user.profilePhoto || "");
     }
   }, [user]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
   };
 
-  const handlePhotoChange = (e) => {
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handlePhotoChange = async (e) => {
     const file = e.target.files[0];
-    setProfilePhoto(file);
-    setPhotoPreview(URL.createObjectURL(file));
+    const picture = await imageToBase64(file); // Convert image to base64
+    setProfilePhoto(picture); // Set base64 image data
+    setPhotoPreview(URL.createObjectURL(file)); // Preview image
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    const formDataToSubmit = new FormData();
-    formDataToSubmit.append("username", formData.username);
-    formDataToSubmit.append("email", formData.email);
-    if (formData.password) {
-      formDataToSubmit.append("password", formData.password);
-    }
-    if (profilePhoto) {
-      formDataToSubmit.append("profilePhoto", profilePhoto);
+    try {
+      // Call the logout API
+      const res = await fetch(apiUrl.editProfile.url, {
+        method: apiUrl.editProfile.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+          profilePhoto,
+          }),
+      });
+
+      const data = await res.json();
+
+      // Check if logout was successful
+      if (data.success) {
+        toast.success("Profile updated Successful");
+        navigate("/home");
+      } else {
+        toast.error("Error Updating Profile");
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
     onRequestClose();
+    // Dispatch action to update user
+    // dispatch(updateUser(formDataToSubmit));
   };
 
   return (
@@ -82,7 +107,7 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
           </button>
           <h2 className="mb-4 text-2xl font-bold text-center">Edit Profile</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center">
               <img
                 className="w-24 h-24 rounded-full ring-2 ring-white"
                 src={photoPreview}
@@ -90,8 +115,8 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
               />
               <label className="mt-4 flex items-center text-gray-600 cursor-pointer">
                 <div className="flex bg-[#283046] text-white p-3">
-                <MdCloudUpload className="mr-2 text-2xl" />
-                <span>Change profile photo</span>
+                  <MdCloudUpload className="mr-2 text-2xl" />
+                  <span>Change profile photo</span>
                 </div>
                 <input
                   type="file"
@@ -106,8 +131,8 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
               type="text"
               name="username"
               placeholder="Username"
-              value={formData.username}
-              onChange={handleChange}
+              value={username}
+              onChange={handleUsernameChange}
               required
             />
             <input
@@ -115,19 +140,19 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
               type="email"
               name="email"
               placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={handleEmailChange}
               disabled
               required
             />
-            <div className="relative">
+            {/* <div className="relative">
               <input
                 className="w-full px-4 py-2 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
                 type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
+                value={password}
+                onChange={handlePasswordChange}
               />
               <div
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 cursor-pointer"
@@ -135,7 +160,7 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </div>
-            </div>
+            </div> */}
             <button
               type="submit"
               className="w-full px-4 py-2 font-semibold text-white bg-[#283046] rounded-lg hover:bg-blue-900 focus:outline-none focus:bg-blue-700"

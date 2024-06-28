@@ -13,5 +13,13 @@ const apiUrl = {
     url: `${backendDomain}/api/user-details`,
     method: "get",
   },
+  logout: {
+    url: `${backendDomain}/api/logout`,
+    method: "post",
+  },
+  editProfile: {
+    url: `${backendDomain}/api/edit-profile`,
+    method: "put",
+  },
 };
 export default apiUrl

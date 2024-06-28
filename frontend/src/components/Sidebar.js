@@ -17,7 +17,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`flex flex-col bg-[#283046] text-white h-screen transition-width duration-300 ${
+      className={`flex flex-col bg-[#283046] text-white h-screen transition-width duration-300 ease-in-out ${
         isExpanded ? "w-52" : "w-20"
       }`}
       onMouseEnter={() => setIsExpanded(true)}
