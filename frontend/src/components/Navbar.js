@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { CgProfile } from "react-icons/cg";
 import { RiLogoutCircleRLine } from "react-icons/ri";
@@ -10,6 +10,7 @@ import "sweetalert2/src/sweetalert2.scss";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const MySwal = withReactContent(Swal);
   const user = useSelector((state) => state.user);
@@ -32,7 +33,6 @@ const Navbar = () => {
     });
     MySwal.fire({
       title: "Are you sure you want to logout?",
-      // icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, Logout!",
       cancelButtonText: "No, stay!",
@@ -44,7 +44,6 @@ const Navbar = () => {
           text: "You have been logged out successfully.",
           icon: "success",
         });
-        
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         MySwal.fire({
           title: "Cancelled",
@@ -55,12 +54,30 @@ const Navbar = () => {
     });
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
   return (
     <div className="p-2 relative">
       <div className="py-3 px-3 w-full bg-white shadow-md">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2 text-xl">Dashboard</div>
-          <div className="flex items-center gap-2 relative">
+          <div className="flex items-center gap-2 relative" ref={dropdownRef}>
             {user && (
               <img
                 className="inline-block w-8 h-8 rounded-full ring-2 ring-white cursor-pointer"

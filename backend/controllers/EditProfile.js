@@ -6,12 +6,12 @@ const EditProfile = async (req, res) => {
   try {
     const user = await userModal.findById(req.userId);
     const salt = await bcrypt.genSaltSync(10);
-    const hashPassword = await bcrypt.hashSync(req.body.password, salt);
+    // const hashPassword = await bcrypt.hashSync(req.body.password, salt);
     if (user) {
 
       const updatedData = {
         username: req.body.username,
-        password: hashPassword,
+        // password: hashPassword,
         profilePhoto: req.body.profilePhoto,
       };
 
