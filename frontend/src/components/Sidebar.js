@@ -86,7 +86,7 @@ const Sidebar = () => {
       <hr className="border-b border-t border-gray-300 mt-5" />
 
       {/* Logout Button */}
-      <div className="mt-6 px-4 py-2">
+      {/* <div className="mt-6 px-4 py-2">
         <button
           className={`flex items-center bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded ${
             isExpanded ? "w-full" : "w-12 justify-center"
@@ -96,7 +96,7 @@ const Sidebar = () => {
             Logout
           </span>
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

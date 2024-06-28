@@ -1,26 +1,112 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { CgProfile } from "react-icons/cg";
+import { RiLogoutCircleRLine } from "react-icons/ri";
+import EditProfile from "../pages/EditProfile";
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import "sweetalert2/src/sweetalert2.scss";
 
 const Navbar = () => {
+  const [open, setOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
-  const user=useSelector((state)=>state.user)
+  const MySwal = withReactContent(Swal);
+  const user = useSelector((state) => state.user);
+
+  const toggleDropdown = () => {
+    setOpen(!open);
+  };
+
+  const toggleModal = () => {
+    setModalOpen(!modalOpen);
+  };
+
+  const handleLogout = () => {
+    const MySwal = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: true,
+    });
+    MySwal.fire({
+      title: "Are you sure you want to logout?",
+      // icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Logout!",
+      cancelButtonText: "No, stay!",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        MySwal.fire({
+          title: "Logged Out!",
+          text: "You have been logged out successfully.",
+          icon: "success",
+        });
+        
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        MySwal.fire({
+          title: "Cancelled",
+          text: "Your session is safe :)",
+          icon: "error",
+        });
+      }
+    });
+  };
 
   return (
-    <div class="p-2">
-      <div class="py-3 px-3 w-full bg-white shadow-md">
-        <div class="flex justify-between items-center">
-          <div class="flex justify-items-center items-center gap-2 text-xl ">
-            Dashboard
-          </div>
-          <div class="flex justify-items-center items-center gap-2 ">
-            {user && <img
-              class="inline-block w-8 h-8 rounded-full ring-2 ring-white"
-              src={user?.user?.profilePhoto || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"} 
-              alt=""
-            />}
+    <div className="p-2 relative">
+      <div className="py-3 px-3 w-full bg-white shadow-md">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-2 text-xl">Dashboard</div>
+          <div className="flex items-center gap-2 relative">
+            {user && (
+              <img
+                className="inline-block w-8 h-8 rounded-full ring-2 ring-white cursor-pointer"
+                src={
+                  user?.user?.profilePhoto ||
+                  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                }
+                alt=""
+                onClick={toggleDropdown}
+              />
+            )}
+            {open && (
+              <div className="z-10 divide-y divide-gray-100 rounded-lg shadow w-48 bg-[#283046] dark:divide-gray-600 absolute right-0 top-9">
+                <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
+                  <div className="font-medium">{user?.user?.username}</div>
+                  <div className="truncate">{user?.user?.email}</div>
+                </div>
+                <ul
+                  className="py-2 text-md text-gray-700 dark:text-gray-200"
+                  aria-labelledby="dropdownAvatarNameButton"
+                >
+                  <li>
+                    <button
+                      onClick={toggleModal}
+                      className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2"
+                    >
+                      <CgProfile />
+                      Profile
+                    </button>
+                  </li>
+                </ul>
+                <div className="py-2 text-md">
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white flex items-center gap-2"
+                  >
+                    <RiLogoutCircleRLine />
+                    Logout
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
+      <EditProfile isOpen={modalOpen} onRequestClose={toggleModal} />
     </div>
   );
 };
