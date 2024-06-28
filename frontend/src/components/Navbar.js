@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { CgProfile } from "react-icons/cg";
 import { RiLogoutCircleRLine } from "react-icons/ri";
@@ -6,7 +6,9 @@ import EditProfile from "../pages/EditProfile";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { IoHomeOutline } from "react-icons/io5";
+import { FaRegClock } from "react-icons/fa";
 import apiUrl from "../api/Api";
 import toast from "react-hot-toast";
 
@@ -17,6 +19,19 @@ const Navbar = () => {
   const MySwal = withReactContent(Swal);
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const [navHeader, setNavHeader] = useState({ text: "", icon: null });
+
+  useEffect(() => {
+    const pathToHeaderMap = {
+      "/home": { text: "Dashboard", icon: <IoHomeOutline /> },
+      "/clockInOut": { text: "Clock In/Out", icon: <FaRegClock /> },
+      // Add other paths and their corresponding headers and icons here
+    };
+
+    setNavHeader(pathToHeaderMap[location.pathname] || { text: "My Application", icon: null });
+  }, [location.pathname]);
 
   const toggleDropdown = () => {
     setOpen(!open);
@@ -41,10 +56,10 @@ const Navbar = () => {
 
       // Check if logout was successful
       if (data.success) {
-        // toast.success("Logout Successful");
-       navigate('/')
+        toast.success("Logout Successful");
+        navigate("/");
       } else {
-        // toast.error("Logout Failed");
+        toast.error("Logout Failed");
       }
     } catch (error) {
       toast.error("Error logging out");
@@ -60,14 +75,13 @@ const Navbar = () => {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        // Call handleLogout to initiate logout process
+        handleLogout();
         MySwal.fire({
-          title: "SuccessFull",
+          title: "Successful",
           text: "User logged out successfully :)",
           icon: "success",
           confirmButtonText: "Ok",
         });
-        handleLogout();
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         MySwal.fire({
           title: "Cancelled",
@@ -82,7 +96,11 @@ const Navbar = () => {
     <div className="p-2 relative">
       <div className="py-3 px-3 w-full bg-white shadow-md">
         <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2 text-xl">Dashboard</div>
+          <div className="flex items-center gap-2 text-xl text-gray-600 font-bold">
+            {/* Display the dynamic navigation header with icon */}
+            {navHeader.icon && <span>{navHeader.icon}</span>}
+            <span>{navHeader.text}</span>
+          </div>
           <div className="flex items-center gap-2 relative">
             {user && (
               <img

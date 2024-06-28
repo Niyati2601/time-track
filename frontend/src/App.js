@@ -4,6 +4,7 @@ import Signup from "./pages/Signup";
 import { Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import ClockInOut from "./pages/ClockInOut/ClockInOut";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route exact path="/"  element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/clockInOut"element={<ClockInOut />} />
       </Routes>
     </>
   );
