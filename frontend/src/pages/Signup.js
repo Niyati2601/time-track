@@ -66,7 +66,7 @@ const Signup = () => {
       }else{
         toast.error("Please check password and confirm password")
       }
-    console.log("Entered data",data);
+    
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
