@@ -7,22 +7,26 @@ import Dashboard from "./Dashboard/Dashboard";
 import apiUrl from "../api/Api";
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "../redux/userSlice";
+import toast from "react-hot-toast";
 const Home = () => {
   const dispatch = useDispatch();
   const fetchUserDetails = async () => {
-    const response = await fetch(apiUrl.current_user.url, {
-      method: apiUrl.current_user.method,
-      credentials: "include",
-      headers: {
-        "content-type": "application/json",
-      },
-    });
+    try {
+      const response = await fetch(apiUrl.current_user.url, {
+        method: apiUrl.current_user.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
 
-    const data = await response.json();
-    
+      const data = await response.json();
 
-    if (data.success) {
-      dispatch(setUserDetails(data.data));
+      if (data.success) {
+        dispatch(setUserDetails(data.data));
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 
