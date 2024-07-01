@@ -33,5 +33,9 @@ const apiUrl = {
     url: `${backendDomain}/api/clock-history`,
     method: "post",
   },
+  timelog: {
+    url: `${backendDomain}/api/timelog`,
+    method: "post",
+  },
 };
 export default apiUrl

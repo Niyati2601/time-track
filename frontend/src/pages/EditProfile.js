@@ -4,8 +4,9 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { MdCloudUpload } from "react-icons/md";
 import apiUrl from "../api/Api";
 import { useNavigate } from "react-router-dom";
-import  toast  from "react-hot-toast";
+import toast from "react-hot-toast";
 import imageToBase64 from "../helpers/imageToBase64";
+import defaultImage from "../assets/defaultImage.jpg";
 
 const EditProfile = ({ isOpen, onRequestClose }) => {
   // const dispatch = useDispatch();
@@ -36,18 +37,16 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
     setEmail(e.target.value);
   };
 
-  // const handlePasswordChange = (e) => {
-  //   setPassword(e.target.value);
-  // };
+ 
 
   const handlePhotoChange = async (e) => {
     const file = e.target.files[0];
-    const picture = await imageToBase64(file); 
-    setProfilePhoto(picture);
-    setPhotoPreview(URL.createObjectURL(file)); 
+    const picture = await imageToBase64(file); // Convert image to base64
+    setProfilePhoto(picture); // Set base64 image data
+    setPhotoPreview(URL.createObjectURL(file)); // Preview image
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await fetch(apiUrl.editProfile.url, {
@@ -60,7 +59,7 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
           username,
           email,
           profilePhoto,
-          }),
+        }),
       });
 
       const data = await res.json();
@@ -105,7 +104,7 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
             <div className="flex flex-col items-center">
               <img
                 className="w-24 h-24 rounded-full ring-2 ring-white"
-                src={photoPreview}
+                src={photoPreview || defaultImage}
                 alt="Profile"
               />
               <label className="mt-4 flex items-center text-gray-600 cursor-pointer">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { CgProfile } from "react-icons/cg";
 import { RiLogoutCircleRLine } from "react-icons/ri";
@@ -11,11 +11,12 @@ import { IoHomeOutline } from "react-icons/io5";
 import { FaRegClock } from "react-icons/fa";
 import apiUrl from "../api/Api";
 import toast from "react-hot-toast";
+import defaultImage from "../assets/defaultImage.jpg";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-
+  const dropdownRef = useRef(null);
   const MySwal = withReactContent(Swal);
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
@@ -30,7 +31,12 @@ const Navbar = () => {
       // Add other paths and their corresponding headers and icons here
     };
 
-    setNavHeader(pathToHeaderMap[location.pathname] || { text: "My Application", icon: null });
+    setNavHeader(
+      pathToHeaderMap[location.pathname] || {
+        text: "My Application",
+        icon: null,
+      }
+    );
   }, [location.pathname]);
 
   const toggleDropdown = () => {
@@ -92,8 +98,24 @@ const Navbar = () => {
     });
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
   return (
-    <div className="p-2 relative">
+    <div className="p-2 relative" ref={dropdownRef}>
       <div className="py-3 px-3 w-full bg-white shadow-md">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2 text-xl text-gray-600 font-bold">
@@ -107,7 +129,7 @@ const Navbar = () => {
                 className="inline-block w-8 h-8 rounded-full ring-2 ring-white cursor-pointer"
                 src={
                   user?.user?.profilePhoto ||
-                  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                 defaultImage
                 }
                 alt=""
                 onClick={toggleDropdown}
