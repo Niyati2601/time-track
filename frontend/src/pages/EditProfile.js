@@ -8,14 +8,14 @@ import  toast  from "react-hot-toast";
 import imageToBase64 from "../helpers/imageToBase64";
 
 const EditProfile = ({ isOpen, onRequestClose }) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [profilePhoto, setProfilePhoto] = useState(null);
+  // const [password, setPassword] = useState("");
+  const [profilePhoto, setProfilePhoto] = useState(user.user.profilePhoto);
   const [photoPreview, setPhotoPreview] = useState(null);
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
     if (user) {
       setUsername(user.user.username || "");
       setEmail(user.user.email || "");
-      setPassword(user.user.password || "");
+      // setPassword(user.user.password || "");
       setPhotoPreview(user.user.profilePhoto || "");
     }
   }, [user]);
@@ -36,21 +36,20 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
     setEmail(e.target.value);
   };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
+  // const handlePasswordChange = (e) => {
+  //   setPassword(e.target.value);
+  // };
 
   const handlePhotoChange = async (e) => {
     const file = e.target.files[0];
-    const picture = await imageToBase64(file); // Convert image to base64
-    setProfilePhoto(picture); // Set base64 image data
-    setPhotoPreview(URL.createObjectURL(file)); // Preview image
+    const picture = await imageToBase64(file); 
+    setProfilePhoto(picture);
+    setPhotoPreview(URL.createObjectURL(file)); 
   };
 
   const handleSubmit = async(e) => {
     e.preventDefault();
     try {
-      // Call the logout API
       const res = await fetch(apiUrl.editProfile.url, {
         method: apiUrl.editProfile.method,
         credentials: "include",
@@ -60,14 +59,12 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
         body: JSON.stringify({
           username,
           email,
-          password,
           profilePhoto,
           }),
       });
 
       const data = await res.json();
 
-      // Check if logout was successful
       if (data.success) {
         toast.success("Profile updated Successful");
         navigate("/home");
@@ -78,8 +75,6 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
       toast.error(error.message);
     }
     onRequestClose();
-    // Dispatch action to update user
-    // dispatch(updateUser(formDataToSubmit));
   };
 
   return (

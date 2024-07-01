@@ -21,5 +21,17 @@ const apiUrl = {
     url: `${backendDomain}/api/edit-profile`,
     method: "put",
   },
+  clockIn: {
+    url: `${backendDomain}/api/clockin`,
+    method: "post",
+  },
+  clockOut: {
+    url: `${backendDomain}/api/clockout`,
+    method: "post",
+  },
+  clockHistory: {
+    url: `${backendDomain}/api/clock-history`,
+    method: "post",
+  },
 };
 export default apiUrl
