@@ -6,6 +6,7 @@ const Middleware = require("../middleware/Middleware");
 const GetUserDetails = require("../controllers/GetUserDetails");
 const EditProfile = require("../controllers/EditProfile");
 const Logout = require("../controllers/Logout");
+const addLog = require("../controllers/addLog");
 
 router.post("/signup", signup);
 router.post("/login", userLoginController);
@@ -15,5 +16,7 @@ router.get("/user-details", Middleware, GetUserDetails);
 router.put("/edit-profile", Middleware, EditProfile);
 
 router.post("/logout", Middleware, Logout);
+
+router.post('/timelog',Middleware,addLog)
 
 module.exports = router

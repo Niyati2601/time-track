@@ -3,8 +3,9 @@ import { useSelector } from "react-redux";
 import { MdCloudUpload } from "react-icons/md";
 import apiUrl from "../api/Api";
 import { useNavigate } from "react-router-dom";
-import  toast  from "react-hot-toast";
+import toast from "react-hot-toast";
 import imageToBase64 from "../helpers/imageToBase64";
+import defaultImage from "../assets/defaultImage.jpg";
 
 const EditProfile = ({ isOpen, onRequestClose }) => {
   const user = useSelector((state) => state.user);
@@ -33,16 +34,16 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
     setEmail(e.target.value);
   };
 
- 
-
   const handlePhotoChange = async (e) => {
-    const file = e.target.files[0];
-    const picture = await imageToBase64(file); // Convert image to base64
-    setProfilePhoto(picture); // Set base64 image data
-    setPhotoPreview(URL.createObjectURL(file)); // Preview image
+    try {
+      const file = e.target.files[0];
+      const picture = await imageToBase64(file); // Convert image to base64
+      setProfilePhoto(picture); // Set base64 image data
+      setPhotoPreview(URL.createObjectURL(file)); // Preview image
+    } catch (error) {}
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       // Call the logout API
@@ -57,7 +58,7 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
           email,
           password,
           profilePhoto,
-          }),
+        }),
       });
 
       const data = await res.json();
@@ -105,7 +106,7 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
             <div className="flex flex-col items-center">
               <img
                 className="w-24 h-24 rounded-full ring-2 ring-white"
-                src={photoPreview}
+                src={photoPreview || defaultImage}
                 alt="Profile"
               />
               <label className="mt-4 flex items-center text-gray-600 cursor-pointer">

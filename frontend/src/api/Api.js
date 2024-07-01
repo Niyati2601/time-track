@@ -21,5 +21,9 @@ const apiUrl = {
     url: `${backendDomain}/api/edit-profile`,
     method: "put",
   },
+  timelog: {
+    url: `${backendDomain}/api/timelog`,
+    method: "post",
+  },
 };
 export default apiUrl
