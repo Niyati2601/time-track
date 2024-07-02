@@ -12,6 +12,7 @@ const ClockInOut = () => {
   const user = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
+
   const fetchUserDetails = async () => {
     try {
       const response = await fetch(apiUrl.current_user.url, {
@@ -32,36 +33,34 @@ const ClockInOut = () => {
     }
   };
 
+  const fetchHistory = async () => {
+    try {
+      const response = await fetch(apiUrl.clockHistory.url, {
+        method: apiUrl.clockHistory.method,
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user?.user?._id, 
+        }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setHistory(data.history);
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log('error: ', error);
+      // Handle error
+    }
+  };
+
   useEffect(() => {
     fetchUserDetails();
-  }, []);
-
-  useEffect(() => {
-    const fetchHistory = async () => {
-      try {
-        const response = await fetch(apiUrl.clockHistory.url, {
-          method: apiUrl.clockHistory.method,
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: user?.user?._id,
-          }),
-        });
-
-        const data = await response.json();
-        if (data.success) {
-          setHistory(data.history);
-          toast.success(data.message);
-        } else {
-          toast.error(data.message);
-        }
-      } catch (error) {
-        // Handle error
-      }
-    };
-
     fetchHistory();
   }, []);
 
@@ -75,13 +74,53 @@ const ClockInOut = () => {
     });
   };
 
+  // Function to convert duration to minutes
+  const convertDurationToMinutes = (duration) => {
+    const [hours, minutes] = duration.split(':').map(Number);
+    return hours * 60 + minutes;
+  };
+
+  // Calculate total duration
+  const totalDurationInMinutes = history.reduce((total, entry) => {
+    if (entry.duration) {
+      return total + convertDurationToMinutes(entry.duration);
+    }
+    return total;
+  }, 0);
+
+  const formatDuration = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}h ${mins}m`;
+  };
+
+  // Function to convert duration to minutes
+  const convertDurationToMinutes = (duration) => {
+    const [hours, minutes] = duration.split(':').map(Number);
+    return hours * 60 + minutes;
+  };
+
+  // Calculate total duration
+  const totalDurationInMinutes = history.reduce((total, entry) => {
+    if (entry.duration) {
+      return total + convertDurationToMinutes(entry.duration);
+    }
+    return total;
+  }, 0);
+
+  const formatDuration = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}h ${mins}m`;
+  };
+
   return (
     <div className="flex h-screen relative">
       <Sidebar />
       <div className="flex flex-col flex-grow bg-gray-100">
         <Navbar />
         <div className="py-4 px-6 text-lg text-gray-600 font-bold text-right">
-          Total Time: {history?.duration}
+          Total Time: {formatDuration(totalDurationInMinutes)}
         </div>
         <div className="shadow-lg rounded-md overflow-hidden m-5">
           <table className="w-full top-4">
@@ -101,15 +140,9 @@ const ClockInOut = () => {
             <tbody className="bg-white">
               {history.map((entry, index) => (
                 <tr key={index}>
-                  <td className="py-4 px-6 border-b border-gray-200">
-                    {formatTime(entry?.clockInTime) || "-"}
-                  </td>
-                  <td className="py-4 px-6 border-b border-gray-200">
-                    {formatTime(entry?.clockOutTime) || "-"}
-                  </td>
-                  <td className="py-4 px-6 border-b border-gray-200">
-                    {entry.duration || "-"}
-                  </td>
+                  <td className="py-4 px-6 border-b border-gray-200">{formatTime(entry?.clockInTime) || '-'}</td>
+                  <td className="py-4 px-6 border-b border-gray-200">{formatTime(entry?.clockOutTime) || '-'}</td>
+                  <td className="py-4 px-6 border-b border-gray-200">{entry.duration || '-'}</td>
                 </tr>
               ))}
             </tbody>

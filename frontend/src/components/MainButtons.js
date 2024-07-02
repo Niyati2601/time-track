@@ -96,7 +96,7 @@ const MainButtons = ({ className }) => {
   };
 
   useEffect(() => {
-    if (isClocking) {
+    if (isClocking === true) {
       handleClockIn();
     } else if (savedTime) {
       handleClockOut();

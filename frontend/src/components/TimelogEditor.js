@@ -17,6 +17,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
   const [title, setTitle] = useState("");
 
   const user = useSelector((state) => state.user);
+  
 
   const dropdownRef = useRef(null);
 
