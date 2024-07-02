@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { MdCloudUpload } from "react-icons/md";
+import { useSelector } from "react-redux";
+import { MdCloudUpload, MdDelete } from "react-icons/md";
 import apiUrl from "../api/Api";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -9,22 +8,19 @@ import imageToBase64 from "../helpers/imageToBase64";
 import defaultImage from "../assets/defaultImage.jpg";
 
 const EditProfile = ({ isOpen, onRequestClose }) => {
-  // const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
-  // const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  const [profilePhoto, setProfilePhoto] = useState(user.user.profilePhoto);
+  const [profilePhoto, setProfilePhoto] = useState(user?.user?.profilePhoto);
   const [photoPreview, setPhotoPreview] = useState(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
       setUsername(user.user.username || "");
       setEmail(user.user.email || "");
-      // setPassword(user.user.password || "");
       setPhotoPreview(user.user.profilePhoto || "");
     }
   }, [user]);
@@ -36,8 +32,6 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
-
- 
 
   const handlePhotoChange = async (e) => {
     const file = e.target.files[0];
@@ -65,10 +59,10 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
       const data = await res.json();
 
       if (data.success) {
-        toast.success("Profile updated Successful");
+        toast.success("Profile updated successfully");
         navigate("/home");
       } else {
-        toast.error("Error Updating Profile");
+        toast.error("Error updating profile");
       }
     } catch (error) {
       toast.error(error.message);
@@ -107,7 +101,7 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
                 src={photoPreview || defaultImage}
                 alt="Profile"
               />
-              <label className="mt-4 flex items-center text-gray-600 cursor-pointer">
+              <label className="mt-4 flex flex-col items-center text-gray-600 cursor-pointer">
                 <div className="flex bg-[#283046] text-white p-3">
                   <MdCloudUpload className="mr-2 text-2xl" />
                   <span>Change profile photo</span>
@@ -119,6 +113,19 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
                   accept="image/*"
                 />
               </label>
+              {profilePhoto !== null && (
+                <button
+                  type="button"
+                  className="flex bg-[#283046] text-white p-3 mt-2"
+                  onClick={() => {
+                    setProfilePhoto(null);
+                    setPhotoPreview(null);
+                  }}
+                >
+                  <MdDelete className="mr-2 text-2xl" />
+                  <span>Remove profile photo</span>
+                </button>
+              )}
             </div>
             <input
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
@@ -139,22 +146,6 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
               disabled
               required
             />
-            {/* <div className="relative">
-              <input
-                className="w-full px-4 py-2 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                type={showPassword ? "text" : "password"}
-                name="password"
-                placeholder="Password"
-                value={password}
-                onChange={handlePasswordChange}
-              />
-              <div
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 cursor-pointer"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </div>
-            </div> */}
             <button
               type="submit"
               className="w-full px-4 py-2 font-semibold text-white bg-[#283046] rounded-lg hover:bg-blue-900 focus:outline-none focus:bg-blue-700"
