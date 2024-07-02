@@ -135,10 +135,16 @@ const TimelogEditor = ({ onOpen, onClose }) => {
           >
             <option selected>Select Projects</option>
             <option value="Intern 2024">Intern 2024</option>
-            <option value="Documentation">BA/PM General</option>
-            <option value="Social Marketing">Demo Tasks and Interview</option>
-            <option value="Developer">DevOps/SysAdmin General</option>
-            <option value="Designer">Learning and Development</option>
+            <option value="BA/PM General">BA/PM General</option>
+            <option value="Demo Tasks and Interview">
+              Demo Tasks and Interview
+            </option>
+            <option value="DevOps/SysAdmin General">
+              DevOps/SysAdmin General
+            </option>
+            <option value="Learning and Development">
+              Learning and Development
+            </option>
             <option value="Sales & Marketing">Sales & Marketing</option>
             <option value="Tech General">Tech General</option>
             <option value="UX General">UX General</option>
