@@ -13,11 +13,10 @@ const TimelogEditor = ({ onOpen, onClose }) => {
   const [isPlay, setIsPlaying] = useState(false);
   const [isTagOpen, setIsTagOpen] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
-  const [position, setPosition] = useState("");
+  const [projects, setprojects] = useState("");
   const [title, setTitle] = useState("");
 
   const user = useSelector((state) => state.user);
-  console.log("user: ", user);
 
   const dropdownRef = useRef(null);
 
@@ -56,7 +55,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
 
   const handleSubmit = async () => {
     try {
-      if (!position || !title || !selectedTags.length) {
+      if (!projects || !title || !selectedTags.length) {
         return;
       }
       setIsPlaying(!isPlay);
@@ -68,7 +67,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
         },
         body: JSON.stringify({
           user: user.user._id,
-          position,
+          projects,
           title,
           tags: selectedTags,
         }),
@@ -125,20 +124,23 @@ const TimelogEditor = ({ onOpen, onClose }) => {
 
         <div className="flex justify-between mb-2 mt-8">
           <select
-            value={position} // Ensure `position` state is used
-            onChange={(e) => setPosition(e.target.value)} // Handle position change
+            value={projects} // Ensure `projects` state is used
+            onChange={(e) => setprojects(e.target.value)} // Handle projects change
             type="text"
-            placeholder="Select Position"
+            placeholder="Select Projects"
             className="p-2 bg-green-400 rounded border-none outline-none w-1/2 text-white placeholder-white mr-1"
-            name="position"
+            name="projects"
             required
           >
-            <option selected>Select Position</option>
+            <option selected>Select Projects</option>
             <option value="Intern 2024">Intern 2024</option>
-            <option value="Documentation">Documentation</option>
-            <option value="Social Marketing">Social Marketing</option>
-            <option value="Developer">Developer</option>
-            <option value="Designer">Designer</option>
+            <option value="Documentation">BA/PM General</option>
+            <option value="Social Marketing">Demo Tasks and Interview</option>
+            <option value="Developer">DevOps/SysAdmin General</option>
+            <option value="Designer">Learning and Development</option>
+            <option value="Sales & Marketing">Sales & Marketing</option>
+            <option value="Tech General">Tech General</option>
+            <option value="UX General">UX General</option>
           </select>
           <select
             type="text"
@@ -169,12 +171,14 @@ const TimelogEditor = ({ onOpen, onClose }) => {
                   className="flex items-center bg-white text-orange-500 rounded-md px-2 py-1 text-sm font-bold"
                 >
                   <span>{tag}</span>
-                  <button
-                    className="ml-2 text-red-500 hover:text-red-700"
-                    onClick={() => handleRemoveTag(tag)}
-                  >
-                    <IoClose />
-                  </button>
+                  {!isPlay && (
+                    <button
+                      className="ml-2 text-red-500 hover:text-red-700"
+                      onClick={() => handleRemoveTag(tag)}
+                    >
+                      <IoClose />
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
@@ -209,7 +213,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
                   {selectedTags.length}
                 </div>
               )}
-              {isTagOpen && (
+              {isTagOpen && !isPlay && (
                 <div
                   id="dropdownAvatarName"
                   className="z-10 divide-y divide-gray-100 rounded-lg shadow w-48 bg-[#fff] dark:divide-gray-600 absolute right-0 bottom-14 text-gray-600"

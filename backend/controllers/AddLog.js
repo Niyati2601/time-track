@@ -2,7 +2,7 @@ const TimeLog = require("../models/TimeLog");
 
 const addLog = async (req, res) => {
   try {
-    const { user, position, startTIme, endTIme, title, tags } = req.body;
+    const { user, projects, startTIme, endTIme, title, tags } = req.body;
     if (!user) {
       return res.status(400).json({
         message: "User is required",
@@ -10,7 +10,7 @@ const addLog = async (req, res) => {
         error: true,
       });
     }
-    if (!position || !title || !tags) {
+    if (!projects || !title || !tags) {
       return res.status(400).json({
         message: "All fields are required",
         success: false,
@@ -19,7 +19,7 @@ const addLog = async (req, res) => {
     } else {
       const timeLog = new TimeLog({
         user,
-        position,
+        projects,
         startTIme,
         endTIme,
         title,

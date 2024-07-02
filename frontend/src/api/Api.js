@@ -37,5 +37,9 @@ const apiUrl = {
     url: `${backendDomain}/api/timelog`,
     method: "post",
   },
+  getLogs: {
+    url: `${backendDomain}/api/getlogs`,
+    method: "get",
+  },
 };
 export default apiUrl

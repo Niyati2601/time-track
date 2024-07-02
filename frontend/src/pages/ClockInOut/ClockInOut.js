@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import Sidebar from '../../components/Sidebar';
-import Navbar from '../../components/Navbar';
-import MainButtons from '../../components/MainButtons';
-import apiUrl from '../../api/Api';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUserDetails } from '../../redux/userSlice';
-import toast from 'react-hot-toast';
+import React, { useEffect, useState } from "react";
+import Sidebar from "../../components/Sidebar";
+import Navbar from "../../components/Navbar";
+import MainButtons from "../../components/MainButtons";
+import apiUrl from "../../api/Api";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserDetails } from "../../redux/userSlice";
+import toast from "react-hot-toast";
 
 const ClockInOut = () => {
   const [history, setHistory] = useState([]);
@@ -41,20 +41,20 @@ const ClockInOut = () => {
       try {
         const response = await fetch(apiUrl.clockHistory.url, {
           method: apiUrl.clockHistory.method,
-          credentials: 'include',
+          credentials: "include",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            userId: user?.user?._id, 
+            userId: user?.user?._id,
           }),
         });
-        
+
         const data = await response.json();
         if (data.success) {
           setHistory(data.history);
           toast.success(data.message);
-        } else{
+        } else {
           toast.error(data.message);
         }
       } catch (error) {
@@ -63,12 +63,16 @@ const ClockInOut = () => {
     };
 
     fetchHistory();
-  }, [user]);
+  }, []);
 
   const formatTime = (dateString) => {
-    if (!dateString) return '';
+    if (!dateString) return "";
     const date = new Date(dateString);
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+    return date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
   };
 
   return (
@@ -76,22 +80,36 @@ const ClockInOut = () => {
       <Sidebar />
       <div className="flex flex-col flex-grow bg-gray-100">
         <Navbar />
-          <div className="py-4 px-6 text-lg text-gray-600 font-bold text-right">Total Time: {history?.duration}</div>
+        <div className="py-4 px-6 text-lg text-gray-600 font-bold text-right">
+          Total Time: {history?.duration}
+        </div>
         <div className="shadow-lg rounded-md overflow-hidden m-5">
           <table className="w-full top-4">
             <thead>
               <tr className="bg-blue-100">
-                <th className="w-1/3 py-4 px-6 text-left text-gray-600 font-bold uppercase">In</th>
-                <th className="w-1/3 py-4 px-6 text-left text-gray-600 font-bold uppercase">Out</th>
-                <th className="w-1/3 py-4 px-6 text-left text-gray-600 font-bold uppercase">Time</th>
+                <th className="w-1/3 py-4 px-6 text-left text-gray-600 font-bold uppercase">
+                  In
+                </th>
+                <th className="w-1/3 py-4 px-6 text-left text-gray-600 font-bold uppercase">
+                  Out
+                </th>
+                <th className="w-1/3 py-4 px-6 text-left text-gray-600 font-bold uppercase">
+                  Time
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white">
               {history.map((entry, index) => (
                 <tr key={index}>
-                  <td className="py-4 px-6 border-b border-gray-200">{formatTime(entry?.clockInTime) || '-'}</td>
-                  <td className="py-4 px-6 border-b border-gray-200">{formatTime(entry?.clockOutTime)|| '-'}</td>
-                  <td className="py-4 px-6 border-b border-gray-200">{entry.duration || '-'}</td>
+                  <td className="py-4 px-6 border-b border-gray-200">
+                    {formatTime(entry?.clockInTime) || "-"}
+                  </td>
+                  <td className="py-4 px-6 border-b border-gray-200">
+                    {formatTime(entry?.clockOutTime) || "-"}
+                  </td>
+                  <td className="py-4 px-6 border-b border-gray-200">
+                    {entry.duration || "-"}
+                  </td>
                 </tr>
               ))}
             </tbody>

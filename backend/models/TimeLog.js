@@ -7,7 +7,7 @@ const timeLogSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    position: {
+    projects: {
       type: String,
       required: true,
     },
