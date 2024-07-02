@@ -1,5 +1,3 @@
-// controllers/clockingController.js
-const { error } = require("console");
 const Clocking = require("../models/Clock");
 
 const clockIn = async (req, res) => {

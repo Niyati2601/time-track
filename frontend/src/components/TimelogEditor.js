@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FaRegCirclePlay, FaRegCirclePause } from "react-icons/fa6";
 import { FiTag } from "react-icons/fi";
 import { MdOutlineTimer } from "react-icons/md";
@@ -8,6 +8,7 @@ import { IoClose } from "react-icons/io5";
 import toast from "react-hot-toast";
 import apiUrl from "../api/Api";
 import { useSelector } from "react-redux";
+import { ClockingContext } from "../context/ClockingContext";
 
 const TimelogEditor = ({ onOpen, onClose }) => {
   const [isPlay, setIsPlaying] = useState(false);
@@ -17,7 +18,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
   const [title, setTitle] = useState("");
 
   const user = useSelector((state) => state.user);
-  
+  const { isClocking, setIsClocking } = useContext(ClockingContext);
 
   const dropdownRef = useRef(null);
 
@@ -85,7 +86,8 @@ const TimelogEditor = ({ onOpen, onClose }) => {
   };
 
   return (
-    onOpen && (
+    onOpen &&
+    isClocking && (
       <div
         className="timelog-popup fixed bg-green-500 p-4 rounded-lg shadow-lg z-50 w-[400px] bottom-20 right-28"
         ref={dropdownRef}
@@ -135,10 +137,16 @@ const TimelogEditor = ({ onOpen, onClose }) => {
           >
             <option selected>Select Projects</option>
             <option value="Intern 2024">Intern 2024</option>
-            <option value="Documentation">BA/PM General</option>
-            <option value="Social Marketing">Demo Tasks and Interview</option>
-            <option value="Developer">DevOps/SysAdmin General</option>
-            <option value="Designer">Learning and Development</option>
+            <option value="BA/PM General">BA/PM General</option>
+            <option value="Demo Tasks and Interview">
+              Demo Tasks and Interview
+            </option>
+            <option value="DevOps/SysAdmin General">
+              DevOps/SysAdmin General
+            </option>
+            <option value="Learning and Development">
+              Learning and Development
+            </option>
             <option value="Sales & Marketing">Sales & Marketing</option>
             <option value="Tech General">Tech General</option>
             <option value="UX General">UX General</option>
