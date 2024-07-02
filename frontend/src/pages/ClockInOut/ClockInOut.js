@@ -94,26 +94,7 @@ const ClockInOut = () => {
     return `${hours}h ${mins}m`;
   };
 
-  // Function to convert duration to minutes
-  const convertDurationToMinutes = (duration) => {
-    const [hours, minutes] = duration.split(':').map(Number);
-    return hours * 60 + minutes;
-  };
-
-  // Calculate total duration
-  const totalDurationInMinutes = history.reduce((total, entry) => {
-    if (entry.duration) {
-      return total + convertDurationToMinutes(entry.duration);
-    }
-    return total;
-  }, 0);
-
-  const formatDuration = (minutes) => {
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return `${hours}h ${mins}m`;
-  };
-
+  
   return (
     <div className="flex h-screen relative">
       <Sidebar />
