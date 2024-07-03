@@ -5,12 +5,14 @@ import { IoHomeOutline } from "react-icons/io5";
 import { FaRegClock } from "react-icons/fa";
 import { MdOutlineTimer } from "react-icons/md";
 import { LuTimerOff } from "react-icons/lu";
+import { IoCalendarClearOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { ClockingContext } from "../context/ClockingContext";
 
 const sidebarItems = [
   { icon: <IoHomeOutline />, text: "Home", onClick: "/home" },
   { icon: <FaRegClock />, text: "Clock In/Out", onClick: "/clockInOut" },
+  { icon: <IoCalendarClearOutline />, text: "Timesheet", onClick: "/timesheet" },
 ];
 
 const Sidebar = () => {
