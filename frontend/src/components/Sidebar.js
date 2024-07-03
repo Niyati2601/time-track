@@ -15,8 +15,8 @@ const sidebarItems = [
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isDayIn, setIsDayIn] = useState(false);
-  const { isClocking, setIsClocking } = useContext(ClockingContext);
+  const { isClocking, setIsClocking, isDayIn, setIsDayIn } =
+    useContext(ClockingContext);
 
   const navigate = useNavigate();
 

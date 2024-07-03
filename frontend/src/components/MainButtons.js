@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 
 const MainButtons = ({ className }) => {
-  const { isClocking, setIsClocking  } = useContext(ClockingContext);
+  const { isClocking, setIsClocking , isDayIn, setIsDayIn } = useContext(ClockingContext);
   const [timer] = useState(new Timer());
   const [time, setTime] = useState('00:00:00');
   const [savedTime, setSavedTime] = useState(null);
@@ -116,6 +116,7 @@ const MainButtons = ({ className }) => {
         <button
           className="flex items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
           onClick={handleClockIn}
+          disabled={isDayIn===false}
         >
           <MdOutlinePlayCircleOutline className="text-xl mb-1" />
           Clock In

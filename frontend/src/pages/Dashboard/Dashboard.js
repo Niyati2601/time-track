@@ -63,7 +63,7 @@ const Dashboard = () => {
               </>
             ))
           ) : (
-            <p className="mt-2 text-gray-600">No logs for today.</p>
+            <p className="mt-2 text-red-600">No logs for today.</p>
           )}
         </div>
         <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow-md">
