@@ -7,7 +7,7 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
 import { useNavigate, useLocation } from "react-router-dom";
-import { IoHomeOutline } from "react-icons/io5";
+import { IoCalendarClearOutline, IoHomeOutline } from "react-icons/io5";
 import { FaRegClock } from "react-icons/fa";
 import apiUrl from "../api/Api";
 import toast from "react-hot-toast";
@@ -28,6 +28,7 @@ const Navbar = () => {
     const pathToHeaderMap = {
       "/home": { text: "Dashboard", icon: <IoHomeOutline /> },
       "/clockInOut": { text: "Clock In/Out", icon: <FaRegClock /> },
+      "/timesheet": { text: "Timesheet", icon: <IoCalendarClearOutline /> },
       // Add other paths and their corresponding headers and icons here
     };
 

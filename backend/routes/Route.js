@@ -9,6 +9,7 @@ const Logout = require("../controllers/Logout");
 const addLog = require("../controllers/addLog");
 const ClockInOut = require("../controllers/ClockInOut");
 const getLogs = require("../controllers/getLogs");
+const getAllLogs = require("../controllers/getAlllogs");
 
 router.post("/signup", signup);
 router.post("/login", userLoginController);
@@ -26,5 +27,7 @@ router.post("/logout", Middleware, Logout);
 router.post("/timelog", Middleware, addLog);
 
 router.get("/getlogs", Middleware, getLogs);
+
+router.get("/getAllLogs", Middleware, getAllLogs);
 
 module.exports = router;
