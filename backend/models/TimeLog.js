@@ -30,7 +30,9 @@ const timeLogSchema = new mongoose.Schema(
       default: [],
       required: true,
     },
-   
+    duration: {
+      type: String,
+    },  
   },
   { timestamps: true }
 );

@@ -47,7 +47,7 @@ const apiUrl = {
   },
   updateEndTime: {
     url: `${backendDomain}/api/updateEndTime`,
-    method: "patch",
+    method: "PATCH",
   },
 };
 export default apiUrl
