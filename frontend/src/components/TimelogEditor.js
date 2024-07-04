@@ -16,6 +16,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [projects, setprojects] = useState("");
   const [title, setTitle] = useState("");
+  const [logId,setLogId] = useState("");
 
   const user = useSelector((state) => state.user);
   const { isClocking, setIsClocking } = useContext(ClockingContext);
@@ -75,6 +76,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
         }),
       });
       const data = await res.json();
+      setLogId(data.data._id);
       if (data.success) {
         toast.success(data.message);
       } else {
@@ -84,6 +86,72 @@ const TimelogEditor = ({ onOpen, onClose }) => {
       toast.error(error.message);
     }
   };
+
+  // const handleEndTimeApi =  async()=>{
+  //   try {
+  //     console.log("logId: ", logId);
+  //     console.log('user.user._id: ', user.user._id);
+  //     const res = await fetch(apiUrl.updateEndTime.url, {
+  //       method: apiUrl.updateEndTime.method,
+  //       credentials: "include",
+  //       headers: {
+  //         "content-type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         _id: logId,
+  //         endTIme: new Date().toISOString(),
+  //       }),
+  //     })
+
+  //     const data = await res.json();
+  //     console.log('data: ', data);
+  //     if (data.success) {
+  //       setIsPlaying(false);
+  //       toast.success(data.message);
+  //     } else {
+  //       toast.error(data.message);
+  //     }
+  //   } catch (error) {
+  //     toast.error(error);
+  //   }
+  // }
+
+  const handleEndTimeApi = async () => {
+    try {
+      console.log("Sending request to:", apiUrl.updateEndTime.url);
+      console.log("Request method:", apiUrl.updateEndTime.method);
+      console.log("Request payload:", {
+        _id: logId,
+        endTIme: new Date().toISOString(),
+      });
+  
+      const res = await fetch(apiUrl.updateEndTime.url, {
+        method: apiUrl.updateEndTime.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          _id: logId,
+          endTIme: new Date().toISOString(),
+        }),
+      });
+  
+      const data = await res.json();
+      console.log("Response data:", data);
+  
+      if (res.status === 200) {
+        setIsPlaying(false);
+        toast.success(data.message);
+      } else {
+        toast.error(data.message || 'An error occurred');
+      }
+    } catch (error) {
+      console.log("Error:", error);
+      toast.error(error.message || 'An unexpected error occurred');
+    }
+  };
+  
 
   return (
     onOpen &&
@@ -198,7 +266,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
                 <>
                   <FaRegCirclePause
                     className="text-3xl text-white cursor-pointer"
-                    onClick={() => setIsPlaying(false)}
+                    onClick={handleEndTimeApi}
                   />
                   <span className="text-white ml-5 mt-1 font-bold">
                     03:38:06

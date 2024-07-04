@@ -24,10 +24,12 @@ router.post("/clock-history", Middleware, ClockInOut.clockInAndOut);
 
 router.post("/logout", Middleware, Logout);
 
-router.post("/timelog", Middleware, addLog);
+router.post("/timelog", Middleware, addLog.addLog);
 
 router.get("/getlogs", Middleware, getLogs);
 
 router.get("/getAllLogs", Middleware, getAllLogs);
+
+router.patch("/updateEndTime", Middleware, addLog.updateEndTimeInTimeLog);
 
 module.exports = router;

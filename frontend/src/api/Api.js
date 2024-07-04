@@ -41,5 +41,13 @@ const apiUrl = {
     url: `${backendDomain}/api/getlogs`,
     method: "get",
   },
+  getAllLogs: {
+    url: `${backendDomain}/api/getAllLogs`,
+    method: "get",
+  },
+  updateEndTime: {
+    url: `${backendDomain}/api/updateEndTime`,
+    method: "patch",
+  },
 };
 export default apiUrl
