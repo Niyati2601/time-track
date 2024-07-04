@@ -10,6 +10,8 @@ const addLog = require("../controllers/addLog");
 const ClockInOut = require("../controllers/ClockInOut");
 const getLogs = require("../controllers/getLogs");
 const getAllLogs = require("../controllers/getAlllogs");
+const deleteLog = require("../controllers/DeleteLog");
+const editLog = require("../controllers/EditLog");
 
 router.post("/signup", signup);
 router.post("/login", userLoginController);
@@ -31,5 +33,8 @@ router.get("/getlogs", Middleware, getLogs);
 router.get("/getAllLogs", Middleware, getAllLogs);
 
 router.patch("/updateEndTime", Middleware, addLog.updateEndTimeInTimeLog);
+
+router.delete("/delete-log", Middleware, deleteLog);
+router.patch('/edit-log', Middleware, editLog);
 
 module.exports = router;

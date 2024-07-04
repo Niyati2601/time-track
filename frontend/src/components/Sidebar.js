@@ -62,7 +62,7 @@ const Sidebar = () => {
           className="my-4 flex items-center w-full px-4 hover:bg-[#283065] p-4"
           onClick={() => handleNavigation(item.onClick)}
         >
-          <span className="text-2xl">{item.icon}</span>
+          <span className="text-2xl relative">{item.icon}</span>
           <span className={`ml-4 ${isExpanded ? "block" : "hidden"}`}>
             {item.text}
           </span>

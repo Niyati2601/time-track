@@ -49,5 +49,13 @@ const apiUrl = {
     url: `${backendDomain}/api/updateEndTime`,
     method: "PATCH",
   },
+  deleteLog: {
+    url: `${backendDomain}/api/delete-log`,
+    method: "delete",
+  },
+  editLog: {
+    url: `${backendDomain}/api/edit-log`,
+    method: "PATCH",
+  },
 };
 export default apiUrl

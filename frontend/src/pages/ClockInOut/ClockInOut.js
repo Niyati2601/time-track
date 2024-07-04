@@ -50,7 +50,6 @@ const ClockInOut = () => {
       const data = await response.json();
       if (data.success) {
         setHistory(data.history);
-        toast.success(data.message);
       } else {
         toast.error(data.message);
       }
@@ -79,7 +78,7 @@ const ClockInOut = () => {
     });
   };
 
-  
+
 
   const isSameDate = (date1, date2) => {
     return (
@@ -88,7 +87,7 @@ const ClockInOut = () => {
       date1.getDate() === date2.getDate()
     );
   };
-  
+
 
   const todayHistory = history.filter((entry) => {
     const clockInDate = new Date(entry.clockInTime);
@@ -113,10 +112,10 @@ const ClockInOut = () => {
   };
 
   return (
-        <><div className="py-4 px-6 text-lg text-gray-600 font-bold text-right">
+    <><div className="py-4 px-6 text-lg text-gray-600 font-bold text-right">
       Total Time: <span className="text-red-600">{formatDuration(totalDurationInMinutes)}</span>
-    </div><div className="shadow-lg rounded-md overflow-hidden m-5">
-        <table className="w-full top-4">
+    </div><div className="shadow-lg rounded-md overflow-hidden m-2">
+        <table className="w-full top-2">
           <thead>
             <tr className="bg-blue-100">
               <th className="w-1/3 py-4 px-6 text-left text-gray-600 font-bold uppercase">In</th>
