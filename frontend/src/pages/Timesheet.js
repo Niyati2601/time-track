@@ -58,10 +58,7 @@ const Timesheet = () => {
   }, []);
 
   return (
-    <div className="flex h-screen relative">
-      <Sidebar />
-      <div className="flex flex-col flex-grow bg-gray-100">
-        <Navbar />
+
         <div className="shadow-lg rounded-md overflow-hidden m-5">
           <table className="w-full top-4">
             <thead>
@@ -101,10 +98,6 @@ const Timesheet = () => {
             </tbody>
           </table>
         </div>
-      </div>
-
-      <MainButtons className="absolute bottom-4 right-4" />
-    </div>
   );
 };
 

@@ -8,6 +8,7 @@ import apiUrl from "../api/Api";
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "../redux/userSlice";
 import toast from "react-hot-toast";
+import { Outlet } from 'react-router-dom';
 const Home = () => {
   const dispatch = useDispatch();
   const fetchUserDetails = async () => {
@@ -39,7 +40,7 @@ const Home = () => {
       <div className="flex flex-col flex-grow bg-gray-100">
         <Navbar />
         <div className="flex-grow p-4 bg-gray-100">
-          <Dashboard />
+          <Outlet />
         </div>
       </div>
       <MainButtons className="absolute bottom-4 right-4" />

@@ -17,6 +17,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
   const [projects, setprojects] = useState("");
   const [title, setTitle] = useState("");
   const [logId,setLogId] = useState("");
+  
 
   const user = useSelector((state) => state.user);
   const { isClocking, setIsClocking } = useContext(ClockingContext);
@@ -89,8 +90,8 @@ const TimelogEditor = ({ onOpen, onClose }) => {
 
   // const handleEndTimeApi =  async()=>{
   //   try {
-  //     console.log("logId: ", logId);
-  //     console.log('user.user._id: ', user.user._id);
+  //     
+  //     
   //     const res = await fetch(apiUrl.updateEndTime.url, {
   //       method: apiUrl.updateEndTime.method,
   //       credentials: "include",
@@ -104,7 +105,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
   //     })
 
   //     const data = await res.json();
-  //     console.log('data: ', data);
+  //     
   //     if (data.success) {
   //       setIsPlaying(false);
   //       toast.success(data.message);
@@ -118,8 +119,8 @@ const TimelogEditor = ({ onOpen, onClose }) => {
 
   const handleEndTimeApi = async () => {
     try {
-      console.log("Sending request to:", apiUrl.updateEndTime.url);
-      console.log("Request method:", apiUrl.updateEndTime.method);
+      
+      
       console.log("Request payload:", {
         _id: logId,
         endTIme: new Date().toISOString(),
@@ -138,7 +139,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
       });
   
       const data = await res.json();
-      console.log("Response data:", data);
+      
   
       if (res.status === 200) {
         setIsPlaying(false);
@@ -147,7 +148,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
         toast.error(data.message || 'An error occurred');
       }
     } catch (error) {
-      console.log("Error:", error);
+      
       toast.error(error.message || 'An unexpected error occurred');
     }
   };

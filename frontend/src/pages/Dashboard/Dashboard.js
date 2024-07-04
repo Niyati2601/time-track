@@ -38,7 +38,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="flex flex-col bg-gray-100 min-h-screen p-4">
+    <div className="flex flex-col bg-gray-100 h-full p-4">
       <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 w-full">
         <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow-md">
           <h1 className="text-2xl font-semibold border-b-2 pb-2">Activity Logs</h1>

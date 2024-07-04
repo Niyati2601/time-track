@@ -12,7 +12,7 @@ app.use(cors(
     {
         origin: process.env.FRONTEND_DOMAIN_URL,
         credentials: true,
-        methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "patch", "OPTIONS"],
+        methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH", "OPTIONS"],
     }
 ));
 app.use(bodyParser.json());
