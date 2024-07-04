@@ -6,6 +6,7 @@ import apiUrl from "../api/Api";
 import { setUserDetails } from "../redux/userSlice";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
+import moment from "moment";
 
 const Timesheet = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const Timesheet = () => {
         },
       });
       const data = await res.json();
-      
+
       if (data.success) {
         setLogs(data.data);
       } else {
@@ -57,6 +58,14 @@ const Timesheet = () => {
     fetchUserDetails();
   }, []);
 
+  const formatTime = (dateString) => {
+    if (!dateString) {
+      return "";
+    } else {
+      return moment(dateString).format("hh:mm a");
+    }
+  };
+
   return (
 
         <div className="shadow-lg rounded-md overflow-hidden m-5">
@@ -78,14 +87,14 @@ const Timesheet = () => {
               </tr>
             </thead>
             <tbody>
+              {console.log("logs: ", logs)}
               {logs.map((log) => (
                 <tr key={log._id} className="border-b border-gray-200">
                   <td className="w-1/3 py-4 px-6 text-left text-gray-600">
                     {log.title}
-                    {}
                   </td>
                   <td className="w-1/3 py-4 px-6 text-left text-gray-600">
-                    {log.time}
+                    {formatTime(log.startTIme)} - {formatTime(log.endTIme)}
                   </td>
                   <td className="w-1/3 py-4 px-6 text-left text-gray-600">
                     {log.duration}

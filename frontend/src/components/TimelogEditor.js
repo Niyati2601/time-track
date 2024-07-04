@@ -16,8 +16,8 @@ const TimelogEditor = ({ onOpen, onClose }) => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [projects, setprojects] = useState("");
   const [title, setTitle] = useState("");
-  const [logId,setLogId] = useState("");
-  
+  const [logId, setLogId] = useState("");
+  const [time, setTime] = useState(0);
 
   const user = useSelector((state) => state.user);
   const { isClocking, setIsClocking } = useContext(ClockingContext);
@@ -63,6 +63,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
         return;
       }
       setIsPlaying(!isPlay);
+      setTime(0);
       const res = await fetch(apiUrl.timelog.url, {
         method: apiUrl.timelog.method,
         credentials: "include",
@@ -88,44 +89,13 @@ const TimelogEditor = ({ onOpen, onClose }) => {
     }
   };
 
-  // const handleEndTimeApi =  async()=>{
-  //   try {
-  //     
-  //     
-  //     const res = await fetch(apiUrl.updateEndTime.url, {
-  //       method: apiUrl.updateEndTime.method,
-  //       credentials: "include",
-  //       headers: {
-  //         "content-type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         _id: logId,
-  //         endTIme: new Date().toISOString(),
-  //       }),
-  //     })
-
-  //     const data = await res.json();
-  //     
-  //     if (data.success) {
-  //       setIsPlaying(false);
-  //       toast.success(data.message);
-  //     } else {
-  //       toast.error(data.message);
-  //     }
-  //   } catch (error) {
-  //     toast.error(error);
-  //   }
-  // }
-
   const handleEndTimeApi = async () => {
     try {
-      
-      
       console.log("Request payload:", {
         _id: logId,
         endTIme: new Date().toISOString(),
       });
-  
+
       const res = await fetch(apiUrl.updateEndTime.url, {
         method: apiUrl.updateEndTime.method,
         credentials: "include",
@@ -137,22 +107,40 @@ const TimelogEditor = ({ onOpen, onClose }) => {
           endTIme: new Date().toISOString(),
         }),
       });
-  
+
       const data = await res.json();
-      
-  
+
       if (res.status === 200) {
         setIsPlaying(false);
         toast.success(data.message);
       } else {
-        toast.error(data.message || 'An error occurred');
+        toast.error(data.message || "An error occurred");
       }
     } catch (error) {
-      
-      toast.error(error.message || 'An unexpected error occurred');
+      toast.error(error.message || "An unexpected error occurred");
     }
   };
-  
+
+
+  const formatTime = (seconds) => {
+    const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
+    const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+    const s = (seconds % 60).toString().padStart(2, '0');
+    return `${h}:${m}:${s}`;
+  };
+
+  useEffect(() => {
+    let interval = null;
+    if (isPlay) {
+      interval = setInterval(() => {
+        setTime(prevTime => prevTime + 1);
+      }, 1000);
+    } else if (!isPlay && time !== 0) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isPlay, time]);
+
 
   return (
     onOpen &&
@@ -200,7 +188,8 @@ const TimelogEditor = ({ onOpen, onClose }) => {
             onChange={(e) => setprojects(e.target.value)} // Handle projects change
             type="text"
             placeholder="Select Projects"
-            className="p-2 bg-green-400 rounded border-none outline-none w-1/2 text-white placeholder-white mr-1"
+            className={`p-2 bg-green-400 rounded border-none outline-none w-1/2 text-white placeholder-white mr-1 ${isPlay ? "cursor-not-allowed" : "cursor-pointer"}`}
+            disabled={isPlay}
             name="projects"
             required
           >
@@ -270,7 +259,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
                     onClick={handleEndTimeApi}
                   />
                   <span className="text-white ml-5 mt-1 font-bold">
-                    03:38:06
+                  {formatTime(time)}
                   </span>
                 </>
               ) : (
