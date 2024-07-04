@@ -38,12 +38,12 @@ const ClockInOut = () => {
     try {
       const response = await fetch(apiUrl.clockHistory.url, {
         method: apiUrl.clockHistory.method,
-        credentials: 'include',
+        credentials: "include",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: user?.user?._id, 
+          userId: user?.user?._id,
         }),
       });
 
@@ -55,19 +55,19 @@ const ClockInOut = () => {
         toast.error(data.message);
       }
     } catch (error) {
-      console.log('error: ', error);
-      // Handle error
+      toast.error(error.message);
     }
   };
 
   useEffect(() => {
     fetchUserDetails();
-    // fetchHistory();
   }, []);
 
-  useEffect(()=> {
-    fetchHistory();
-  },[user])
+  useEffect(() => {
+    if (user?.user?._id) {
+      fetchHistory();
+    }
+  }, [user]);
 
   const formatTime = (dateString) => {
     if (!dateString) return "";
@@ -79,15 +79,12 @@ const ClockInOut = () => {
     });
   };
 
-  // Function to convert duration to minutes
   const convertDurationToMinutes = (duration) => {
-    const [hours, minutes] = duration.split(':').map(Number);
+    const [hours, minutes] = duration.split(":").map(Number);
     return hours * 60 + minutes;
   };
 
-  // Calculate total duration
   const totalDurationInMinutes = history.reduce((total, entry) => {
-    
     if (entry.duration) {
       return total + convertDurationToMinutes(entry.duration);
     }
@@ -100,33 +97,40 @@ const ClockInOut = () => {
     return `${hours}h ${mins}m`;
   };
 
+  const isSameDate = (date1, date2) => {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  };
   
+
+  const todayHistory = history.filter((entry) => {
+    const clockInDate = new Date(entry.clockInTime);
+    return isSameDate(clockInDate, new Date());
+  });
+
   return (
-    <div className="flex h-screen relative">
+    <div className="flex h-full relative">
       <Sidebar />
       <div className="flex flex-col flex-grow bg-gray-100">
         <Navbar />
         <div className="py-4 px-6 text-lg text-gray-600 font-bold text-right">
-          Total Time: <span className="text-red-600"> {formatDuration(totalDurationInMinutes)}</span>
+          Total Time: <span className="text-red-600">{formatDuration(totalDurationInMinutes)}</span>
         </div>
         <div className="shadow-lg rounded-md overflow-hidden m-5">
           <table className="w-full top-4">
             <thead>
               <tr className="bg-blue-100">
-                <th className="w-1/3 py-4 px-6 text-left text-gray-600 font-bold uppercase">
-                  In
-                </th>
-                <th className="w-1/3 py-4 px-6 text-left text-gray-600 font-bold uppercase">
-                  Out
-                </th>
-                <th className="w-1/3 py-4 px-6 text-left text-gray-600 font-bold uppercase">
-                  Time
-                </th>
+                <th className="w-1/3 py-4 px-6 text-left text-gray-600 font-bold uppercase">In</th>
+                <th className="w-1/3 py-4 px-6 text-left text-gray-600 font-bold uppercase">Out</th>
+                <th className="w-1/3 py-4 px-6 text-left text-gray-600 font-bold uppercase">Time</th>
               </tr>
             </thead>
             <tbody className="bg-white">
-              {history.map((entry, index) => (
-                <tr key={index}>
+              {todayHistory.map((entry, index) => (
+                  <tr key={index}>
                   <td className="py-4 px-6 border-b border-gray-200 "><span className="flex"><GoDotFill className="text-green-600 mr-2 text-xl" />{formatTime(entry?.clockInTime) || '-'}</span></td>
                   <td className="py-4 px-6 border-b border-gray-200 "><span className="flex">{entry?.clockOutTime && <GoDotFill className="text-red-600 mr-2 text-xl" />}{formatTime(entry?.clockOutTime) || '-'}</span></td>
                   <td className="py-4 px-6 border-b border-gray-200">{entry.duration || '-'}</td>
