@@ -15,7 +15,12 @@ const Timesheet = () => {
   const [projects, setProjects] = useState([]);
   const [tags, setTags] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editLogData, setEditLogData] = useState({ _id: "", title: "", projects: "", tags: "" });
+  const [editLogData, setEditLogData] = useState({
+    _id: "",
+    title: "",
+    projects: "",
+    tags: "",
+  });
 
   const getAllLogsApi = async () => {
     try {
@@ -38,71 +43,29 @@ const Timesheet = () => {
     }
   };
 
-  const fetchUserDetails = async () => {
-    try {
-      const response = await fetch(apiUrl.current_user.url, {
-        method: apiUrl.current_user.method,
-        credentials: "include",
-        headers: {
-          "content-type": "application/json",
-        },
-      });
+  // const fetchUserDetails = async () => {
+  //   try {
+  //     const response = await fetch(apiUrl.current_user.url, {
+  //       method: apiUrl.current_user.method,
+  //       credentials: "include",
+  //       headers: {
+  //         "content-type": "application/json",
+  //       },
+  //     });
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (data.success) {
-        dispatch(setUserDetails(data.data));
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
-
-  const fetchProjects = async () => {
-    try {
-      const res = await fetch(apiUrl.getProjects.url, {
-        method: apiUrl.getProjects.method,
-        credentials: "include",
-        headers: {
-          "content-type": "application/json",
-        },
-      });
-      const data = await res.json();
-      if (data.success) {
-        setProjects(data.data);
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
-
-  const fetchTags = async () => {
-    try {
-      const res = await fetch(apiUrl.getTags.url, {
-        method: apiUrl.getTags.method,
-        credentials: "include",
-        headers: {
-          "content-type": "application/json",
-        },
-      });
-      const data = await res.json();
-      if (data.success) {
-        setTags(data.data);
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
+  //     if (data.success) {
+  //       dispatch(setUserDetails(data.data));
+  //     }
+  //   } catch (error) {
+  //     toast.error(error.message);
+  //   }
+  // };
 
   useEffect(() => {
     getAllLogsApi();
-    fetchUserDetails();
-    fetchProjects();
-    fetchTags();
+    // fetchUserDetails();
   }, []);
 
   const formatTime = (dateString) => {
@@ -197,6 +160,7 @@ const Timesheet = () => {
           </tr>
         </thead>
         <tbody>
+          
           {logs.map((log) => (
             <tr key={log._id} className="border-b border-gray-200">
               <td className="w-1/3 px-6 text-left text-gray-600">
@@ -213,15 +177,17 @@ const Timesheet = () => {
               <td className="w-1/3 px-6 text-left text-gray-600">
                 {formatTime(log.startTIme)} - {formatTime(log.endTIme)}
               </td>
-              <td className="w-1/3 py-2  px-6 text-left text-gray-600">{log.duration}</td>
+              <td className="w-1/3 py-2  px-6 text-left text-gray-600">
+                {log.duration}
+              </td>
               <td className="w-1/3 py-2 px-6 text-left text-gray-600">
                 <div className="w-1/3 py-2 space-x-2 text-center flex justify-between cursor-pointer">
                   <BiSolidEdit
-                    style={{ fontSize: '5rem' }}
+                    style={{ fontSize: "5rem" }}
                     onClick={() => handleEditClick(log)}
                   />
                   <MdDeleteOutline
-                    style={{ fontSize: '5rem', color: '#ea5455' }}
+                    style={{ fontSize: "5rem", color: "#ea5455" }}
                     onClick={() => deleteLogApi(log._id)}
                   />
                 </div>
@@ -236,7 +202,7 @@ const Timesheet = () => {
           <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
             <h2 className="text-2xl mb-4 text-center">Edit Log</h2>
             <label className="block mb-2">Title</label>
-            <input
+            <textarea
               type="text"
               name="title"
               value={editLogData.title}
@@ -272,7 +238,7 @@ const Timesheet = () => {
             <div className="flex justify-end space-x-4">
               <button
                 onClick={saveEditLogApi}
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                className="bg-[#283046] text-white px-4 py-2 rounded-lg"
               >
                 Save
               </button>

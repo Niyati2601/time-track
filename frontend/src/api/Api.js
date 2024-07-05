@@ -69,5 +69,9 @@ const apiUrl = {
     url: `${backendDomain}/api/tickets`,
     method: "get",
   },
+  dayIn: {
+    url: `${backendDomain}/api/dayIn`,
+    method: "post",
+  },
 };
 export default apiUrl

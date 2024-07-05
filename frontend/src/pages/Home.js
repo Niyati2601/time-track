@@ -11,29 +11,29 @@ import toast from "react-hot-toast";
 import { Outlet } from 'react-router-dom';
 const Home = () => {
   const dispatch = useDispatch();
-  const fetchUserDetails = async () => {
-    try {
-      const response = await fetch(apiUrl.current_user.url, {
-        method: apiUrl.current_user.method,
-        credentials: "include",
-        headers: {
-          "content-type": "application/json",
-        },
-      });
+  // const fetchUserDetails = async () => {
+  //   try {
+  //     const response = await fetch(apiUrl.current_user.url, {
+  //       method: apiUrl.current_user.method,
+  //       credentials: "include",
+  //       headers: {
+  //         "content-type": "application/json",
+  //       },
+  //     });
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (data.success) {
-        dispatch(setUserDetails(data.data));
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
+  //     if (data.success) {
+  //       dispatch(setUserDetails(data.data));
+  //     }
+  //   } catch (error) {
+  //     toast.error(error.message);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchUserDetails();
-  }, []);
+  // useEffect(() => {
+  //   fetchUserDetails();
+  // }, []);
   return (
     <div className="flex h-screen relative">
       <Sidebar />
