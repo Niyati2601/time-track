@@ -88,7 +88,7 @@ const MainButtons = ({ className }) => {
         setSavedTime(time);
         setIsClocking(false);
       } else {
-        toast.error(data.message);
+        // toast.error(data.message);
       }
     } catch (error) {
       toast.error('Failed to clock out. Please try again.');

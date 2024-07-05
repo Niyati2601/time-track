@@ -19,7 +19,7 @@ const Timesheet = () => {
     _id: "",
     title: "",
     projects: "",
-    tags: "",
+    tags: [],
   });
 
   const getAllLogsApi = async () => {
@@ -109,6 +109,7 @@ const Timesheet = () => {
       toast.error(error.message);
     }
   };
+
   const formatTime = (dateString) => {
     if (!dateString) {
       return "";
@@ -151,6 +152,22 @@ const Timesheet = () => {
     setEditLogData({
       ...editLogData,
       [name]: value,
+    });
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    let updatedTags = [...editLogData.tags];
+
+    if (checked) {
+      updatedTags.push(name);
+    } else {
+      updatedTags = updatedTags.filter((tag) => tag !== name);
+    }
+
+    setEditLogData({
+      ...editLogData,
+      tags: updatedTags,
     });
   };
 
@@ -201,7 +218,7 @@ const Timesheet = () => {
           </tr>
         </thead>
         <tbody>
-          
+
           {logs.map((log) => (
             <tr key={log._id} className="border-b border-gray-200">
               <td className="w-1/3 px-6 text-left text-gray-600">
@@ -242,7 +259,7 @@ const Timesheet = () => {
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
             <h2 className="text-2xl mb-4 text-center">Edit Log</h2>
-            <label className="block mb-2">Title</label>
+            <label className="block mb-2 font-bold">Title</label>
             <textarea
               type="text"
               name="title"
@@ -250,7 +267,7 @@ const Timesheet = () => {
               onChange={handleInputChange}
               className="border p-2 mb-4 w-full rounded-md"
             />
-            <label className="block mb-2">Projects</label>
+            <label className="block mb-2 font-bold">Projects</label>
             <select
               name="projects"
               value={editLogData.projects}
@@ -263,19 +280,19 @@ const Timesheet = () => {
                 </option>
               ))}
             </select>
-            <label className="block mb-2">Tags</label>
-            <select
-              name="tags"
-              value={editLogData.tags}
-              onChange={handleInputChange}
-              className="border p-2 mb-4 w-full rounded-md"
-            >
-              {tags.map((tag) => (
-                <option key={tag._id} value={tag.name}>
-                  {tag.name}
-                </option>
-              ))}
-            </select>
+            <label className="block mb-2 font-bold">Tags</label>
+            {tags.map((tag) => (
+              <div key={tag._id} className="mb-2">
+                <input
+                  type="checkbox"
+                  id={tag._id}
+                  name={tag.name}
+                  checked={editLogData.tags.includes(tag.name)}
+                  onChange={handleCheckboxChange}
+                />
+                <label htmlFor={tag._id} className="ml-2">{tag.name}</label>
+              </div>
+            ))}
             <div className="flex justify-end space-x-4">
               <button
                 onClick={saveEditLogApi}
@@ -298,3 +315,4 @@ const Timesheet = () => {
 };
 
 export default Timesheet;
+
