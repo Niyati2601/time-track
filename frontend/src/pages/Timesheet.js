@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
-import MainButtons from "../components/MainButtons";
 import apiUrl from "../api/Api";
 import { setUserDetails } from "../redux/userSlice";
 import { useDispatch } from "react-redux";
@@ -9,10 +6,14 @@ import toast from "react-hot-toast";
 import moment from "moment";
 import { BiSolidEdit } from "react-icons/bi";
 import { MdDeleteOutline } from "react-icons/md";
+import { IoDocumentOutline } from "react-icons/io5";
 
 const Timesheet = () => {
   const dispatch = useDispatch();
   const [logs, setLogs] = useState([]);
+  console.log('logs: ', logs);
+  const [projects, setProjects] = useState([]);
+  const [tags, setTags] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editLogData, setEditLogData] = useState({ _id: "", title: "", projects: "", tags: "" });
 
@@ -57,9 +58,51 @@ const Timesheet = () => {
     }
   };
 
+  const fetchProjects = async () => {
+    try {
+      const res = await fetch(apiUrl.getProjects.url, {
+        method: apiUrl.getProjects.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+      const data = await res.json();
+      if (data.success) {
+        setProjects(data.data);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const fetchTags = async () => {
+    try {
+      const res = await fetch(apiUrl.getTags.url, {
+        method: apiUrl.getTags.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+      const data = await res.json();
+      if (data.success) {
+        setTags(data.data);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   useEffect(() => {
     getAllLogsApi();
     fetchUserDetails();
+    fetchProjects();
+    fetchTags();
   }, []);
 
   const formatTime = (dateString) => {
@@ -154,11 +197,19 @@ const Timesheet = () => {
           </tr>
         </thead>
         <tbody>
-          {console.log("logs: ", logs)}
           {logs.map((log) => (
-            
             <tr key={log._id} className="border-b border-gray-200">
-              <td className="w-1/3 px-6 text-left text-gray-600">{log.title}</td>
+              <td className="w-1/3 px-6 text-left text-gray-600">
+                <p className="text-lg"> {log.title}</p>
+                <p className="text-red-500 inline-flex"><IoDocumentOutline className="text-md mt-1 space-x-2" />{log.projects}</p>
+                <div className="flex">
+                  {log.tags.map((tag) => (
+                    <p key={tag} className="text-white bg-[#fb5362] p-1 rounded-md m-1">
+                      {tag}
+                    </p>
+                  ))}
+                </div>
+              </td>
               <td className="w-1/3 px-6 text-left text-gray-600">
                 {formatTime(log.startTIme)} - {formatTime(log.endTIme)}
               </td>
@@ -183,31 +234,41 @@ const Timesheet = () => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
-            <h2 className="text-xl mb-4">Edit Log</h2>
+            <h2 className="text-2xl mb-4 text-center">Edit Log</h2>
             <label className="block mb-2">Title</label>
             <input
               type="text"
               name="title"
               value={editLogData.title}
               onChange={handleInputChange}
-              className="border p-2 mb-4 w-full"
+              className="border p-2 mb-4 w-full rounded-md"
             />
             <label className="block mb-2">Projects</label>
-            <input
-              type="text"
+            <select
               name="projects"
               value={editLogData.projects}
               onChange={handleInputChange}
-              className="border p-2 mb-4 w-full"
-            />
+              className="border p-2 mb-4 w-full rounded-md"
+            >
+              {projects.map((project) => (
+                <option key={project._id} value={project.name}>
+                  {project.name}
+                </option>
+              ))}
+            </select>
             <label className="block mb-2">Tags</label>
-            <input
-              type="text"
+            <select
               name="tags"
               value={editLogData.tags}
               onChange={handleInputChange}
-              className="border p-2 mb-4 w-full"
-            />
+              className="border p-2 mb-4 w-full rounded-md"
+            >
+              {tags.map((tag) => (
+                <option key={tag._id} value={tag.name}>
+                  {tag.name}
+                </option>
+              ))}
+            </select>
             <div className="flex justify-end space-x-4">
               <button
                 onClick={saveEditLogApi}

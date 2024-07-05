@@ -12,27 +12,6 @@ const ClockInOut = () => {
   const [history, setHistory] = useState([]);
   const user = useSelector((state) => state.user);
 
-  const dispatch = useDispatch();
-
-  const fetchUserDetails = async () => {
-    try {
-      const response = await fetch(apiUrl.current_user.url, {
-        method: apiUrl.current_user.method,
-        credentials: "include",
-        headers: {
-          "content-type": "application/json",
-        },
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        dispatch(setUserDetails(data.data));
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
 
   const fetchHistory = async () => {
     try {
@@ -58,9 +37,6 @@ const ClockInOut = () => {
     }
   };
 
-  useEffect(() => {
-    fetchUserDetails();
-  }, []);
 
   useEffect(() => {
     if (user?.user?._id) {
@@ -114,7 +90,8 @@ const ClockInOut = () => {
   return (
     <><div className="py-4 px-6 text-lg text-gray-600 font-bold text-right">
       Total Time: <span className="text-red-600">{formatDuration(totalDurationInMinutes)}</span>
-    </div><div className="shadow-lg rounded-md overflow-hidden m-2">
+    </div>
+      <div className="shadow-lg rounded-md overflow-hidden m-2">
         <table className="w-full top-2">
           <thead>
             <tr className="bg-blue-100">
@@ -123,11 +100,11 @@ const ClockInOut = () => {
               <th className="w-1/3 py-4 px-6 text-left text-gray-600 font-bold uppercase">Time</th>
             </tr>
           </thead>
-          <tbody className="bg-white">
+          <tbody className={`bg-white ${(todayHistory.length) > 10 ? "h-64 overflow-y-auto" : ""}`}>
             {todayHistory.map((entry, index) => (
               <tr key={index}>
                 <td className="py-4 px-6 border-b border-gray-200 "><span className="flex"><GoDotFill className="text-green-600 mr-2 text-xl" />{formatTime(entry?.clockInTime) || '-'}</span></td>
-                <td className="py-4 px-6 border-b border-gray-200 "><span className="flex">{entry?.clockOutTime && <GoDotFill className="text-red-600 mr-2 text-xl" />}{formatTime(entry?.clockOutTime) || '-'}</span></td>
+                <td className="py-4 px-6 border-b border-gray-200 "><span className="flex">{entry?.clockOutTime && <GoDotFill className="text-orange-600 mr-2 text-xl" />}{formatTime(entry?.clockOutTime) || '-'}</span></td>
                 <td className="py-4 px-6 border-b border-gray-200">{entry.duration || '-'}</td>
               </tr>
             ))}

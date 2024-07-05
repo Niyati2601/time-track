@@ -15,7 +15,8 @@ app.use(cors(
         methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
     }
 ));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '1gb' }));
+app.use(bodyParser.urlencoded({ limit: '1gb', extended: true }));
 app.use(cookieParser());
 
 const PORT = process.env.PORT || 8000;

@@ -12,6 +12,7 @@ const getLogs = require("../controllers/getLogs");
 const getAllLogs = require("../controllers/getAlllogs");
 const deleteLog = require("../controllers/DeleteLog");
 const editLog = require("../controllers/EditLog");
+const dataController = require("../controllers/dataController");
 
 router.post("/signup", signup);
 router.post("/login", userLoginController);
@@ -36,5 +37,8 @@ router.patch("/updateEndTime", Middleware, addLog.updateEndTimeInTimeLog);
 
 router.delete("/delete-log", Middleware, deleteLog);
 router.patch('/edit-log', Middleware, editLog);
+router.get("/projects", dataController.getProjects);
+router.get("/tags", dataController.getTags);
+router.get("/tickets", dataController.getTickets);
 
 module.exports = router;

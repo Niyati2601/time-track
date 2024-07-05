@@ -1,0 +1,29 @@
+{
+    "projects": [
+      { "_id": "1", "name": "Intern 2024", "value":"Intern 2024" },
+      { "_id": "2", "name": "BA/PM General", "value":"BA/PM General" },
+      { "_id": "3", "name": "Demo Tasks and Interview", "value":"Demo Tasks and Interview" },
+      { "_id": "4", "name": "DevOps/SysAdmin General", "value":"DevOps/SysAdmin General" },
+      { "_id": "5", "name": "Learning and Development", "value":"Learning and Development" },
+      { "_id": "6", "name": "Sales & Marketing", "value":"Sales & Marketing" },
+      { "_id": "7", "name": "Tech General", "value":"Tech General" },
+      { "_id": "8", "name": "UX General", "value":"UX General" }
+    ],
+    "tags": [
+      { "_id": "1", "name": "Bug" },
+      { "_id": "2", "name": "Content Writing" },
+      { "_id": "3", "name": "Marketing" },
+      { "_id": "4", "name": "Development" },
+      { "_id": "5", "name": "Designing" },
+      { "_id": "6", "name": "Learning and Development" },
+      { "_id": "7", "name": "Task" }
+    ],
+    "tickets" : [
+      { "_id": "1", "name": "Ticket 1", "value":"1" },
+      { "_id": "2", "name": "Ticket 2", "value":"2" },
+      { "_id": "3", "name": "Ticket 3", "value":"3" },
+      { "_id": "4", "name": "Ticket 4", "value":"4" },
+      { "_id": "5", "name": "Ticket 5", "value":"5" }
+    ]
+  }
+  

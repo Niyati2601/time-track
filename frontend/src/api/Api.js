@@ -57,5 +57,17 @@ const apiUrl = {
     url: `${backendDomain}/api/edit-log`,
     method: "PATCH",
   },
+  getProjects: {
+    url: `${backendDomain}/api/projects`,
+    method: "get",
+  },
+  getTags: {
+    url: `${backendDomain}/api/tags`,
+    method: "get",
+  },
+  getTickets: {
+    url: `${backendDomain}/api/tickets`,
+    method: "get",
+  },
 };
 export default apiUrl
