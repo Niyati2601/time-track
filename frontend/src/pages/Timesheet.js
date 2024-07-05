@@ -43,31 +43,72 @@ const Timesheet = () => {
     }
   };
 
-  // const fetchUserDetails = async () => {
-  //   try {
-  //     const response = await fetch(apiUrl.current_user.url, {
-  //       method: apiUrl.current_user.method,
-  //       credentials: "include",
-  //       headers: {
-  //         "content-type": "application/json",
-  //       },
-  //     });
+  const fetchUserDetails = async () => {
+    try {
+      const response = await fetch(apiUrl.current_user.url, {
+        method: apiUrl.current_user.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
 
-  //     const data = await response.json();
+      const data = await response.json();
 
-  //     if (data.success) {
-  //       dispatch(setUserDetails(data.data));
-  //     }
-  //   } catch (error) {
-  //     toast.error(error.message);
-  //   }
-  // };
+      if (data.success) {
+        dispatch(setUserDetails(data.data));
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   useEffect(() => {
     getAllLogsApi();
-    // fetchUserDetails();
+    fetchUserDetails();
+    fetchProjects();
+    fetchTags();
   }, []);
 
+  const fetchProjects = async () => {
+    try {
+      const res = await fetch(apiUrl.getProjects.url, {
+        method: apiUrl.getProjects.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+      const data = await res.json();
+      if (data.success) {
+        setProjects(data.data);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const fetchTags = async () => {
+    try {
+      const res = await fetch(apiUrl.getTags.url, {
+        method: apiUrl.getTags.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+      const data = await res.json();
+      if (data.success) {
+        setTags(data.data);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
   const formatTime = (dateString) => {
     if (!dateString) {
       return "";
@@ -238,13 +279,13 @@ const Timesheet = () => {
             <div className="flex justify-end space-x-4">
               <button
                 onClick={saveEditLogApi}
-                className="bg-[#283046] text-white px-4 py-2 rounded-lg"
+                className="bg-[#283046] text-white px-4 py-2 rounded-md"
               >
                 Save
               </button>
               <button
                 onClick={closeModal}
-                className="bg-red-500 text-white px-4 py-2 rounded-lg"
+                className="bg-red-500 text-white px-4 py-2 rounded-md"
               >
                 Cancel
               </button>

@@ -80,13 +80,13 @@ const Sidebar = () => {
   return (
     <div
       className={`flex flex-col bg-[#283046] text-white h-screen transition-width duration-300 ease-in-out ${
-        isExpanded ? "w-52" : "w-20"
+        isExpanded ? "w-64" : "w-20"
       }`}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >
       {/* Logo */}
-      <div className="flex items-center my-4 px-3">
+      <div className="flex items-center my-4 px-4">
         <img src={logo} alt="Logo" className="w-14 h-14" />
         <span
           className={`ml-4 text-xl font-semibold ${
@@ -149,7 +149,7 @@ const Sidebar = () => {
               isExpanded ? "block" : "hidden"
             }`}
           >
-            <span className={`ml-2 text-[#283046] text-[13px] font-semibold`}>
+            <span className={`text-center text-[#283046] text-[13px] font-semibold m-auto`}>
               Day in at {formattedTime(time)}
             </span>
           </div>
