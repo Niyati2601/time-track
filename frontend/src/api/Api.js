@@ -73,5 +73,9 @@ const apiUrl = {
     url: `${backendDomain}/api/dayIn`,
     method: "post",
   },
+  dayOut: {
+    url: `${backendDomain}/api/dayOut`,
+    method: "post",
+  },
 };
 export default apiUrl

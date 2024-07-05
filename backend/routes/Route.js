@@ -13,7 +13,7 @@ const getAllLogs = require("../controllers/getAlllogs");
 const deleteLog = require("../controllers/DeleteLog");
 const editLog = require("../controllers/EditLog");
 const dataController = require("../controllers/dataController");
-const { postDayIn } = require("../controllers/DayInOut");
+const DayInOut = require("../controllers/DayInOut");
 
 router.post("/signup", signup);
 router.post("/login", userLoginController);
@@ -42,6 +42,8 @@ router.get("/projects", dataController.getProjects);
 router.get("/tags", dataController.getTags);
 router.get("/tickets", dataController.getTickets);
 
-router.post('/dayIn',Middleware,postDayIn);
+router.post('/dayIn',Middleware, DayInOut.postDayIn);
+router.post('/dayOut',Middleware, DayInOut.postDayOut);
+
 
 module.exports = router;

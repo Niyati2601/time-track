@@ -40,6 +40,7 @@ const Sidebar = () => {
       handleDayInApi();
     } else {
       setIsClocking(false);
+      handleDayOutApi();
       setIsDayIn(false);
       setTime(null);
     }
@@ -71,6 +72,31 @@ const Sidebar = () => {
       toast.error(error.message);
     }
   };
+
+  const handleDayOutApi=async()=>{
+    try {
+      const res=await fetch(apiUrl.dayOut.url, {
+        method: apiUrl.dayOut.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user?.user?._id,
+        }),
+      })
+      const data=await res.json()
+      if(data.success){
+        setIsDayIn(false)
+        setTime(data.dayOut.dayOut)
+        toast.success(data.message)
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
 
   const formattedTime = (time) => {
     const TimeTrackTime = moment(time).format("hh:mm A");
