@@ -12,6 +12,7 @@ const getLogs = require("../controllers/getLogs");
 const getAllLogs = require("../controllers/getAlllogs");
 const deleteLog = require("../controllers/DeleteLog");
 const editLog = require("../controllers/EditLog");
+const { postDayIn } = require("../controllers/DayInOut");
 
 router.post("/signup", signup);
 router.post("/login", userLoginController);
@@ -36,5 +37,7 @@ router.patch("/updateEndTime", Middleware, addLog.updateEndTimeInTimeLog);
 
 router.delete("/delete-log", Middleware, deleteLog);
 router.patch('/edit-log', Middleware, editLog);
+
+router.post('/dayIn',Middleware,postDayIn);
 
 module.exports = router;

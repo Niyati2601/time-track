@@ -8,8 +8,37 @@ import { ClockingProvider } from './context/ClockingContext';
 import Timesheet from "./pages/Timesheet";
 import Home from './pages/Home';
 import Dashboard from "./pages/Dashboard/Dashboard";
+import apiUrl from "./api/Api";
+import { useDispatch } from "react-redux";
+import { setUserDetails } from "./redux/userSlice";
+import { toast } from "react-hot-toast";
+import { useEffect } from "react";
 
 function App() {
+  const dispatch = useDispatch();
+  const fetchUserDetails = async () => {
+    try {
+      const response = await fetch(apiUrl.current_user.url, {
+        method: apiUrl.current_user.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        dispatch(setUserDetails(data.data));
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserDetails();
+  }, []);
   return (
     <>
       <Toaster />

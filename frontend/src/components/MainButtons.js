@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 
 const MainButtons = ({ className }) => {
-  const { isClocking, setIsClocking , isDayIn, setIsDayIn } = useContext(ClockingContext);
+  const { isClocking, setIsClocking , isDayIn } = useContext(ClockingContext);
   const [timer] = useState(new Timer());
   const [time, setTime] = useState('00:00:00');
   const [savedTime, setSavedTime] = useState(null);
@@ -112,7 +112,7 @@ const MainButtons = ({ className }) => {
         <MdOutlineTimer className="text-xl mr-1" />
         Time log
       </button>
-      {!isClocking ? (
+      {!isClocking  ?(
         <button
           className="flex items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
           onClick={handleClockIn}

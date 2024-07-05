@@ -1,4 +1,3 @@
-// src/components/Sidebar.js
 import React, { useState, useContext } from "react";
 import logo from "../assets/logo.png";
 import { IoHomeOutline } from "react-icons/io5";
@@ -8,18 +7,27 @@ import { LuTimerOff } from "react-icons/lu";
 import { IoCalendarClearOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { ClockingContext } from "../context/ClockingContext";
+import apiUrl from "../api/Api";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import moment from "moment";
 
 const sidebarItems = [
   { icon: <IoHomeOutline />, text: "Home", onClick: "/home" },
   { icon: <FaRegClock />, text: "Clock In/Out", onClick: "/clockInOut" },
-  { icon: <IoCalendarClearOutline />, text: "Timesheet", onClick: "/timesheet" },
+  {
+    icon: <IoCalendarClearOutline />,
+    text: "Timesheet",
+    onClick: "/timesheet",
+  },
 ];
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [time, setTime] = useState(null);
   const { isClocking, setIsClocking, isDayIn, setIsDayIn } =
     useContext(ClockingContext);
-
+  const user = useSelector((state) => state.user);
   const navigate = useNavigate();
 
   const handleNavigation = (path) => {
@@ -29,10 +37,44 @@ const Sidebar = () => {
   const handleDayInOut = () => {
     if (!isDayIn) {
       setIsClocking(true);
+      handleDayInApi();
     } else {
       setIsClocking(false);
+      setIsDayIn(false);
+      setTime(null);
     }
-    setIsDayIn(!isDayIn);
+  };
+
+  const handleDayInApi = async () => {
+    try {
+      const res = await fetch(apiUrl.dayIn.url, {
+        method: apiUrl.dayIn.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user?.user?._id,
+        }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        setIsDayIn(true);
+        setIsClocking(true);
+        setTime(data.dayIn.dayIn);
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const formattedTime = (time) => {
+    const TimeTrackTime = moment(time).format("hh:mm A");
+    return TimeTrackTime;
   };
 
   return (
@@ -44,7 +86,7 @@ const Sidebar = () => {
       onMouseLeave={() => setIsExpanded(false)}
     >
       {/* Logo */}
-      <div className="flex items-center my-4 px-4">
+      <div className="flex items-center my-4 px-3">
         <img src={logo} alt="Logo" className="w-14 h-14" />
         <span
           className={`ml-4 text-xl font-semibold ${
@@ -107,7 +149,9 @@ const Sidebar = () => {
               isExpanded ? "block" : "hidden"
             }`}
           >
-            <span className={`ml-2`}>Day in at 12:00</span>
+            <span className={`ml-2 text-[#283046] text-[13px] font-semibold`}>
+              Day in at {formattedTime(time)}
+            </span>
           </div>
         )}
       </div>

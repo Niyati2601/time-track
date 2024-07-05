@@ -57,5 +57,9 @@ const apiUrl = {
     url: `${backendDomain}/api/edit-log`,
     method: "PATCH",
   },
+  dayIn: {
+    url: `${backendDomain}/api/dayIn`,
+    method: "post",
+  },
 };
 export default apiUrl
