@@ -226,7 +226,7 @@ const Timesheet = () => {
                 <p className="text-red-500 inline-flex"><IoDocumentOutline className="text-md mt-1 space-x-2" />{log.projects}</p>
                 <div className="flex">
                   {log.tags.map((tag) => (
-                    <p key={tag} className="text-white bg-[#fb5362] p-1 rounded-md m-1">
+                    <p key={tag} className="text-white bg-green-500 p-1 rounded-md m-1">
                       {tag}
                     </p>
                   ))}
