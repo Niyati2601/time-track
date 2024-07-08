@@ -20,6 +20,8 @@ const Timesheet = () => {
     projects: "",
     tags: [],
   });
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteLogId, setDeleteLogId] = useState(null); // Store the logId for deletion
 
   const getAllLogsApi = async () => {
     try {
@@ -133,6 +135,7 @@ const Timesheet = () => {
       if (data.success) {
         toast.success(data.message);
         getAllLogsApi();
+        setIsDeleteModalOpen(false);
       } else {
         toast.error(data.message);
       }
@@ -144,6 +147,11 @@ const Timesheet = () => {
   const handleEditClick = (log) => {
     setEditLogData(log);
     setIsModalOpen(true);
+  };
+
+  const handleDeleteClick = (logId) => {
+    setDeleteLogId(logId); 
+    setIsDeleteModalOpen(true);
   };
 
   const handleInputChange = (e) => {
@@ -197,18 +205,24 @@ const Timesheet = () => {
     setIsModalOpen(false);
   };
 
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+  };
+
   const groupLogsByDate = (logs) => {
     const groupedLogs = {};
 
     logs.forEach((log) => {
-      const formattedDate = moment(log.createdAt).format('MMM DD, YYYY');
+      const formattedDate = moment(log.createdAt).format("MMM DD, YYYY");
       if (!groupedLogs[formattedDate]) {
         groupedLogs[formattedDate] = { logs: [], totalDuration: 0 };
       }
       groupedLogs[formattedDate].logs.push(log);
 
       // Assuming log.duration is in a format that moment.js can parse (e.g., "HH:mm")
-      groupedLogs[formattedDate].totalDuration += moment.duration(log.duration).asMinutes();
+      groupedLogs[formattedDate].totalDuration += moment
+        .duration(log.duration)
+        .asMinutes();
     });
 
     return groupedLogs;
@@ -217,17 +231,19 @@ const Timesheet = () => {
   const groupedLogs = groupLogsByDate(logs);
 
   const formatDuration = (minutes) => {
-    const duration = moment.duration(minutes, 'minutes');
+    const duration = moment.duration(minutes, "minutes");
     const hours = Math.floor(duration.asHours());
     const mins = duration.minutes();
-    return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+    return `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}`;
   };
 
   return (
     <div className="shadow-lg rounded-md m-5">
       {Object.keys(groupedLogs).map((date) => (
         <div key={date} className="mb-8 m-4">
-          <h2 className="text-xl font-bold text-orange-600 uppercase">{date} {formatDuration(groupedLogs[date].totalDuration)}</h2>
+          <h2 className="text-xl font-bold text-orange-600 uppercase">
+            {date} {formatDuration(groupedLogs[date].totalDuration)}
+          </h2>
           <table className="w-full top-4 border border-blue-300">
             <thead>
               <tr className="bg-blue-100">
@@ -256,7 +272,10 @@ const Timesheet = () => {
                     </p>
                     <div className="flex">
                       {log.tags.map((tag) => (
-                        <p key={tag} className="text-white bg-green-500 p-1 rounded-md m-1">
+                        <p
+                          key={tag}
+                          className="text-white bg-green-500 p-1 rounded-md m-1"
+                        >
                           {tag}
                         </p>
                       ))}
@@ -276,7 +295,7 @@ const Timesheet = () => {
                       />
                       <MdDeleteOutline
                         style={{ fontSize: "5rem", color: "#ea5455" }}
-                        onClick={() => deleteLogApi(log._id)}
+                        onClick={() => handleDeleteClick(log._id)} // Pass log._id here
                       />
                     </div>
                   </td>
@@ -322,7 +341,9 @@ const Timesheet = () => {
                   checked={editLogData.tags.includes(tag.name)}
                   onChange={handleCheckboxChange}
                 />
-                <label htmlFor={tag._id} className="ml-2">{tag.name}</label>
+                <label htmlFor={tag._id} className="ml-2">
+                  {tag.name}
+                </label>
               </div>
             ))}
             <div className="flex justify-end space-x-4">
@@ -334,6 +355,30 @@ const Timesheet = () => {
               </button>
               <button
                 onClick={closeModal}
+                className="bg-red-500 text-white px-4 py-2 rounded-md"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+            <h2 className="text-2xl mb-4 text-center">
+              Are you sure you want to delete this Log?
+            </h2>
+
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={() => deleteLogApi(deleteLogId)} // Pass deleteLogId here
+                className="bg-[#283046] text-white px-4 py-2 rounded-md"
+              >
+                Delete
+              </button>
+              <button
+                onClick={closeDeleteModal}
                 className="bg-red-500 text-white px-4 py-2 rounded-md"
               >
                 Cancel
