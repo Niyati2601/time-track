@@ -233,7 +233,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
           value={title} // Ensure `title` state is used
           onChange={(e) => setTitle(e.target.value)} // Handle title change
           placeholder="Describe your task details in max 2000 characters"
-          className="p-2 bg-green-400 rounded border-none outline-none w-full h-24 text-white placeholder-white text-[15px] font-semibold"
+          className="p-2 bg-green-400 rounded border-none outline-none w-full h-24 text-white placeholder-white text-[15px] font-semibold text-scroll overflow-auto"
         ></textarea>
         <div className="mt-4">
           {selectedTags.length > 0 && (

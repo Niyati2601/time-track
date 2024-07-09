@@ -48,3 +48,7 @@
   border-radius: 10px;
   height: 1px;
 }
+
+.text-scroll::-webkit-scrollbar {
+  display: none;
+}
