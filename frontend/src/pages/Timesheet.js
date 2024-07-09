@@ -5,8 +5,10 @@ import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import moment from "moment";
 import { BiSolidEdit } from "react-icons/bi";
-import { MdDeleteOutline } from "react-icons/md";
+import { MdAccessTime, MdDeleteOutline } from "react-icons/md";
 import { IoDocumentOutline } from "react-icons/io5";
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 const Timesheet = () => {
   const dispatch = useDispatch();
@@ -19,6 +21,8 @@ const Timesheet = () => {
     title: "",
     projects: "",
     tags: [],
+    startTIme: new Date(),
+    endTIme: new Date(),
   });
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteLogId, setDeleteLogId] = useState(null); // Store the logId for deletion
@@ -145,12 +149,16 @@ const Timesheet = () => {
   };
 
   const handleEditClick = (log) => {
-    setEditLogData(log);
+    setEditLogData({
+      ...log,
+      startTIme: new Date(log.startTIme),
+      endTIme: new Date(log.endTIme),
+    });
     setIsModalOpen(true);
   };
 
   const handleDeleteClick = (logId) => {
-    setDeleteLogId(logId); 
+    setDeleteLogId(logId);
     setIsDeleteModalOpen(true);
   };
 
@@ -178,6 +186,20 @@ const Timesheet = () => {
     });
   };
 
+  const handleStartTimeChange = (date) => {
+    setEditLogData((prevState) => ({
+      ...prevState,
+      startTIme: date,
+    }));
+  };
+
+  const handleEndTimeChange = (date) => {
+    setEditLogData((prevState) => ({
+      ...prevState,
+      endTIme: date,
+    }));
+  };
+
   const saveEditLogApi = async () => {
     try {
       const res = await fetch(apiUrl.editLog.url, {
@@ -186,7 +208,11 @@ const Timesheet = () => {
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify(editLogData),
+        body: JSON.stringify({
+          ...editLogData,
+          startTIme: editLogData.startTIme.toISOString(),
+          endTIme: editLogData.endTIme.toISOString(),
+        }),
       });
       const data = await res.json();
       if (data.success) {
@@ -287,16 +313,20 @@ const Timesheet = () => {
                   <td className="w-1/3 py-2 px-6 text-left text-gray-600">
                     {log.duration}
                   </td>
-                  <td className="w-1/3 py-2 px-6 text-left text-gray-600">
-                    <div className="w-1/3 py-2 space-x-2 text-center flex justify-between cursor-pointer">
-                      <BiSolidEdit
-                        style={{ fontSize: "5rem" }}
+                  <td className="py-4 px-6 border-t border-gray-300">
+                    <div className="flex space-x-4">
+                      <button
                         onClick={() => handleEditClick(log)}
-                      />
-                      <MdDeleteOutline
-                        style={{ fontSize: "5rem", color: "#ea5455" }}
-                        onClick={() => handleDeleteClick(log._id)} // Pass log._id here
-                      />
+                        className="flex items-center justify-center w-10 h-10 text-green-600 rounded-full hover:bg-green-200"
+                      >
+                        <BiSolidEdit size={24} />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteClick(log._id)}
+                        className="flex items-center justify-center w-10 h-10 text-red-600 rounded-full hover:bg-red-200"
+                      >
+                        <MdDeleteOutline size={24} />
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -307,46 +337,88 @@ const Timesheet = () => {
       ))}
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
-            <h2 className="text-2xl mb-4 text-center">Edit Log</h2>
-            <label className="block mb-2 font-bold">Title</label>
-            <textarea
-              type="text"
-              name="title"
-              value={editLogData.title}
-              onChange={handleInputChange}
-              className="border p-2 mb-4 w-full rounded-md"
-            />
-            <label className="block mb-2 font-bold">Projects</label>
-            <select
-              name="projects"
-              value={editLogData.projects}
-              onChange={handleInputChange}
-              className="border p-2 mb-4 w-full rounded-md"
-            >
-              {projects.map((project) => (
-                <option key={project._id} value={project.name}>
-                  {project.name}
-                </option>
-              ))}
-            </select>
-            <label className="block mb-2 font-bold">Tags</label>
-            {tags.map((tag) => (
-              <div key={tag._id} className="mb-2">
-                <input
-                  type="checkbox"
-                  id={tag._id}
-                  name={tag.name}
-                  checked={editLogData.tags.includes(tag.name)}
-                  onChange={handleCheckboxChange}
-                />
-                <label htmlFor={tag._id} className="ml-2">
-                  {tag.name}
-                </label>
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 className="text-xl font-bold mb-4">Edit Log</h2>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-bold mb-2">
+                Title
+              </label>
+              <input
+                type="text"
+                name="title"
+                value={editLogData.title}
+                onChange={handleInputChange}
+                className="w-full border border-gray-300 p-2 rounded-lg"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-bold mb-2">
+                Project
+              </label>
+              <select
+                name="projects"
+                value={editLogData.projects}
+                onChange={handleInputChange}
+                className="w-full border border-gray-300 p-2 rounded-lg"
+              >
+                <option value="">Select Project</option>
+                {projects.map((project) => (
+                  <option key={project._id} value={project.name}>
+                    {project.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-bold mb-2">
+                Tags
+              </label>
+              <div className="flex flex-wrap">
+                {tags.map((tag) => (
+                  <label key={tag._id} className="mr-4">
+                    <input
+                      type="checkbox"
+                      name={tag.name}
+                      checked={editLogData.tags.includes(tag.name)}
+                      onChange={handleCheckboxChange}
+                      className="mr-2"
+                    />
+                    {tag.name}
+                  </label>
+                ))}
               </div>
-            ))}
-            <div className="flex justify-end space-x-4">
+            </div>
+            <div className="flex gap-3">
+            <div className="mb-4">
+              <label className="block text-gray-700 font-bold mb-2">
+                Start Time
+              </label>
+              <DatePicker
+                selected={editLogData.startTIme}
+                onChange={handleStartTimeChange}
+                showTimeSelect
+                showTimeSelectOnly
+                dateFormat="hh:mm aa"
+                className="w-full border border-gray-300 p-2 rounded-lg"
+              />
+              
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-bold mb-2">
+                End Time
+              </label>
+              <DatePicker
+                selected={editLogData.endTIme}
+                onChange={handleEndTimeChange}
+                showTimeSelectOnly
+                showTimeSelect
+                dateFormat="hh:mm aa"
+                className="w-full border border-gray-300 p-2 rounded-lg"
+              />
+            </div>
+            </div>
+            <div className="flex justify-end gap-3">
               <button
                 onClick={saveEditLogApi}
                 className="bg-[#283046] text-white px-4 py-2 rounded-md"
@@ -365,8 +437,8 @@ const Timesheet = () => {
       )}
       {isDeleteModalOpen && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
-            <h2 className="text-2xl mb-4 text-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-1/4">
+            <h2 className="text-2xl mb-4 text-left">
               Are you sure you want to delete this Log?
             </h2>
 

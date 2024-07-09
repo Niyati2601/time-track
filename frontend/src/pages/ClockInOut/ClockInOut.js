@@ -36,7 +36,7 @@ const ClockInOut = () => {
 
   useEffect(() => {
     if (user?.user?._id) {
-      fetchHistory(); 
+      fetchHistory();
     }
   }, [user]);
 
