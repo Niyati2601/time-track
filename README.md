@@ -55,6 +55,7 @@ On Command Prompt run the following commands
 $ git clone https://github.com/Niyati2601/time-track/tree/main
 $ cd time-track/frontend
 $ npm install
+$ npm start
 ```
 
 ```sh
@@ -62,6 +63,7 @@ $ npm install
 $ git clone https://github.com/Niyati2601/time-track/tree/main
 $ cd time-track/backend
 $ npm install
+$ nodemon  or  node index.js
 ```
 
 ### npm start
@@ -69,6 +71,15 @@ $ npm install
 Runs the app in local mode. Open http://localhost:3000/ to view it in the browser.
 
 By default, for build generate and deploy on server then.
+
+### nodemon 
+
+it restart the server automatically if any changes is done
+
+
+#node index.js
+
+ it helps to run server but restart needed if any changes is done
 
 ### Developed By
 
