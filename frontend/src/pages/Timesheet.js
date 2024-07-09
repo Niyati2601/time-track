@@ -11,6 +11,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import noData from "../assets/noData.svg";
 import jsPDF from "jspdf";
+import autoTable from  "jspdf-autotable";
 import { FiDownload } from "react-icons/fi";
 
 const Timesheet = () => {
