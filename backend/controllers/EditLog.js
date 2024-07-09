@@ -2,7 +2,7 @@ const TimeLog = require("../models/TimeLog");
 
 const editLog = async (req, res) => {
     try {
-        const { _id, projects, tags, title } = req.body;
+        const { _id, projects, tags, title, startTIme, endTIme } = req.body;
         if (!_id) {
             return res.status(400).json({
                 message: "Id is required",
@@ -10,9 +10,22 @@ const editLog = async (req, res) => {
                 error: true,
             });
         }
+        if(startTIme > endTIme) {
+            return res.status(400).json({
+                message: "Start time cannot be greater than end time",
+                success: false,
+                error: true,
+            });
+        } else if (startTIme === endTIme) {
+            return res.status(400).json({
+                message: "Start time cannot be equal to end time",
+                success: false,
+                error: true,
+            });
+        }
         const timeLog = await TimeLog.findByIdAndUpdate(
             _id,
-            { projects, tags, title },
+            { projects, tags, title, startTIme, endTIme },
             { new: true }
         );
         if (!timeLog) {
