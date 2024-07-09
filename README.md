@@ -77,7 +77,7 @@ By default, for build generate and deploy on server then.
 it restart the server automatically if any changes is done
 
 
-# node index.js
+### node index.js
 
  it helps to run server but restart needed if any changes is done
 
