@@ -52,7 +52,7 @@ On Command Prompt run the following commands
 
 ```sh
 # frontend
-$ git clone https://github.com/Niyati2601/time-track/tree/main
+$ git clone https://github.com/Niyati2601/time-track.git
 $ cd time-track/frontend
 $ npm install
 $ npm start
@@ -60,7 +60,7 @@ $ npm start
 
 ```sh
 # backend
-$ git clone https://github.com/Niyati2601/time-track/tree/main
+$ git clone https://github.com/Niyati2601/time-track.git
 $ cd time-track/backend
 $ npm install
 $ nodemon  or  node index.js
