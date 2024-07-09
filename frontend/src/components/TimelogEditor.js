@@ -114,12 +114,18 @@ const TimelogEditor = ({ onOpen, onClose }) => {
         setIsPlaying(false);
         toast.success(data.message);
       } else {
-        toast.error(data.message || "An error occurred");
+        console.log(data.message || "An error occurred");
       }
     } catch (error) {
       toast.error(error.message || "An unexpected error occurred");
     }
   };
+
+  useEffect(()=>{
+    if(!isClocking){
+      handleEndTimeApi();
+    }
+  },[isClocking])
 
 
   const formatTime = (seconds) => {

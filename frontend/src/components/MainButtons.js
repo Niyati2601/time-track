@@ -69,6 +69,8 @@ const MainButtons = ({ className }) => {
     }
   };
 
+  
+
   const handleClockOut = async () => {
     try {
       const response = await fetch(apiUrl.clockOut.url, {
