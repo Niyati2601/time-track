@@ -77,5 +77,13 @@ const apiUrl = {
     url: `${backendDomain}/api/dayOut`,
     method: "post",
   },
+  weekLogs: {
+    url: `${backendDomain}/api/weekLogs`,
+    method: "get",
+  },
+  monthLogs: {
+    url: `${backendDomain}/api/monthLogs`,
+    method: "get",
+  },
 };
 export default apiUrl
