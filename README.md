@@ -52,14 +52,14 @@ On Command Prompt run the following commands
 
 ```sh
 # frontend
-$ git clone https://git-codecommit.ap-south-1.amazonaws.com/v1/repos/dtn-lms-admin-panel
+$ git clone https://github.com/Niyati2601/time-track/tree/main
 $ cd time-track/frontend
 $ npm install
 ```
 
 ```sh
 # backend
-$ git clone https://git-codecommit.ap-south-1.amazonaws.com/v1/repos/dtn-lms-admin-panel
+$ git clone https://github.com/Niyati2601/time-track/tree/main
 $ cd time-track/backend
 $ npm install
 ```
