@@ -25,10 +25,16 @@ const sidebarItems = [
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [time, setTime] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(0);
   const { isClocking, setIsClocking, isDayIn, setIsDayIn } =
     useContext(ClockingContext);
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
+
+  const handleClick = (onClick, index) => {
+    setSelectedItem(index);
+    handleNavigation(onClick);
+  };
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -127,11 +133,13 @@ const Sidebar = () => {
       {sidebarItems.map((item, index) => (
         <div
           key={index}
-          className="my-4 flex items-center w-full px-4 hover:bg-[#283065] p-4"
-          onClick={() => handleNavigation(item.onClick)}
+          className={`my-4 flex items-center w-full px-4 p-4 ${
+            selectedItem === index ? 'p-3 bg-[#283062]' : 'hover:bg-[#283065]'
+          }`}
+          onClick={() => handleClick(item.onClick, index)}
         >
           <span className="text-2xl relative">{item.icon}</span>
-          <span className={`ml-4 ${isExpanded ? "block" : "hidden"}`}>
+          <span className={`ml-4 ${isExpanded ? 'block' : 'hidden'}`}>
             {item.text}
           </span>
         </div>

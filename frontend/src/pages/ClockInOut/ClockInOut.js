@@ -3,7 +3,7 @@ import apiUrl from "../../api/Api";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { GoDotFill } from "react-icons/go";
-import noData from '../../assets/noData.svg';
+import noData from "../../assets/noData.svg";
 
 const ClockInOut = () => {
   const [history, setHistory] = useState([]);
@@ -81,7 +81,16 @@ const ClockInOut = () => {
 
   return (
     <>
-      {history.length > 0 ? (
+      {todayHistory.length === 0 ? (
+        <div className="p-4 text-lg text-gray-600 font-bold text-center">
+          <img
+            src={noData}
+            alt="image-no-data"
+            style={{ width: "50%" }}
+            className="mx-auto"
+          />
+        </div>
+      ) : (
         <>
           <div className="py-4 px-6 text-lg text-gray-600 font-bold text-right">
             Total Time:{" "}
@@ -134,15 +143,9 @@ const ClockInOut = () => {
             </table>
           </div>
         </>
-      ) : (
-        <div className="p-4 text-lg text-gray-600 font-bold text-center">
-          <img src={noData} alt="image-no-data" style={{ width: "50%" }} className="mx-auto"/>
-        </div>
-        
       )}
     </>
   );
-  
 };
 
 export default ClockInOut;
