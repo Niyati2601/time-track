@@ -83,14 +83,34 @@ const Dashboard = () => {
     }
   }
 
+
+    const totalDurationInMs = logs.reduce((total, log) => {
+      if (log.duration !== "-") {
+        const [hours, minutes] = log.duration.split(":").map(Number);
+        return total + hours * 60 * 60 * 1000 + minutes * 60 * 1000;
+      }
+      return total;
+    }, 0);
+
+    const totalHours = Math.floor(totalDurationInMs / (1000 * 60 * 60))
+      .toString()
+      .padStart(1, "0");
+    const totalMinutes = Math.floor(
+      (totalDurationInMs % (1000 * 60 * 60)) / (1000 * 60)
+    )
+      .toString()
+      .padStart(2, "0");  
+
+    const totalDuration = `${totalHours}hr ${totalMinutes}m`;
+
   return (
     <div className="flex flex-col bg-gray-100 h-full p-4">
       <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 w-full">
         <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow-md">
-          <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-semibold pb-2">Activity Logs</h1>
+          <div className="flex justify-between items-center border-b-2">
+            <h1 className="text-xl font-semibold pb-2 text-gray-500">{totalDuration}</h1>
             <button
-              className="mt-2 text-blue-800 border-b-2 bg-blue-200 flex p-2 rounded-md items-center gap-2"
+              className=" text-blue-800  bg-blue-100 flex p-1 rounded-sm items-center gap-2 text-sm"
               onClick={toggleModal}
             >
               Today <FaRegCalendar />
@@ -101,19 +121,19 @@ const Dashboard = () => {
               id="dropdownAvatarName"
               className="z-10 divide-y divide-gray-100 rounded-lg shadow w-48 bg-[#283046] dark:divide-gray-600 absolute right-[65%] mt-1"
             >
-              <ul className="py-2 text-md text-gray-700 dark:text-gray-200" aria-labelledby="dropdownAvatarNameButton">
+              <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownAvatarNameButton">
                 <li>
                   <button className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2 text-sm" onClick={handleLogs}>
                     Today
                   </button>
                 </li>
               </ul>
-              <div className="py-2 text-md text-white">
+              <div className="py-2 text-sm text-white">
                 <button className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2 text-sm" onClick={handleWeekLogs}>
                   This Week
                 </button>
               </div>
-              <div className="py-2 text-md text-white">
+              <div className="py-2 text-sm text-white">
                 <button className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2 text-sm" onClick={handleMonthLogs}>
                   This Month
                 </button>
@@ -141,11 +161,14 @@ const Dashboard = () => {
             <p className="mt-2 text-red-600">No logs for today.</p>
           )}
         </div>
+
         <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow-md">
+        <div>
           <h2 className="text-lg font-semibold">Card 2</h2>
           <p className="mt-2 text-gray-600">
             This is the content of the second card.
           </p>
+          </div>
         </div>
         <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow-md">
           <h1 className="text-2xl text-gray-600 font-semibold border-b-2 pb-2">

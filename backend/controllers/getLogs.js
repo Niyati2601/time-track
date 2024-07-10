@@ -12,10 +12,50 @@ const getLogs = async (req, res) => {
       createdAt: { $gte: startOfDay, $lt: endOfDay },
     });
 
+    if (logs) {
+      logs.forEach((log) => {
+        if (!log.endTIme || !log.startTIme) {
+          log.duration = "-";
+        } else {
+          const durationInMs = new Date(log.endTIme) - new Date(log.startTIme);
+          const hours = Math.floor(durationInMs / (1000 * 60 * 60))
+            .toString()
+            .padStart(2, "0");
+          const minutes = Math.floor(
+            (durationInMs % (1000 * 60 * 60)) / (1000 * 60)
+          )
+            .toString()
+            .padStart(2, "0");
+          log.duration = `${hours}:${minutes}`;
+        }
+      });
+    }
+
+    const totalDurationInMs = logs.reduce((total, log) => {
+      if (log.duration !== "-") {
+        const [hours, minutes] = log.duration.split(":").map(Number);
+        return total + hours * 60 * 60 * 1000 + minutes * 60 * 1000;
+      }
+      return total;
+    }, 0);
+
+    const totalHours = Math.floor(totalDurationInMs / (1000 * 60 * 60))
+      .toString()
+      .padStart(2, "0");
+    const totalMinutes = Math.floor(
+      (totalDurationInMs % (1000 * 60 * 60)) / (1000 * 60)
+    )
+      .toString()
+      .padStart(2, "0");
+
+    const totalDuration = `${totalHours}:${totalMinutes}`;
+
+
     return res.status(200).json({
       success: true,
       error: false,
       data: logs,
+      totalDuration: totalDuration,
       message: "Logs",
     });
   } catch (error) {
