@@ -31,7 +31,6 @@ const Timesheet = () => {
   });
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteLogId, setDeleteLogId] = useState(null);
-  
 
   const getAllLogsApi = async () => {
     try {
@@ -298,7 +297,7 @@ const Timesheet = () => {
       {logs.length > 0 && (
         <>
           <div className="flex justify-end">
-          <Calendar />
+            <Calendar />
             <button
               onClick={() => handlePdfDownload()}
               className="bg-[#283046] text-white px-4 py-2 rounded-md mb-5 float-right"

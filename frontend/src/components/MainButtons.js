@@ -1,29 +1,29 @@
 // src/components/MainButtons.js
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from "react";
 import { FaRegPauseCircle } from "react-icons/fa";
 import { MdOutlineTimer } from "react-icons/md";
 import { MdOutlinePlayCircleOutline } from "react-icons/md";
 import Timer from "easytimer.js";
-import TimelogEditor from './TimelogEditor';
-import { ClockingContext } from '../context/ClockingContext';
-import apiUrl from '../api/Api';
-import toast from 'react-hot-toast';
-import { useSelector } from 'react-redux';
+import TimelogEditor from "./TimelogEditor";
+import { ClockingContext } from "../context/ClockingContext";
+import apiUrl from "../api/Api";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 const MainButtons = ({ className }) => {
-  const { isClocking, setIsClocking , isDayIn } = useContext(ClockingContext);
+  const { isClocking, setIsClocking, isDayIn } = useContext(ClockingContext);
   const [timer] = useState(new Timer());
-  const [time, setTime] = useState('00:00:00');
+  const [time, setTime] = useState("00:00:00");
   const [savedTime, setSavedTime] = useState(null);
   const [isTimeLogOpen, setIsTimeLogOpen] = useState(false);
-  const user = useSelector(state => state.user)
+  const user = useSelector((state) => state.user);
 
   const toggleLogModal = () => {
     setIsTimeLogOpen(!isTimeLogOpen);
   };
 
   useEffect(() => {
-    timer.addEventListener('secondsUpdated', () => {
+    timer.addEventListener("secondsUpdated", () => {
       setTime(timer.getTimeValues().toString());
     });
 
@@ -36,9 +36,9 @@ const MainButtons = ({ className }) => {
     try {
       const response = await fetch(apiUrl.clockIn.url, {
         method: apiUrl.clockIn.method,
-        credentials: 'include',
+        credentials: "include",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userId: user?.user?._id, // Replace with actual user ID
@@ -48,7 +48,7 @@ const MainButtons = ({ className }) => {
       if (data.success) {
         toast.success(data.message);
         if (savedTime) {
-          const timeParts = savedTime.split(':');
+          const timeParts = savedTime.split(":");
           timer.start({
             startValues: {
               hours: parseInt(timeParts[0], 10),
@@ -56,7 +56,6 @@ const MainButtons = ({ className }) => {
               seconds: parseInt(timeParts[2], 10),
             },
           });
-          
         } else {
           timer.start();
         }
@@ -65,19 +64,17 @@ const MainButtons = ({ className }) => {
         toast.error(data.message);
       }
     } catch (error) {
-      toast.error('Failed to clock in. Please try again.');
+      toast.error("Failed to clock in. Please try again.");
     }
   };
-
-  
 
   const handleClockOut = async () => {
     try {
       const response = await fetch(apiUrl.clockOut.url, {
         method: apiUrl.clockOut.method,
-        credentials: 'include',
+        credentials: "include",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userId: user?.user?._id, // Replace with actual user ID
@@ -93,7 +90,7 @@ const MainButtons = ({ className }) => {
         // toast.error(data.message);
       }
     } catch (error) {
-      toast.error('Failed to clock out. Please try again.');
+      toast.error("Failed to clock out. Please try again.");
     }
   };
 
@@ -105,6 +102,12 @@ const MainButtons = ({ className }) => {
     }
   }, [isClocking]);
 
+  useEffect(() => {
+    if (!isDayIn) {
+      handleClockOut();
+    }
+  }, [isDayIn]);
+
   return (
     <div className={`flex justify-end items-center ${className}`}>
       <button
@@ -114,11 +117,11 @@ const MainButtons = ({ className }) => {
         <MdOutlineTimer className="text-xl mr-1" />
         Time log
       </button>
-      {!isClocking  ?(
+      {!isClocking ? (
         <button
           className="flex items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
           onClick={handleClockIn}
-          disabled={isDayIn===false}
+          disabled={isDayIn === false}
         >
           <MdOutlinePlayCircleOutline className="text-xl mb-1" />
           Clock In
