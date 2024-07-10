@@ -10,6 +10,7 @@ import { FaRegCalendar } from "react-icons/fa";
 const Dashboard = () => {
   const [logs, setLogs] = useState([]);
   const [open, setOpen] = useState(false);
+  const [label, setlabel] = useState("Today");
 
   const toggleModal = () => {
     setOpen(!open);
@@ -27,6 +28,7 @@ const Dashboard = () => {
       const data = await res.json();
       if (data.success) {
         setLogs(data.data);
+        setlabel("Today");
       } else {
         toast.error(data.message);
       }
@@ -55,13 +57,14 @@ const Dashboard = () => {
       const data = await res.json();
       if (data.success) {
         setLogs(data.data);
+        setlabel("This Week");
       } else {
         toast.error(data.message);
       }
     } catch (error) {
       toast.error(error.message);
     }
-  }
+  };
 
   const handleMonthLogs = async () => {
     try {
@@ -75,13 +78,14 @@ const Dashboard = () => {
       const data = await res.json();
       if (data.success) {
         setLogs(data.data);
+        setlabel("This Month");
       } else {
         toast.error(data.message);
       }
     } catch (error) {
       toast.error(error.message);
     }
-  }
+  };
 
 
     const totalDurationInMs = logs.reduce((total, log) => {
@@ -107,33 +111,37 @@ const Dashboard = () => {
     <div className="flex flex-col bg-gray-100 h-full p-4">
       <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 w-full">
         <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow-md">
-          <div className="flex justify-between items-center border-b-2">
-            <h1 className="text-xl font-semibold pb-2 text-gray-500">{totalDuration}</h1>
-            <button
-              className=" text-blue-800  bg-blue-100 flex p-1 rounded-sm items-center gap-2 text-sm"
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl font-semibold pb-2">Activity Logs</h1>
+            <label
+              className="mt-2 text-blue-800 border-b-2 bg-blue-200 flex p-2 rounded-md items-center gap-2"
               onClick={toggleModal}
             >
-              Today <FaRegCalendar />
-            </button>
+              {label}
+              <FaRegCalendar />
+            </label>
           </div>
           {open && (
             <div
               id="dropdownAvatarName"
               className="z-10 divide-y divide-gray-100 rounded-lg shadow w-48 bg-[#283046] dark:divide-gray-600 absolute right-[65%] mt-1"
             >
-              <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownAvatarNameButton">
+              <ul className="py-2 text-md text-gray-700 dark:text-gray-200" aria-labelledby="dropdownAvatarNameButton">
                 <li>
-                  <button className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2 text-sm" onClick={handleLogs}>
+                  <button
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2 text-sm"
+                    onClick={handleLogs}
+                  >
                     Today
                   </button>
                 </li>
               </ul>
-              <div className="py-2 text-sm text-white">
+              <div className="py-2 text-md text-white">
                 <button className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2 text-sm" onClick={handleWeekLogs}>
                   This Week
                 </button>
               </div>
-              <div className="py-2 text-sm text-white">
+              <div className="py-2 text-md text-white">
                 <button className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2 text-sm" onClick={handleMonthLogs}>
                   This Month
                 </button>
