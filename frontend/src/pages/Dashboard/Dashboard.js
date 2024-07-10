@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import noData from "../../assets/noData.svg";
 import { GoPlus } from "react-icons/go";
 import apiUrl from "../../api/Api";
@@ -11,6 +11,7 @@ const Dashboard = () => {
   const [logs, setLogs] = useState([]);
   const [open, setOpen] = useState(false);
   const [label, setlabel] = useState("Today");
+  const dropdownRef = useRef(null);
 
   const toggleModal = () => {
     setOpen(!open);
@@ -107,14 +108,46 @@ const Dashboard = () => {
 
     const totalDuration = `${totalHours}hr ${totalMinutes}m`;
 
+    const calculateProgress = (duration) => {
+      if (!duration) return 0;
+    
+      // Assuming duration format is "Xhr Ym"
+      const durationParts = duration.split(" ");
+      if (durationParts.length !== 2) return 0;
+    
+      const hours = parseInt(durationParts[0].replace("hr", ""), 10) || 0;
+      const minutes = parseInt(durationParts[1].replace("m", ""), 10) || 0;
+    
+      const totalMinutes = hours * 60 + minutes;
+      const totalMinutesInDay = 24 * 60; 
+    
+      return (totalMinutes / totalMinutesInDay) * 100;
+    };
+
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          setOpen(false);
+        }
+      };
+      if (open) {
+        document.addEventListener("mousedown", handleClickOutside);
+      } else {
+        document.removeEventListener("mousedown", handleClickOutside);
+      }
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [open]);
+
   return (
-    <div className="flex flex-col bg-gray-100 h-full p-4">
+    <div className="flex flex-col bg-gray-100 h-full p-4" ref={dropdownRef}>
       <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 w-full">
         <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow-md">
           <div className="flex justify-between items-center border-b-2">
             <h1 className="text-xl font-semibold pb-2 text-gray-600">{totalDuration}</h1>
             <label
-              className="text-blue-800  bg-blue-200 flex p-1 rounded-sm items-center gap-2"
+              className="text-blue-800  bg-blue-100 flex p-1 rounded-sm items-center gap-2 text-xs"
               onClick={toggleModal}
             >
               {label}
@@ -171,13 +204,31 @@ const Dashboard = () => {
         </div>
 
         <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow-md">
-        <div>
-          <h2 className="text-lg font-semibold">Card 2</h2>
-          <p className="mt-2 text-gray-600">
-            This is the content of the second card.
-          </p>
+        <div className="flex justify-between items-center border-b-2">
+            <h1 className="text-xl font-semibold pb-2 text-gray-600">{totalDuration}</h1>
+           
           </div>
-        </div>
+          {logs.length > 0 ? (
+            logs.map((log, index) => (
+              <div key={index} className="mt-2">
+              
+                <div className="text-gray-600 flex justify-between items-center">
+                <div className="text-md  text-red-500">{log.projects}</div>
+                <div className="text-md ml-10 text-gray-500">{log.duration}</div>
+                </div>
+                <div className="w-full bg-gray-200 mt-1 rounded-full">
+                      <div
+                        className="bg-red-400 text-xs leading-none py-1 rounded-full text-center text-white"
+                        style={{ width: '100%' }}
+                      >
+                      </div>
+                    </div>
+              </div>
+            ))
+          ) : (
+            <p className="mt-2 text-red-600">No logs for today.</p>
+          )}
+          </div>
         <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow-md">
           <h1 className="text-2xl text-gray-600 font-semibold border-b-2 pb-2">
             Activity Logs
