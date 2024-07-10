@@ -5,14 +5,15 @@ import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import moment from "moment";
 import { BiSolidEdit } from "react-icons/bi";
-import {  MdDeleteOutline } from "react-icons/md";
+import { MdDeleteOutline } from "react-icons/md";
 import { IoDocumentOutline } from "react-icons/io5";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import noData from "../assets/noData.svg";
 import jsPDF from "jspdf";
-import autoTable from  "jspdf-autotable";
+import autoTable from "jspdf-autotable";
 import { FiDownload } from "react-icons/fi";
+import Calendar from "../components/Calendar";
 
 const Timesheet = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,8 @@ const Timesheet = () => {
     endTIme: new Date(),
   });
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [deleteLogId, setDeleteLogId] = useState(null); // Store the logId for deletion
+  const [deleteLogId, setDeleteLogId] = useState(null);
+  
 
   const getAllLogsApi = async () => {
     try {
@@ -294,15 +296,17 @@ const Timesheet = () => {
   return (
     <>
       {logs.length > 0 && (
-        <div className="flex justify-end">
-
-          <button
-            onClick={() => handlePdfDownload()}
-            className="bg-[#283046] text-white px-4 py-2 rounded-md mb-5 float-right"
-          >
-            <FiDownload className="text-xl" />
-          </button>
-        </div>
+        <>
+          <div className="flex justify-end">
+          <Calendar />
+            <button
+              onClick={() => handlePdfDownload()}
+              className="bg-[#283046] text-white px-4 py-2 rounded-md mb-5 float-right"
+            >
+              <FiDownload className="text-xl" />
+            </button>
+          </div>
+        </>
       )}
       <div className="shadow-lg rounded-md m-5">
         {logs.length === 0 ? (
@@ -321,12 +325,6 @@ const Timesheet = () => {
                 <h2 className="text-xl font-bold text-orange-600 uppercase">
                   {date} {formatDuration(groupedLogs[date].totalDuration)}
                 </h2>
-                {/* <button
-                  onClick={() => handlePdfDownload()}
-                  className="bg-[#283046] text-white px-4 py-2 rounded-md mb-2"
-                >
-                  Download
-                </button> */}
               </div>
 
               <table className="w-full top-4 border border-blue-300">
