@@ -16,6 +16,7 @@ const dataController = require("../controllers/dataController");
 const DayInOut = require("../controllers/DayInOut");
 const weekLogs = require("../controllers/weekLogs");
 const monthLogs = require("../controllers/monthLogs");
+const getCustomLogs = require("../controllers/GetCustomLogs");
 
 router.post("/signup", signup);
 router.post("/login", userLoginController);
@@ -49,6 +50,8 @@ router.post('/dayOut',Middleware, DayInOut.postDayOut);
 
 router.get('/weekLogs',Middleware, weekLogs)
 router.get('/monthLogs', Middleware, monthLogs);
+
+router.post('/getCustomLogs', Middleware, getCustomLogs);
 
 
 module.exports = router;
