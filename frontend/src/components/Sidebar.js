@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import logo from "../assets/logo.png";
 import { IoHomeOutline } from "react-icons/io5";
 import { FaRegClock } from "react-icons/fa";
@@ -24,12 +24,21 @@ const sidebarItems = [
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [time, setTime] = useState(null);
+  const [dayInTime, setDayInTime] = useState(null);
   const [selectedItem, setSelectedItem] = useState(0);
   const { isClocking, setIsClocking, isDayIn, setIsDayIn } =
     useContext(ClockingContext);
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedDayInTime = localStorage.getItem("dayInTime");
+    if (storedDayInTime) {
+      setDayInTime(storedDayInTime);
+      setIsDayIn(true);
+      setIsClocking(true);
+    }
+  }, []);
 
   const handleClick = (onClick, index) => {
     setSelectedItem(index);
@@ -48,7 +57,8 @@ const Sidebar = () => {
       setIsClocking(false);
       handleDayOutApi();
       setIsDayIn(false);
-      setTime(null);
+      setDayInTime(null);
+      localStorage.removeItem("dayInTime");
     }
   };
 
@@ -65,11 +75,10 @@ const Sidebar = () => {
         }),
       });
       const data = await res.json();
-
       if (data.success) {
         setIsDayIn(true);
-        setIsClocking(true);
-        setTime(data.dayIn.dayIn);
+        setDayInTime(new Date());
+        localStorage.setItem("dayInTime", new Date());
         toast.success(data.message);
       } else {
         toast.error(data.message);
@@ -79,9 +88,9 @@ const Sidebar = () => {
     }
   };
 
-  const handleDayOutApi=async()=>{
+  const handleDayOutApi = async () => {
     try {
-      const res=await fetch(apiUrl.dayOut.url, {
+      const res = await fetch(apiUrl.dayOut.url, {
         method: apiUrl.dayOut.method,
         credentials: "include",
         headers: {
@@ -90,23 +99,23 @@ const Sidebar = () => {
         body: JSON.stringify({
           userId: user?.user?._id,
         }),
-      })
-      const data=await res.json()
-      if(data.success){
-        setIsDayIn(false)
-        setTime(data.dayOut.dayOut)
-        toast.success(data.message)
-      }else{
-        toast.error(data.message)
+      });
+      const data = await res.json();
+      if (data.success) {
+        setIsDayIn(false);
+        setDayInTime(null);
+        localStorage.removeItem("dayInTime");
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message);
     }
-  }
+  };
 
   const formattedTime = (time) => {
-    const TimeTrackTime = moment(time).format("hh:mm A");
-    return TimeTrackTime;
+    return moment(time).format("hh:mm A");
   };
 
   return (
@@ -134,12 +143,12 @@ const Sidebar = () => {
         <div
           key={index}
           className={`my-4 flex items-center w-full px-4 p-4 ${
-            selectedItem === index ? 'p-3 bg-[#283062]' : 'hover:bg-[#283065]'
+            selectedItem === index ? "p-3 bg-[#283062]" : "hover:bg-[#283065]"
           }`}
           onClick={() => handleClick(item.onClick, index)}
         >
           <span className="text-2xl relative">{item.icon}</span>
-          <span className={`ml-4 ${isExpanded ? 'block' : 'hidden'}`}>
+          <span className={`ml-4 ${isExpanded ? "block" : "hidden"}`}>
             {item.text}
           </span>
         </div>
@@ -183,8 +192,10 @@ const Sidebar = () => {
               isExpanded ? "block" : "hidden"
             }`}
           >
-            <span className={`text-center text-[#283046] text-[13px] font-semibold m-auto`}>
-              Day in at {formattedTime(time)}
+            <span
+              className={`text-center text-[#283046] text-[13px] font-semibold m-auto`}
+            >
+              Day in at {formattedTime(dayInTime)}
             </span>
           </div>
         )}
