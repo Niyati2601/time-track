@@ -29,29 +29,36 @@ const Timesheet = () => {
     startTIme: new Date(),
     endTIme: new Date(),
   });
+  const [log, setLog] = useState({});
+
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteLogId, setDeleteLogId] = useState(null);
+  const [date, setDate] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+    key: "selection",
+  });
 
-  const getAllLogsApi = async () => {
-    try {
-      const res = await fetch(apiUrl.getAllLogs.url, {
-        method: apiUrl.getAllLogs.method,
-        credentials: "include",
-        headers: {
-          "content-type": "application/json",
-        },
-      });
-      const data = await res.json();
+  // const getAllLogsApi = async () => {
+  //   try {
+  //     const res = await fetch(apiUrl.getAllLogs.url, {
+  //       method: apiUrl.getAllLogs.method,
+  //       credentials: "include",
+  //       headers: {
+  //         "content-type": "application/json",
+  //       },
+  //     });
+  //     const data = await res.json();
 
-      if (data.success) {
-        setLogs(data.data);
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
+  //     if (data.success) {
+  //       setLogs(data.data);
+  //     } else {
+  //       toast.error(data.message);
+  //     }
+  //   } catch (error) {
+  //     toast.error(error.message);
+  //   }
+  // };
 
   const fetchUserDetails = async () => {
     try {
@@ -74,7 +81,7 @@ const Timesheet = () => {
   };
 
   useEffect(() => {
-    getAllLogsApi();
+    // getAllLogsApi();
     fetchUserDetails();
     fetchProjects();
     fetchTags();
@@ -143,7 +150,7 @@ const Timesheet = () => {
       const data = await res.json();
       if (data.success) {
         toast.success(data.message);
-        getAllLogsApi();
+        // getAllLogsApi();
         setIsDeleteModalOpen(false);
       } else {
         toast.error(data.message);
@@ -222,7 +229,7 @@ const Timesheet = () => {
       const data = await res.json();
       if (data.success) {
         toast.success(data.message);
-        getAllLogsApi();
+        // getAllLogsApi();
         setIsModalOpen(false); // Close modal
       } else {
         toast.error(data.message);
@@ -291,6 +298,34 @@ const Timesheet = () => {
 
     doc.save("TimeTrack.pdf");
   };
+
+  useEffect(() => {
+    const getCustomLogs = async () => {
+      try {
+        const res = await fetch(apiUrl.getCustomLogs.url, {
+          method: apiUrl.getCustomLogs.method,
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            
+          },
+          body: JSON.stringify({
+            startDate: date.startDate,
+            endDate: date.endDate,
+          }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          setLog(data.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getCustomLogs();
+  }, [date]);
+
 
   return (
     <>

@@ -85,5 +85,9 @@ const apiUrl = {
     url: `${backendDomain}/api/monthLogs`,
     method: "get",
   },
+  getCustomLogs: {
+    url: `${backendDomain}/api/getCustomLogs`,
+    method: "post",
+  },
 };
 export default apiUrl

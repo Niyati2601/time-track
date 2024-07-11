@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css";
 import { FaRegCalendar } from "react-icons/fa6";
 import moment from "moment";
+import apiUrl from "../api/Api";
 
 const Calendar = () => {
+
   const [date, setDate] = useState({
     startDate: new Date(),
     endDate: new Date(),
     key: "selection",
   });
   const [dateOpen, setDateOpen] = useState(false);
+  const [log, setLog] = useState({});
 
   const handleCalendar = (ranges) => {
     setDate(ranges.selection);
@@ -20,6 +23,36 @@ const Calendar = () => {
   const toggleCalendar = () => {
     setDateOpen(!dateOpen);
   };
+
+ 
+
+  useEffect(() => {
+    const getCustomLogs = async () => {
+      try {
+        const res = await fetch(apiUrl.getCustomLogs.url, {
+          method: apiUrl.getCustomLogs.method,
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            
+          },
+          body: JSON.stringify({
+            startDate: date.startDate,
+            endDate: date.endDate,
+          }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          setLog(data.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getCustomLogs();
+  }, [date]);
+
   return (
     <div className="flex justify-center align-middle h-15 relative ">
       <span className="p-[12px] border rounded-md mb-5 mr-3 bg-blue-100 text-blue-900 font-bold ">
