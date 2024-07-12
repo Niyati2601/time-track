@@ -24,7 +24,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
   const [selectedTicket, setSelectedTicket] = useState("");
 
   const user = useSelector((state) => state.user);
-  const { isClocking, setIsClocking } = useContext(ClockingContext);
+  const { isClocking } = useContext(ClockingContext);
 
   const dropdownRef = useRef(null);
 
@@ -86,10 +86,12 @@ const TimelogEditor = ({ onOpen, onClose }) => {
       if (data.success) {
         toast.success(data.message);
       } else {
-        toast.error(data.message);
+        // toast.error(data.message);
+        console.error(data.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      // toast.error(error.message);
+      console.error(error);
     }
   };
 

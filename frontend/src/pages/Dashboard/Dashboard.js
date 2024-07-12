@@ -38,10 +38,6 @@ const Dashboard = () => {
     }
   };
 
-  const formatDateAndTime = (date) => {
-    return moment(date).format("hh:mm a");
-  };
-
   useEffect(() => {
     handleLogs();
   }, []);
@@ -88,64 +84,90 @@ const Dashboard = () => {
     }
   };
 
+  const totalDurationInMs = logs.reduce((total, log) => {
+    if (log.duration !== "-") {
+      const [hours, minutes] = log.duration.split(":").map(Number);
+      return total + hours * 60 * 60 * 1000 + minutes * 60 * 1000;
+    }
+    return total;
+  }, 0);
 
-    const totalDurationInMs = logs.reduce((total, log) => {
+  const totalHours = Math.floor(totalDurationInMs / (1000 * 60 * 60))
+    .toString()
+    .padStart(1, "0");
+  const totalMinutes = Math.floor(
+    (totalDurationInMs % (1000 * 60 * 60)) / (1000 * 60)
+  )
+    .toString()
+    .padStart(2, "0");
+
+  const totalDuration = `${totalHours}hr ${totalMinutes}m`;
+
+  const durationFormat = (duration) => {
+    if (duration === "-") {
+      return "-";
+    } else {
+      const durationParts = duration.split(":");
+      if (durationParts.length !== 2) {
+        return "-";
+      } else {
+        const hours = parseInt(durationParts[0].replace("hr", ""), 10) || 0;
+        const minutes = parseInt(durationParts[1].replace("m", ""), 10) || 0;
+
+        return `${hours}hr ${minutes}m`;
+      }
+    }
+  };
+
+  const groupLogsByProject = (logs) => {
+    const projectLogs = logs.reduce((acc, log) => {
+      if (!acc[log.projects]) {
+        acc[log.projects] = { totalDuration: 0, logs: [] };
+      }
       if (log.duration !== "-") {
         const [hours, minutes] = log.duration.split(":").map(Number);
-        return total + hours * 60 * 60 * 1000 + minutes * 60 * 1000;
+        acc[log.projects].totalDuration += hours * 60 * 60 * 1000 + minutes * 60 * 1000;
       }
-      return total;
-    }, 0);
+      acc[log.projects].logs.push(log);
+      return acc;
+    }, {});
 
-    const totalHours = Math.floor(totalDurationInMs / (1000 * 60 * 60))
-      .toString()
-      .padStart(1, "0");
-    const totalMinutes = Math.floor(
-      (totalDurationInMs % (1000 * 60 * 60)) / (1000 * 60)
-    )
-      .toString()
-      .padStart(2, "0");  
+    return Object.entries(projectLogs).map(([project, data]) => ({
+      project,
+      totalDuration: data.totalDuration,
+      logs: data.logs,
+    }));
+  };
 
-    const totalDuration = `${totalHours}hr ${totalMinutes}m`;
+  const groupedLogs = groupLogsByProject(logs);
+  
 
-    const calculateProgress = (duration) => {
-      if (!duration) return 0;
-    
-      // Assuming duration format is "Xhr Ym"
-      const durationParts = duration.split(" ");
-      if (durationParts.length !== 2) return 0;
-    
-      const hours = parseInt(durationParts[0].replace("hr", ""), 10) || 0;
-      const minutes = parseInt(durationParts[1].replace("m", ""), 10) || 0;
-    
-      const totalMinutes = hours * 60 + minutes;
-      const totalMinutesInDay = 24 * 60; 
-    
-      return (totalMinutes / totalMinutesInDay) * 100;
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpen(false);
+      }
     };
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
 
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-          setOpen(false);
-        }
-      };
-      if (open) {
-        document.addEventListener("mousedown", handleClickOutside);
-      } else {
-        document.removeEventListener("mousedown", handleClickOutside);
-      }
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, [open]);
+  
 
   return (
     <div className="flex flex-col bg-gray-100 h-full p-4" ref={dropdownRef}>
       <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 w-full">
         <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow-md">
           <div className="flex justify-between items-center border-b-2">
-            <h1 className="text-xl font-semibold pb-2 text-gray-600">{totalDuration}</h1>
+            <h1 className="text-xl font-semibold pb-2 text-gray-600">
+              {totalDuration}
+            </h1>
             <label
               className="text-blue-800  bg-blue-100 flex p-1 rounded-sm items-center gap-2 text-xs"
               onClick={toggleModal}
@@ -159,7 +181,10 @@ const Dashboard = () => {
               id="dropdownAvatarName"
               className="z-10 divide-y divide-gray-100 rounded-lg shadow w-48 bg-[#283046] dark:divide-gray-600 absolute right-[65%] mt-1"
             >
-              <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownAvatarNameButton">
+              <ul
+                className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                aria-labelledby="dropdownAvatarNameButton"
+              >
                 <li>
                   <button
                     className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2 text-sm"
@@ -170,12 +195,18 @@ const Dashboard = () => {
                 </li>
               </ul>
               <div className="py-2 text-sm text-white">
-                <button className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2 text-sm" onClick={handleWeekLogs}>
+                <button
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2 text-sm"
+                  onClick={handleWeekLogs}
+                >
                   This Week
                 </button>
               </div>
               <div className="py-2 text-sm text-white">
-                <button className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2 text-sm" onClick={handleMonthLogs}>
+                <button
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2 text-sm"
+                  onClick={handleMonthLogs}
+                >
                   This Month
                 </button>
               </div>
@@ -192,7 +223,7 @@ const Dashboard = () => {
                     <p>{log.title}</p>
                   </div>
                   <p className="text-sm text-gray-500 font-semibold">
-                    {formatDateAndTime(log.createdAt)}
+                    {durationFormat(log.duration)}
                   </p>
                 </div>
                 <div className="text-sm ml-10 text-red-500">{log.projects}</div>
@@ -204,31 +235,45 @@ const Dashboard = () => {
         </div>
 
         <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow-md">
-        <div className="flex justify-between items-center border-b-2">
-            <h1 className="text-xl font-semibold pb-2 text-gray-600">{totalDuration}</h1>
-           
+          <div className="flex justify-between items-center border-b-2">
+            <h1 className="text-xl font-semibold pb-2 text-gray-600">
+              {totalDuration}
+            </h1>
           </div>
-          {logs.length > 0 ? (
-            logs.map((log, index) => (
-              <div key={index} className="mt-2">
+          {groupedLogs.length > 0 ? (
+            groupedLogs.map((group, index) => {
+              const totalProjectHours = Math.floor(group.totalDuration / (1000 * 60 * 60))
+                .toString()
+                .padStart(1, "0");
+              const totalProjectMinutes = Math.floor(
+                (group.totalDuration % (1000 * 60 * 60)) / (1000 * 60)
+              )
+                .toString()
+                .padStart(2, "0");
+              const totalProjectDuration = `${totalProjectHours}hr ${totalProjectMinutes}m`;
               
-                <div className="text-gray-600 flex justify-between items-center">
-                <div className="text-md  text-red-500">{log.projects}</div>
-                <div className="text-md ml-10 text-gray-500">{log.duration}</div>
-                </div>
-                <div className="w-full bg-gray-200 mt-1 rounded-full">
-                      <div
-                        className="bg-red-400 text-xs leading-none py-1 rounded-full text-center text-white"
-                        style={{ width: '100%' }}
-                      >
-                      </div>
+              return (
+                <div key={index} className="mt-2">
+                  <div className="text-gray-600 flex justify-between items-center">
+                    <div className="text-md text-red-500">{group.project}</div>
+                    <div className="text-md ml-10 text-gray-500">
+                      {totalProjectDuration}
                     </div>
-              </div>
-            ))
+                  </div>
+                  <div className="w-full bg-gray-200 mt-1 rounded-full">
+                    <div
+                      className="bg-red-400 text-xs leading-none py-1 rounded-full text-center text-white"
+                      style={{ width: "100%" }}
+                    ></div>
+                  </div>
+                </div>
+              );
+            })
           ) : (
             <p className="mt-2 text-red-600">No logs for today.</p>
           )}
-          </div>
+        </div>
+
         <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow-md">
           <h1 className="text-2xl text-gray-600 font-semibold border-b-2 pb-2">
             Activity Logs

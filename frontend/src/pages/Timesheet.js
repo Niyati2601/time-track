@@ -18,7 +18,7 @@ import { ClockingContext } from "../context/ClockingContext";
 
 const Timesheet = () => {
   const dispatch = useDispatch();
-  const { logs, setLogs } = useContext(ClockingContext);
+  const { logs } = useContext(ClockingContext);
   const [projects, setProjects] = useState([]);
   const [tags, setTags] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);

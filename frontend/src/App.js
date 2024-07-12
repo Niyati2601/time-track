@@ -33,7 +33,8 @@ function App() {
         dispatch(setUserDetails(data.data));
       }
     } catch (error) {
-      toast.error(error.message);
+      // toast.error(error.message);
+      console.log(error);
     }
   };
 

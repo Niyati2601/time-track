@@ -83,10 +83,12 @@ const Sidebar = () => {
         localStorage.setItem("dayInTime", new Date());
         toast.success(data.message);
       } else {
-        toast.error(data.message);
+        // toast.error(data.message);
+        console.error(data.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      // toast.error(error.message);
+      console.error(error.message);
     }
   };
 
@@ -109,10 +111,12 @@ const Sidebar = () => {
         localStorage.removeItem("dayInTime");
         toast.success(data.message);
       } else {
-        toast.error(data.message);
+        // toast.error(data.message);
+        console.error(data.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      // toast.error(error.message);
+      console.error(error.message);
     }
   };
 
