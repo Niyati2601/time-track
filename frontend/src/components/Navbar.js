@@ -12,6 +12,7 @@ import { FaRegClock } from "react-icons/fa";
 import apiUrl from "../api/Api";
 import toast from "react-hot-toast";
 import defaultImage from "../assets/defaultImage.jpg";
+import {VscFeedback} from 'react-icons/vsc';
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -29,6 +30,7 @@ const Navbar = () => {
       "/home": { text: "Dashboard", icon: <IoHomeOutline /> },
       "/clockInOut": { text: "Clock In/Out", icon: <FaRegClock /> },
       "/timesheet": { text: "Timesheet", icon: <IoCalendarClearOutline /> },
+      "/feedback": { text: "Feedback", icon: <VscFeedback /> },
       // Add other paths and their corresponding headers and icons here
     };
 

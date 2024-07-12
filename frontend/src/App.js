@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { setUserDetails } from "./redux/userSlice";
 import { toast } from "react-hot-toast";
 import { useEffect } from "react";
+import FeedBack from "./pages/Feedback/FeedBack";
 
 function App() {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ function App() {
           <Route path="home" element={<Dashboard />} />
           <Route path="clockInOut" element={<ClockInOut />} />
           <Route path="timesheet" element={<Timesheet />} />
+          <Route path="feedback" element={<FeedBack />} />
         </Route>
       </Routes>
     </>

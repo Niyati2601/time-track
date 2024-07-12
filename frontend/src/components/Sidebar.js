@@ -5,6 +5,7 @@ import { FaRegClock } from "react-icons/fa";
 import { MdOutlineTimer } from "react-icons/md";
 import { LuTimerOff } from "react-icons/lu";
 import { IoCalendarClearOutline } from "react-icons/io5";
+import { VscFeedback } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
 import { ClockingContext } from "../context/ClockingContext";
 import apiUrl from "../api/Api";
@@ -20,6 +21,7 @@ const sidebarItems = [
     text: "Timesheet",
     onClick: "/timesheet",
   },
+  {icon: <VscFeedback />, text: "Feedback", onClick: '/feedback'}
 ];
 
 const Sidebar = () => {
