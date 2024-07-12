@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import apiUrl from "../api/Api";
 import { setUserDetails } from "../redux/userSlice";
 import { useDispatch } from "react-redux";
@@ -14,10 +14,11 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { FiDownload } from "react-icons/fi";
 import Calendar from "../components/Calendar";
+import { ClockingContext } from "../context/ClockingContext";
 
 const Timesheet = () => {
   const dispatch = useDispatch();
-  const [logs, setLogs] = useState([]);
+  const { logs, setLogs } = useContext(ClockingContext);
   const [projects, setProjects] = useState([]);
   const [tags, setTags] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,15 +30,9 @@ const Timesheet = () => {
     startTIme: new Date(),
     endTIme: new Date(),
   });
-  const [log, setLog] = useState({});
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteLogId, setDeleteLogId] = useState(null);
-  const [date, setDate] = useState({
-    startDate: new Date(),
-    endDate: new Date(),
-    key: "selection",
-  });
 
   // const getAllLogsApi = async () => {
   //   try {
@@ -299,49 +294,22 @@ const Timesheet = () => {
     doc.save("TimeTrack.pdf");
   };
 
-  useEffect(() => {
-    const getCustomLogs = async () => {
-      try {
-        const res = await fetch(apiUrl.getCustomLogs.url, {
-          method: apiUrl.getCustomLogs.method,
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            
-          },
-          body: JSON.stringify({
-            startDate: date.startDate,
-            endDate: date.endDate,
-          }),
-        });
-        const data = await res.json();
-        if (data.success) {
-          setLog(data.data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getCustomLogs();
-  }, [date]);
-
-
   return (
     <>
-      {logs.length > 0 && (
+      <div className="flex justify-end">
+        <Calendar />
         <>
-          <div className="flex justify-end">
-            <Calendar />
+          {logs.length > 0 && (
             <button
               onClick={() => handlePdfDownload()}
               className="bg-[#283046] text-white px-4 py-2 rounded-md mb-5 float-right"
             >
               <FiDownload className="text-xl" />
             </button>
-          </div>
+          )}
         </>
-      )}
+      </div>
+
       <div className="shadow-lg rounded-md m-5">
         {logs.length === 0 ? (
           <div className="p-4 text-lg text-gray-600 font-bold text-center">

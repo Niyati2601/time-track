@@ -6,9 +6,14 @@ const getCustomLogs = async (req, res) => {
     const { startDate, endDate } = req.body;
 
     const start = new Date(startDate);
-    const end = new Date(endDate);
+    // Convert to UTC and reset to the start of the day
+    const startUTC = new Date(Date.UTC(start.getFullYear(), start.getMonth(), start.getDate()));
 
-    if (isNaN(start) || isNaN(end)) {
+    const end = endDate ? new Date(endDate) : new Date(startDate);
+    // Convert to UTC and set to the end of the day
+    const endUTC = new Date(Date.UTC(end.getFullYear(), end.getMonth(), end.getDate(), 23, 59, 59, 999));
+
+    if (isNaN(startUTC) || isNaN(endUTC)) {
       return res.status(400).json({
         success: false,
         error: true,
@@ -18,7 +23,7 @@ const getCustomLogs = async (req, res) => {
 
     const logs = await timeLog.find({
       user,
-      startTIme: { $gte: start, $lte: end },
+      startTIme: { $gte: startUTC, $lte: endUTC },
     });
 
     if (logs && logs.length > 0) {
@@ -45,7 +50,7 @@ const getCustomLogs = async (req, res) => {
         message: "Logs",
       });
     } else {
-      return res.status(404).json({
+      return res.status(200).json({
         success: false,
         error: true,
         message: "No logs found",
