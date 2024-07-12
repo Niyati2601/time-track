@@ -14,10 +14,14 @@ const TimelogEditor = ({ onOpen, onClose }) => {
   const [isPlay, setIsPlaying] = useState(false);
   const [isTagOpen, setIsTagOpen] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
-  const [projects, setprojects] = useState("");
+  const [projects, setProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(""); // Initialize with an empty string or appropriate default value
+  const [tags, setTags] = useState([]);
   const [title, setTitle] = useState("");
   const [logId, setLogId] = useState("");
   const [time, setTime] = useState(0);
+  const [tickets, setTickets] = useState([]);
+  const [selectedTicket, setSelectedTicket] = useState("");
 
   const user = useSelector((state) => state.user);
   const { isClocking, setIsClocking } = useContext(ClockingContext);
@@ -72,7 +76,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
         },
         body: JSON.stringify({
           user: user.user._id,
-          projects,
+          projects: selectedProject,
           title,
           tags: selectedTags,
         }),
@@ -121,17 +125,16 @@ const TimelogEditor = ({ onOpen, onClose }) => {
     }
   };
 
-  useEffect(()=>{
-    if(!isClocking){
+  useEffect(() => {
+    if (!isClocking) {
       handleEndTimeApi();
     }
-  },[isClocking])
-
+  }, [isClocking]);
 
   const formatTime = (seconds) => {
-    const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
-    const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
-    const s = (seconds % 60).toString().padStart(2, '0');
+    const h = Math.floor(seconds / 3600).toString().padStart(2, "0");
+    const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, "0");
+    const s = (seconds % 60).toString().padStart(2, "0");
     return `${h}:${m}:${s}`;
   };
 
@@ -139,7 +142,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
     let interval = null;
     if (isPlay) {
       interval = setInterval(() => {
-        setTime(prevTime => prevTime + 1);
+        setTime((prevTime) => prevTime + 1);
       }, 1000);
     } else if (!isPlay && time !== 0) {
       clearInterval(interval);
@@ -147,6 +150,71 @@ const TimelogEditor = ({ onOpen, onClose }) => {
     return () => clearInterval(interval);
   }, [isPlay, time]);
 
+  useEffect(() => {
+    fetchProjects();
+    fetchTags();
+    fetchTickets();
+  }, []);
+
+  const fetchProjects = async () => {
+    try {
+      const res = await fetch(apiUrl.getProjects.url, {
+        method: apiUrl.getProjects.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+      const data = await res.json();
+      if (data.success) {
+        setProjects(data.data);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const fetchTags = async () => {
+    try {
+      const res = await fetch(apiUrl.getTags.url, {
+        method: apiUrl.getTags.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+      const data = await res.json();
+      if (data.success) {
+        setTags(data.data);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const fetchTickets = async () => {
+    try {
+      const res = await fetch(apiUrl.getTickets.url, {
+        method: apiUrl.getTickets.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+      const data = await res.json();
+      if (data.success) {
+        setTickets(data.data);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     onOpen &&
@@ -190,48 +258,53 @@ const TimelogEditor = ({ onOpen, onClose }) => {
 
         <div className="flex justify-between mb-2 mt-8">
           <select
-            value={projects} // Ensure `projects` state is used
-            onChange={(e) => setprojects(e.target.value)} // Handle projects change
+           value={selectedProject}
+           onChange={(e) => setSelectedProject(e.target.value)}
             type="text"
             placeholder="Select Projects"
-            className={`p-2 bg-green-400 rounded border-none outline-none w-1/2 text-white placeholder-white mr-1 ${isPlay ? "cursor-not-allowed" : "cursor-pointer"}`}
+            className={`p-2 bg-green-400 rounded border-none outline-none w-1/2 text-white placeholder-white mr-1 ${isPlay ? "cursor-not-allowed" : "cursor-pointer"
+              }`}
             disabled={isPlay}
             name="projects"
             required
           >
-            <option selected>Select Projects</option>
-            <option value="Intern 2024">Intern 2024</option>
-            <option value="BA/PM General">BA/PM General</option>
-            <option value="Demo Tasks and Interview">
-              Demo Tasks and Interview
-            </option>
-            <option value="DevOps/SysAdmin General">
-              DevOps/SysAdmin General
-            </option>
-            <option value="Learning and Development">
-              Learning and Development
-            </option>
-            <option value="Sales & Marketing">Sales & Marketing</option>
-            <option value="Tech General">Tech General</option>
-            <option value="UX General">UX General</option>
+            <option>Select Projects</option>
+            {Array.isArray(projects) && projects.length > 0 ? (
+              projects.map((project) => {
+                console.log('project: ', project);
+                return (
+                <option key={project._id} value={project.name}>
+                  {project.name}
+                </option>
+              )})
+            ) : (
+              <option disabled>No projects found</option>
+            )}
+
           </select>
           <select
+            value={selectedTicket}
+            onChange={(e) => setSelectedTicket(e.target.value)}
             type="text"
             placeholder="Select Ticket"
             className="p-2 bg-green-400 rounded border-none outline-none w-1/2 text-white placeholder-white cursor-not-allowed"
             disabled
           >
-            <option selected>Select Ticket</option>
-            <option value="1">Ticket 1</option>
-            <option value="2">Ticket 2</option>
-            <option value="3">Ticket 3</option>
-            <option value="4">Ticket 4</option>
-            <option value="5">Ticket 5</option>
+            <option>Select Ticket</option>
+            {Array.isArray(tickets) && tickets.length > 0 ? (
+              tickets.map((ticket) => (
+                <option key={ticket._id} value={ticket.name}>
+                  {ticket.name}
+                </option>
+              ))
+            ) : (
+              <option disabled>No tickets found</option>
+            )}
           </select>
         </div>
         <textarea
-          value={title} // Ensure `title` state is used
-          onChange={(e) => setTitle(e.target.value)} // Handle title change
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           placeholder="Describe your task details in max 2000 characters"
           className="p-2 bg-green-400 rounded border-none outline-none w-full h-24 text-white placeholder-white text-[15px] font-semibold text-scroll overflow-auto"
         ></textarea>
@@ -265,7 +338,7 @@ const TimelogEditor = ({ onOpen, onClose }) => {
                     onClick={handleEndTimeApi}
                   />
                   <span className="text-white ml-5 mt-1 font-bold">
-                  {formatTime(time)}
+                    {formatTime(time)}
                   </span>
                 </>
               ) : (
@@ -287,84 +360,19 @@ const TimelogEditor = ({ onOpen, onClose }) => {
                 </div>
               )}
               {isTagOpen && !isPlay && (
-                <div
-                  id="dropdownAvatarName"
-                  className="z-10 divide-y divide-gray-100 rounded-lg shadow w-48 bg-[#fff] dark:divide-gray-600 absolute right-0 bottom-14 text-gray-600"
-                >
-                  <div className="p-2 text-sm">
-                    <input
-                      className="mr-2"
-                      type="checkbox"
-                      id="bug"
-                      checked={selectedTags.includes("Bug")}
-                      onChange={() => handleTagChange("Bug")}
-                    />
-                    <span>Bug</span>
-                  </div>
-                  <div className="p-2 text-sm">
-                    <input
-                      className="mr-2"
-                      type="checkbox"
-                      id="content"
-                      checked={selectedTags.includes("Content Writing")}
-                      onChange={() => handleTagChange("Content Writing")}
-                    />
-                    <span>Content Writing</span>
-                  </div>
-                  <div className="p-2 text-sm">
-                    <input
-                      className="mr-2"
-                      type="checkbox"
-                      id="marketing"
-                      checked={selectedTags.includes("Marketing")}
-                      onChange={() => handleTagChange("Marketing")}
-                    />
-                    <span>Marketing</span>
-                  </div>
-                  <div className="p-2 text-sm">
-                    <input
-                      className="mr-2"
-                      type="checkbox"
-                      id="development"
-                      checked={selectedTags.includes("Development")}
-                      onChange={() => handleTagChange("Development")}
-                    />
-                    <span>Development</span>
-                  </div>
-                  <div className="p-2 text-sm">
-                    <input
-                      className="mr-2"
-                      type="checkbox"
-                      id="design"
-                      checked={selectedTags.includes("Designing")}
-                      onChange={() => handleTagChange("Designing")}
-                    />
-                    <span>Designing</span>
-                  </div>
-                  <div className="p-2 text-sm">
-                    <input
-                      className="mr-2"
-                      type="checkbox"
-                      id="learning"
-                      checked={selectedTags.includes(
-                        "Learning and Development"
-                      )}
-                      onChange={() =>
-                        handleTagChange("Learning and Development")
-                      }
-                    />
-                    <span>Learning and Development</span>
-                  </div>
-                  <div className="p-2 text-sm">
-                    <input
-                      className="mr-2"
-                      type="checkbox"
-                      id="task"
-                      checked={selectedTags.includes("Task")}
-                      onChange={() => handleTagChange("Task")}
-                    />
-                    <span>Task</span>
-                  </div>
+                <div className="z-10 divide-y divide-gray-100 rounded-lg shadow w-48 bg-[#fff] dark:divide-gray-600 absolute right-0 bottom-14 text-gray-600">
+                  {tags && tags.map((tag) => (
+                    <div key={tag._id} className="p-2 text-sm">
+                      <input
+                        className="mr-2"
+                        type="checkbox"
+                        id={tag.name}
+                        checked={selectedTags.includes(tag.name)}
+                        onChange={() => handleTagChange(tag.name)}
+                      />
+                      <span>{tag.name}</span>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
