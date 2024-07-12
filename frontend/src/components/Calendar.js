@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css";
 import { FaRegCalendar } from "react-icons/fa6";
 import moment from "moment";
 import apiUrl from "../api/Api";
+import { ClockingContext } from "../context/ClockingContext";
 
 const Calendar = () => {
-
   const [date, setDate] = useState({
     startDate: new Date(),
     endDate: new Date(),
     key: "selection",
   });
   const [dateOpen, setDateOpen] = useState(false);
-  const [log, setLog] = useState({});
+  const { logs, setLogs } = useContext(ClockingContext);
 
   const handleCalendar = (ranges) => {
     setDate(ranges.selection);
@@ -24,8 +24,6 @@ const Calendar = () => {
     setDateOpen(!dateOpen);
   };
 
- 
-
   useEffect(() => {
     const getCustomLogs = async () => {
       try {
@@ -34,7 +32,6 @@ const Calendar = () => {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
-            
           },
           body: JSON.stringify({
             startDate: date.startDate,
@@ -43,7 +40,9 @@ const Calendar = () => {
         });
         const data = await res.json();
         if (data.success) {
-          setLog(data.data);
+          setLogs(data.data);
+        } else {
+          setLogs([]);
         }
       } catch (error) {
         console.log(error);
@@ -51,7 +50,9 @@ const Calendar = () => {
     };
 
     getCustomLogs();
-  }, [date]);
+  }, [date, setLogs]);
+
+  console.log("Logs", logs);
 
   return (
     <div className="flex justify-center align-middle h-15 relative ">
