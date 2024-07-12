@@ -14,7 +14,7 @@ const Calendar = () => {
     key: "selection",
   });
   const [dateOpen, setDateOpen] = useState(false);
-  const { logs, setLogs } = useContext(ClockingContext);
+  const { setLogs } = useContext(ClockingContext);
 
   const handleCalendar = (ranges) => {
     setDate(ranges.selection);
@@ -52,7 +52,6 @@ const Calendar = () => {
     getCustomLogs();
   }, [date, setLogs]);
 
-  console.log("Logs", logs);
 
   return (
     <div className="flex justify-center align-middle h-15 relative ">

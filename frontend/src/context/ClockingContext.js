@@ -18,6 +18,7 @@ export const ClockingProvider = ({ children }) => {
     return savedClockInTime ? new Date(savedClockInTime) : null;
   });
   const [clockOutTime, setClockOutTime] = useState(null);
+  
 
   useEffect(() => {
     localStorage.setItem('isClocking', isClocking);

@@ -45,7 +45,7 @@ const MainButtons = ({ className }) => {
    } else {
     handleClockIn(user.user._id);
    }
-  }, [isDayIn, isClocking]);
+  }, [isDayIn]);
 
   const handleClockIn = async () => {
     try {
@@ -66,10 +66,12 @@ const MainButtons = ({ className }) => {
         setClockInTime(new Date());
         setIsClocking(true);
       } else {
-        toast.error(data.message);
+        // toast.error(data.message);
+        console.error(data.message);
       }
     } catch (error) {
-      toast.error('Failed to clock in. Please try again.');
+      // toast.error('Failed to clock in. Please try again.');
+      console.error('Failed to clock in. Please try again.', error);
     }
   };
 
@@ -92,10 +94,12 @@ const MainButtons = ({ className }) => {
         setIsClocking(false);
         setClockInTime(null);
       } else {
-        toast.error(data.message);
+        // toast.error(data.message);
+        console.error(data.message);
       }
     } catch (error) {
-      toast.error('Failed to clock out. Please try again.');
+      // toast.error('Failed to clock out. Please try again.');
+      console.error('Failed to clock out. Please try again.', error);
     }
   };
 
