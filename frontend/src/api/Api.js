@@ -89,5 +89,17 @@ const apiUrl = {
     url: `${backendDomain}/api/getCustomLogs`,
     method: "post",
   },
+  feedback: {
+    url: `${backendDomain}/api/feedback`,
+    method: "post",
+  },
+  getAllFeedbacks: {
+    url: `${backendDomain}/api/feedback`,
+    method: "get",
+  },
+  getFeedbackById: {
+    url: `${backendDomain}/api/feedback/:id`,
+    method: "get",
+  },
 };
 export default apiUrl
