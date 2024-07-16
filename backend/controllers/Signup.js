@@ -8,7 +8,7 @@ const signup = async (req, res) => {
     if (!username || !email || !password) {
       return res.status(400).json({ message: "All fields are required", success: false, error: true});
     } else {
-      const userExist = await userModel.findOne({ email });
+      const userExist = await userModel.findOne({ email, username });
       if (userExist) {
         return res.status(400).json({ message: "User already exist" , success: false, error: true});
       } else if (password.length < 6) {

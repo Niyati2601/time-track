@@ -273,7 +273,6 @@ const TimelogEditor = ({ onOpen, onClose }) => {
             <option>Select Projects</option>
             {Array.isArray(projects) && projects.length > 0 ? (
               projects.map((project) => {
-                console.log('project: ', project);
                 return (
                 <option key={project._id} value={project.name}>
                   {project.name}

@@ -1,60 +1,88 @@
 // controllers/feedbackController.js
-const { error } = require('console');
-const Feedback = require('../models/Feedback');
+const Feedback = require("../models/Feedback");
 
 // Create new feedback
-exports.createFeedback = async (req, res) => {
+const createFeedback = async (req, res) => {
   try {
-    const feedback = new Feedback(req.body);
-    await feedback.save();
-    res.status(201).json({
-      message: 'Feedback submitted successfully',
-      data: feedback,
-      success: true,
-      error: false
-    });
+    const { type, description, rating, isAnonymous } = req.body;
+    const user = req.userId;
+    if (!user) {
+      return res.status(400).json({
+        message: "User is required",
+        success: false,
+        error: true,
+      });
+    } else if (!type || !description || !rating) {
+      return res.status(400).json({
+        message: "All fields are required",
+        success: false,
+        error: true,
+      });
+    } else {
+      if (type === "personal") {
+        const feedback = new Feedback({
+          user,
+          type,
+          description,
+          rating,
+          isAnonymous,
+          projectName: req.body.projectName,
+          employee: req.body.employee,
+        });
+        await feedback.save();
+        res.status(201).json({
+          message: "Feedback submitted successfully",
+          data: feedback,
+          success: true,
+          error: false,
+        });
+      }
+      if (type === "general") {
+        const feedback = new Feedback({
+          user,
+          type,
+          description,
+          rating,
+          isAnonymous,
+        });
+        await feedback.save();
+        res.status(201).json({
+          message: "Feedback submitted successfully",
+          data: feedback,
+          success: true,
+          error: false,
+        });
+      }
+    }
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    return res
+      .status(500)
+      .json({ error: error.message, success: false, data: [] });
   }
 };
 
 // Get all feedbacks
-exports.getAllFeedbacks = async (req, res) => {
+const getAllFeedbacks = async (req, res) => {
   try {
-    const feedbacks = await Feedback.find();
-    res.status(200).json({
-      message: 'Feedbacks retrieved successfully',
-      data: feedbacks,
-      success: true,
-      error: false
-    });
+    const user = req.userId;
+
+    const feedbacks = await Feedback.find({ user });
+    if (feedbacks) {
+      res.status(200).json({
+        message: "Feedbacks retrieved successfully",
+        data: feedbacks,
+        success: true,
+        error: false,
+      });
+    }
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res
+      .status(500)
+      .json({ error: error.message, success: false, error: true });
   }
 };
 
-// Get feedback by ID
-exports.getFeedbackById = async (req, res) => {
-  try {
-    const feedback = await Feedback.findById(req.params.id);
-    if (!feedback) {
-      return res.status(404).json({ error: 'Feedback not found' });
-    }
-    res.status(200).json(feedback);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-// Delete feedback by ID
-exports.deleteFeedbackById = async (req, res) => {
-  try {
-    const feedback = await Feedback.findByIdAndDelete(req.params.id);
-    if (!feedback) {
-      return res.status(404).json({ error: 'Feedback not found' });
-    }
-    res.status(200).json({ message: 'Feedback deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+module.exports = {
+  createFeedback,
+  getAllFeedbacks,
 };

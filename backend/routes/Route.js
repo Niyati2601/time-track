@@ -18,6 +18,7 @@ const weekLogs = require("../controllers/weekLogs");
 const monthLogs = require("../controllers/monthLogs");
 const getCustomLogs = require("../controllers/GetCustomLogs");
 const feedbackController = require('../controllers/FeedbackController');
+const getAllUsers = require("../controllers/GetAllUsers");
 
 router.post("/signup", signup);
 router.post("/login", userLoginController);
@@ -54,10 +55,9 @@ router.get('/monthLogs', Middleware, monthLogs);
 
 router.post('/getCustomLogs', Middleware, getCustomLogs);
 
-router.post('/feedback', feedbackController.createFeedback);
-router.get('/feedback', feedbackController.getAllFeedbacks);
-router.get('/feedback/:id', feedbackController.getFeedbackById);
-router.delete('/feedback/:id', feedbackController.deleteFeedbackById);
+router.post('/feedback',Middleware, feedbackController.createFeedback);
+router.get('/getFeedback',Middleware, feedbackController.getAllFeedbacks);
 
+router.get("/getAllUsers", Middleware, getAllUsers);
 
 module.exports = router;
