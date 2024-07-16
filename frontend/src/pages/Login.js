@@ -6,9 +6,13 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import apiUrl from "../api/Api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUserDetails } from "../redux/userSlice";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   // const fetchUserDetails = useContext(Context);
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
@@ -24,6 +28,26 @@ const Login = () => {
         [name]: value,
       };
     });
+  };
+  const fetchUserDetails = async () => {
+    try {
+      const response = await fetch(apiUrl.current_user.url, {
+        method: apiUrl.current_user.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        dispatch(setUserDetails(data.data));
+      }
+    } catch (error) {
+      // toast.error(error.message);
+      console.log(error);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -47,7 +71,7 @@ const Login = () => {
         password: "",
       })
       navigate("/home");
-      // fetchUserDetails();
+      fetchUserDetails();
     }
 
     if (dataApi.error) {

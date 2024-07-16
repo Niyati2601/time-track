@@ -94,11 +94,11 @@ const apiUrl = {
     method: "post",
   },
   getAllFeedbacks: {
-    url: `${backendDomain}/api/feedback`,
+    url: `${backendDomain}/api/getFeedback`,
     method: "get",
   },
-  getFeedbackById: {
-    url: `${backendDomain}/api/feedback/:id`,
+  getAllUsers: {
+    url: `${backendDomain}/api/getAllUsers`,
     method: "get",
   },
 };

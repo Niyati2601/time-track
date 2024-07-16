@@ -2,6 +2,11 @@
 const mongoose = require('mongoose');
 
 const FeedbackSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
   type: {
     type: String,
     enum: ['general', 'personal'],
@@ -9,9 +14,6 @@ const FeedbackSchema = new mongoose.Schema({
   },
   projectName: {
     type: String,
-    required: function() {
-      return this.type === 'personal';
-    }
   },
   employee: {
     type: String,
