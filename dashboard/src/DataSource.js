@@ -7,7 +7,7 @@ export const userColumns = [
             return (
 
                 <div>
-                    <Link to={`/users/${params.row._id}`} key={params.row._id}>
+                    <Link to={`/users/${params.row._id}`} key={params.row._id} style={{textDecoration:'none', color:'green'}}>
                     {params.row._id}
                     </Link>
                 </div>

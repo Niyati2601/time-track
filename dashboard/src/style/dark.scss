@@ -12,6 +12,26 @@
     .tableCell {
       color: gray;
     }
+    .pagination{
+        color: gray;
+        .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon {
+          color: gray;
+        }
+    }
+  }
+
+  .feedback-table {
+    background-color: #111;
+
+    .tableCell {
+      color: gray;
+    }
+    .pagination{
+      color: gray;
+      .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon {
+        color: gray;
+      }
+  }
   }
 
   .navbar {
@@ -69,6 +89,29 @@
       }
     }
   }
+  .singleContainer{
+    .top {
+      .left {
+        .details {
+
+          .itemTitle {
+            color: rgb(160, 160, 160);
+          }
+          .detailItem {
+          
+            .itemKey {
+              color: rgb(160, 160, 160);
+            }
+
+            .itemValue {
+              color: rgb(160, 160, 160);
+            }
+          }
+        }
+      }
+    }
+  }
+
 
   input {
     background-color: transparent;

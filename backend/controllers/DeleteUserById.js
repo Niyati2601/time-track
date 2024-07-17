@@ -1,8 +1,8 @@
-const userModal = require("../models/User")
+const userModal = require('../models/User');
 
-const GetUserById = async (req, res) => {
+const DeleteUserById = async (req, res) => {
     try {
-        const user = await userModal.findById(req.params.id);
+        const user = await userModal.findByIdAndDelete(req.params.id);
         if (!user) {
             return res.status(404).json({
                 success: false,
@@ -14,7 +14,7 @@ const GetUserById = async (req, res) => {
             success: true,
             error: false,
             data: user,
-            message: "User details"
+            message: "User deleted"
         });
     } catch (error) {
         res.status(500).json({
@@ -25,4 +25,4 @@ const GetUserById = async (req, res) => {
     }
 }
 
-module.exports = GetUserById;
+module.exports = DeleteUserById;

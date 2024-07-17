@@ -6,6 +6,7 @@ import Sidebar from '../../components/sidebar/Sidebar';
 import List from '../../components/table/Table';
 import './Single.scss';
 import apiUrl from '../../api/ApiUrl';
+import FeedbackTable from '../../components/feedbackTable.js/FeedbackTable';
 
 const Single = () => {
   const { id } = useParams();
@@ -63,8 +64,12 @@ const Single = () => {
           </div>
         </div>
         <div className="bottom">
-          <h1 className="title">Last Transactions</h1>
+          <h1 className="title">User Logs</h1>
           <List />
+        </div>
+        <div className="bottom">
+          <h1 className="title">Feedbacks (Given)</h1>
+          <FeedbackTable />
         </div>
       </div>
     </div>

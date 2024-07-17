@@ -20,6 +20,9 @@ const getCustomLogs = require("../controllers/GetCustomLogs");
 const feedbackController = require('../controllers/FeedbackController');
 const getAllUsers = require("../controllers/GetAllUsers");
 const GetUserById = require("../controllers/GetUserById");
+const DeleteUserById = require("../controllers/DeleteUserById");
+const GetUserLogsById = require("../controllers/GetUserLogsById");
+const GetGivenFeedbacksById = require("../controllers/GetGivenFeedbacksById");
 
 router.post("/signup", signup);
 router.post("/login", userLoginController);
@@ -63,5 +66,8 @@ router.get("/getAllUsers", Middleware, getAllUsers);
 
 /* admin routes */
 router.get("/users/:id", Middleware, GetUserById);
+router.delete("/users/:id", Middleware, DeleteUserById);
+router.get("/user-logs/:id", Middleware, GetUserLogsById);
+router.get("/user-given-feedback/:id", Middleware, GetGivenFeedbacksById);
 
 module.exports = router;

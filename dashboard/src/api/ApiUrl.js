@@ -9,5 +9,17 @@ const apiUrl = {
         url: `${backendDomain}/api/users`,
         method: "get",
     },
+    deleteUserById: {
+        url: `${backendDomain}/api/users`,
+        method: "delete",
+    },
+    getLogs: {
+        url: `${backendDomain}/api/user-logs`,
+        method: "get",
+    },
+    getGivenFeedbacks :{
+        url: `${backendDomain}/api/user-given-feedback`,
+        method: "get",
+    }
 };
 export default apiUrl;
