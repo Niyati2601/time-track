@@ -9,35 +9,29 @@ import toast from "react-hot-toast";
 import apiUrl from "../api/Api";
 import { useSelector } from "react-redux";
 import { ClockingContext } from "../context/ClockingContext";
-
 const TimelogEditor = ({ onOpen, onClose }) => {
   const [isPlay, setIsPlaying] = useState(false);
   const [isTagOpen, setIsTagOpen] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
   const [projects, setProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState(""); // Initialize with an empty string or appropriate default value
+  const [selectedProject, setSelectedProject] = useState("");
   const [tags, setTags] = useState([]);
   const [title, setTitle] = useState("");
   const [logId, setLogId] = useState("");
   const [time, setTime] = useState(0);
   const [tickets, setTickets] = useState([]);
   const [selectedTicket, setSelectedTicket] = useState("");
-
   const user = useSelector((state) => state.user);
   const { isClocking } = useContext(ClockingContext);
-
   const dropdownRef = useRef(null);
-
   const handleTagOpen = () => {
     setIsTagOpen(!isTagOpen);
   };
-
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsTagOpen(false);
     }
   };
-
   useEffect(() => {
     if (isTagOpen) {
       document.addEventListener("mousedown", handleClickOutside);
@@ -48,7 +42,6 @@ const TimelogEditor = ({ onOpen, onClose }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isTagOpen]);
-
   const handleTagChange = (tag) => {
     setSelectedTags((prevTags) =>
       prevTags.includes(tag)
@@ -56,11 +49,9 @@ const TimelogEditor = ({ onOpen, onClose }) => {
         : [...prevTags, tag]
     );
   };
-
   const handleRemoveTag = (tag) => {
     setSelectedTags(selectedTags.filter((t) => t !== tag));
   };
-
   const handleSubmit = async () => {
     try {
       if (!projects || !title || !selectedTags.length) {
@@ -86,22 +77,22 @@ const TimelogEditor = ({ onOpen, onClose }) => {
       if (data.success) {
         toast.success(data.message);
       } else {
-        // toast.error(data.message);
         console.error(data.message);
       }
+      localStorage.setItem(
+        "timerState",
+        JSON.stringify({
+          isPlay: true,
+          startTime: Date.now(),
+          logId: data.data._id,
+        })
+      );
     } catch (error) {
-      // toast.error(error.message);
       console.error(error);
     }
   };
-
   const handleEndTimeApi = async () => {
     try {
-      console.log("Request payload:", {
-        _id: logId,
-        endTIme: new Date().toISOString(),
-      });
-
       const res = await fetch(apiUrl.updateEndTime.url, {
         method: apiUrl.updateEndTime.method,
         credentials: "include",
@@ -113,12 +104,12 @@ const TimelogEditor = ({ onOpen, onClose }) => {
           endTIme: new Date().toISOString(),
         }),
       });
-
       const data = await res.json();
-
       if (res.status === 200) {
         setIsPlaying(false);
         toast.success(data.message);
+        localStorage.removeItem("timerState");
+        localStorage.removeItem("editorState");
       } else {
         console.log(data.message || "An error occurred");
       }
@@ -126,20 +117,21 @@ const TimelogEditor = ({ onOpen, onClose }) => {
       toast.error(error.message || "An unexpected error occurred");
     }
   };
-
   useEffect(() => {
     if (!isClocking) {
       handleEndTimeApi();
     }
   }, [isClocking]);
-
   const formatTime = (seconds) => {
-    const h = Math.floor(seconds / 3600).toString().padStart(2, "0");
-    const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, "0");
+    const h = Math.floor(seconds / 3600)
+      .toString()
+      .padStart(2, "0");
+    const m = Math.floor((seconds % 3600) / 60)
+      .toString()
+      .padStart(2, "0");
     const s = (seconds % 60).toString().padStart(2, "0");
     return `${h}:${m}:${s}`;
   };
-
   useEffect(() => {
     let interval = null;
     if (isPlay) {
@@ -151,13 +143,40 @@ const TimelogEditor = ({ onOpen, onClose }) => {
     }
     return () => clearInterval(interval);
   }, [isPlay, time]);
-
   useEffect(() => {
     fetchProjects();
     fetchTags();
     fetchTickets();
   }, []);
-
+  useEffect(() => {
+    const timerState = JSON.parse(localStorage.getItem("timerState"));
+    const editorState = JSON.parse(localStorage.getItem("editorState"));
+    if (timerState && timerState.isPlay) {
+      setIsPlaying(true);
+      setLogId(timerState.logId);
+      const elapsedTime = Math.floor(
+        (Date.now() - timerState.startTime) / 1000
+      );
+      setTime(elapsedTime);
+    }
+    if (editorState) {
+      setSelectedProject(editorState.selectedProject);
+      setSelectedTicket(editorState.selectedTicket);
+      setTitle(editorState.title);
+      setSelectedTags(editorState.selectedTags);
+    }
+  }, []);
+  useEffect(() => {
+    localStorage.setItem(
+      "editorState",
+      JSON.stringify({
+        selectedProject,
+        selectedTicket,
+        title,
+        selectedTags,
+      })
+    );
+  }, [selectedProject, selectedTicket, title, selectedTags]);
   const fetchProjects = async () => {
     try {
       const res = await fetch(apiUrl.getProjects.url, {
@@ -177,7 +196,6 @@ const TimelogEditor = ({ onOpen, onClose }) => {
       toast.error(error.message);
     }
   };
-
   const fetchTags = async () => {
     try {
       const res = await fetch(apiUrl.getTags.url, {
@@ -197,7 +215,6 @@ const TimelogEditor = ({ onOpen, onClose }) => {
       toast.error(error.message);
     }
   };
-
   const fetchTickets = async () => {
     try {
       const res = await fetch(apiUrl.getTickets.url, {
@@ -217,7 +234,6 @@ const TimelogEditor = ({ onOpen, onClose }) => {
       toast.error(error.message);
     }
   };
-
   return (
     onOpen &&
     isClocking && (
@@ -257,7 +273,6 @@ const TimelogEditor = ({ onOpen, onClose }) => {
             <span className="text-white ml-2">Manual</span>
           </div>
         </div>
-
         <div className="flex justify-between mb-2 mt-8">
           <select
            value={selectedProject}
@@ -281,7 +296,6 @@ const TimelogEditor = ({ onOpen, onClose }) => {
             ) : (
               <option disabled>No projects found</option>
             )}
-
           </select>
           <select
             value={selectedTicket}
@@ -349,7 +363,6 @@ const TimelogEditor = ({ onOpen, onClose }) => {
                 />
               )}
             </div>
-
             <div className="relative p-2 border border-dashed rounded-full">
               <FiTag
                 className="text-xl text-white cursor-pointer"
@@ -383,5 +396,4 @@ const TimelogEditor = ({ onOpen, onClose }) => {
     )
   );
 };
-
 export default TimelogEditor;

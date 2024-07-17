@@ -29,9 +29,10 @@ const List = () => {
       });
       const data = await response.json();
       console.log('data: ', data);
-      setData(data.data);
+      setData(data?.data); // Ensure that data is an array
     } catch (error) {
       console.error('Failed to fetch logs:', error);
+      setData([]); // Set data to an empty array on error
     }
   };
 

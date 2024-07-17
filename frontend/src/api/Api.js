@@ -101,5 +101,9 @@ const apiUrl = {
     url: `${backendDomain}/api/getAllUsers`,
     method: "get",
   },
+  receivedFeedbacks: {
+    url: `${backendDomain}/api/receivedFeedbacks`,
+    method: "get",
+  },
 };
 export default apiUrl

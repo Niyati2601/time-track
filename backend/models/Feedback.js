@@ -25,6 +25,12 @@ const FeedbackSchema = new mongoose.Schema({
       return this.type === "personal";
     },
   },
+  employeeId: {
+    type: String,
+    required: function () {
+      return this.type === "personal";
+    },
+  },
   description: {
     type: String,
     required: true,
