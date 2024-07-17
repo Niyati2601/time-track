@@ -19,6 +19,7 @@ const monthLogs = require("../controllers/monthLogs");
 const getCustomLogs = require("../controllers/GetCustomLogs");
 const feedbackController = require('../controllers/FeedbackController');
 const getAllUsers = require("../controllers/GetAllUsers");
+const GetUserById = require("../controllers/GetUserById");
 
 router.post("/signup", signup);
 router.post("/login", userLoginController);
@@ -59,5 +60,8 @@ router.post('/feedback',Middleware, feedbackController.createFeedback);
 router.get('/getFeedback',Middleware, feedbackController.getAllFeedbacks);
 
 router.get("/getAllUsers", Middleware, getAllUsers);
+
+/* admin routes */
+router.get("/users/:id", Middleware, GetUserById);
 
 module.exports = router;

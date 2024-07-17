@@ -1,9 +1,13 @@
 const backendDomain = "http://localhost:8000";
 
 const apiUrl = {
-    getAllLogs: {
-        url: `${backendDomain}/api/getAllLogs`,
+    getAllUsers: {
+        url: `${backendDomain}/api/getAllUsers`,
         method: "get",
       },
+    getUserById: {
+        url: `${backendDomain}/api/users`,
+        method: "get",
+    },
 };
 export default apiUrl;

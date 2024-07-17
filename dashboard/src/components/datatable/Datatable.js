@@ -1,20 +1,35 @@
 import './Datatable.scss';
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { userColumns, userRows } from '../../DataSource';
+import { userColumns } from '../../DataSource';
 import {Link} from 'react-router-dom';
+import apiUrl from '../../api/ApiUrl';
 
 
 
 export default function DataTable() {
+    const [users, setUsers] = React.useState([]);
+    const fetchUsers = async() => {
+        const res = await fetch(apiUrl.getAllUsers.url, {
+            method: apiUrl.getAllUsers.method,
+            credentials: "include",
+            headers: {
+              "content-type": "application/json",
+            },
+        })
 
+        const data = await res.json();
+        if (data.success) {
+            setUsers(data.data);
+        }
+    }
+    useEffect(()=> {
+        fetchUsers()
+    },[])
     const actionColumn = [{ field: 'action', headerName: 'Action', width:200, renderCell: ()=> {
         return (
             <div className='cellAction'>
-                <Link to='/users/test' style={{textDecoration: "none"}}>
                 <div className='viewButton'>View</div>
-                </Link>
-
                 <div className='deleteButton'>Delete</div>
             </div>
         )
@@ -29,8 +44,9 @@ export default function DataTable() {
             </div>
             <DataGrid
                 className='datagrid'
-                rows={userRows}
+                rows={users}
                 columns={userColumns.concat(actionColumn)}
+                getRowId={(row) => row._id}
                 initialState={{
                     pagination: {
                         paginationModel: { page: 0, pageSize: 9 },
