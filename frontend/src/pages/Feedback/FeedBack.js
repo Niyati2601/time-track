@@ -33,12 +33,12 @@ const FeedBack = () => {
         description,
         isAnonymous,
         rating,
-        employeeId: empId,
+        // employeeId: empId,
       };
       if (feedbackType === "personal") {
-        feedbackData.projectName = projectName;
+        // feedbackData.projectName = projectName;
         feedbackData.employee = employee;
-        // feedbackData.employeeId = empId;
+        feedbackData.employeeId = empId;
       }
       const response = await fetch(apiUrl.feedback.url, {
         method: apiUrl.feedback.method,
