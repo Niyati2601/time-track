@@ -7,6 +7,7 @@ import List from '../../components/table/Table';
 import './Single.scss';
 import apiUrl from '../../api/ApiUrl';
 import FeedbackTable from '../../components/feedbackTable.js/FeedbackTable';
+import ReceivedFeedbackTable from '../../components/feedbackTable.js/ReceivedFeedbackTable';
 
 const Single = () => {
   const { id } = useParams();
@@ -70,6 +71,10 @@ const Single = () => {
         <div className="bottom">
           <h1 className="title">Feedbacks (Given)</h1>
           <FeedbackTable />
+        </div>
+        <div className="bottom">
+          <h1 className="title">Feedbacks (Received)</h1>
+          <ReceivedFeedbackTable />
         </div>
       </div>
     </div>

@@ -20,6 +20,10 @@ const apiUrl = {
     getGivenFeedbacks :{
         url: `${backendDomain}/api/user-given-feedback`,
         method: "get",
-    }
+    },
+    getReceivedFeedbacks :{
+        url: `${backendDomain}/api/user-received-feedback`,
+        method: "get",
+    },
 };
 export default apiUrl;

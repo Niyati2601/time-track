@@ -23,6 +23,7 @@ const GetUserById = require("../controllers/GetUserById");
 const DeleteUserById = require("../controllers/DeleteUserById");
 const GetUserLogsById = require("../controllers/GetUserLogsById");
 const GetGivenFeedbacksById = require("../controllers/GetGivenFeedbacksById");
+const GetReceivedFeedbacksById = require("../controllers/GetReceivedFeedbacksById");
 
 router.post("/signup", signup);
 router.post("/login", userLoginController);
@@ -70,5 +71,6 @@ router.get("/users/:id", Middleware, GetUserById);
 router.delete("/users/:id", Middleware, DeleteUserById);
 router.get("/user-logs/:id", Middleware, GetUserLogsById);
 router.get("/user-given-feedback/:id", Middleware, GetGivenFeedbacksById);
+router.get("/user-received-feedback/:id", Middleware, GetReceivedFeedbacksById);
 
 module.exports = router;

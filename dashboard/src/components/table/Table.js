@@ -29,7 +29,7 @@ const List = () => {
       });
       const data = await response.json();
       console.log('data: ', data);
-      setData(data?.data); // Ensure that data is an array
+      setData(data?.data || []); // Ensure that data is an array
     } catch (error) {
       console.error('Failed to fetch logs:', error);
       setData([]); // Set data to an empty array on error
@@ -82,7 +82,7 @@ const List = () => {
               <TableCell className="tableCell">{log.tags}</TableCell>
               <TableCell className="tableCell">{log.projects}</TableCell>
               <TableCell className="tableCell">
-                {formatTime(log.startTime)} - {formatTime(log.endTime)}
+                {formatTime(log.startTIme)} - {formatTime(log.endTIme)}
               </TableCell>
               <TableCell className="tableCell">{log.duration}</TableCell>
               <TableCell className="tableCell">

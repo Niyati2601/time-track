@@ -15,7 +15,7 @@ import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 
-const FeedbackTable = () => {
+const ReceivedFeedbackTable = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
@@ -23,15 +23,16 @@ const FeedbackTable = () => {
 
   const handleFeedbacks = async () => {
     try {
-      const response = await fetch(`${apiUrl.getGivenFeedbacks.url}/${id}`, {
-        method: apiUrl.getGivenFeedbacks.method,
+      const response = await fetch(`${apiUrl.getReceivedFeedbacks.url}/${id}`, {
+        method: apiUrl.getReceivedFeedbacks.method,
         credentials: "include",
         headers: {
           "content-type": "application/json",
         },
       });
       const data = await response.json();
-      setData(data.data);
+      console.log('data: ', data);
+      setData(data.data || []);
     } catch (error) {
       console.error('Failed to fetch feedbacks:', error);
     }
@@ -59,7 +60,8 @@ const FeedbackTable = () => {
             <TableCell className="tableCell">Type</TableCell>
             <TableCell className="tableCell">Description</TableCell>
             <TableCell className="tableCell">isAnonymous</TableCell>
-            <TableCell className="tableCell">Employee</TableCell>
+            <TableCell className="tableCell">Sender</TableCell>
+            <TableCell className="tableCell">Sender Id</TableCell>
             <TableCell className="tableCell">Rating</TableCell>
             <TableCell className="tableCell">Created At</TableCell>
           </TableRow>
@@ -74,7 +76,8 @@ const FeedbackTable = () => {
               <TableCell className="tableCell">{feedback.type}</TableCell>
               <TableCell className="tableCell">{feedback.description}</TableCell>
               <TableCell className="tableCell">{feedback.isAnonymous ? "True" : "False"}</TableCell>
-              <TableCell className="tableCell">{feedback.employee ? feedback.employee : "-"}</TableCell>
+              <TableCell className="tableCell">{feedback.username ? feedback.username : "-"}</TableCell>
+              <TableCell className="tableCell">{feedback.user ? feedback.user : "-"}</TableCell>
               <TableCell className="tableCell">
                 <Rating
                   value={feedback.rating}
@@ -103,4 +106,4 @@ const FeedbackTable = () => {
   );
 };
 
-export default FeedbackTable;
+export default ReceivedFeedbackTable;
