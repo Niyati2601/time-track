@@ -3,6 +3,8 @@ const userModal = require("../models/User")
 const GetUserById = async (req, res) => {
     try {
         const user = await userModal.findById(req.params.id);
+        console.log("req.params.Id:",req.params.id)
+        console.log("userId:",req.userId)
         if (!user) {
             return res.status(404).json({
                 success: false,
