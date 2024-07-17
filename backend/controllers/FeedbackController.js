@@ -4,7 +4,7 @@ const Feedback = require("../models/Feedback");
 // Create new feedback
 const createFeedback = async (req, res) => {
   try {
-    const { type, description, rating, isAnonymous } = req.body;
+    const { type, description, rating, isAnonymous,username } = req.body;
     const user = req.userId;
     if (!user) {
       return res.status(400).json({
@@ -12,7 +12,7 @@ const createFeedback = async (req, res) => {
         success: false,
         error: true,
       });
-    } else if (!type || !description || !rating) {
+    } else if (!type || !description || !rating||!username) {
       return res.status(400).json({
         message: "All fields are required",
         success: false,
@@ -28,6 +28,7 @@ const createFeedback = async (req, res) => {
           isAnonymous,
           projectName: req.body.projectName,
           employee: req.body.employee,
+          username
         });
         await feedback.save();
         res.status(201).json({

@@ -31,6 +31,7 @@ const FeedBack = () => {
     try {
       const feedbackData = {
         user: user.user._id,
+        username: user.user.username,
         type: feedbackType,
         description,
         isAnonymous,
@@ -114,7 +115,7 @@ const FeedBack = () => {
         <ul className="flex flex-wrap -mb-px">
           <li className="mr-2">
             <a
-              href="#"
+              href="/feedback"
               onClick={() => handleTabClick("send")}
               className={`inline-block p-4 border-b-4 rounded-t-lg ${
                 activeTab === "send"
@@ -226,7 +227,7 @@ const FeedBack = () => {
                     <option value="">Select Employee</option>
                     {Array.isArray(employees) && employees.length > 0 ? (
                       employees.map((employee) => (
-                        <option key={employee._id} value={employee._id}>
+                        <option key={employee._id} value={employee.username}>
                           {employee.username}
                         </option>
                       ))
@@ -324,8 +325,9 @@ const FeedBack = () => {
                       Project Name : {feedback.projectName}
                     </p>
                   ) : null}
+                    {console.log('feedback: ', feedback)}
                   {feedback.employee ? (
-                    <p className="text-md">Employee : {feedback.employee}</p>
+                    <p className="text-md">Employee : {feedback.username}</p>
                   ) : null}
                   <p className=""> Description : {feedback.description}</p>
                 </div>
