@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Chart from '../../components/chart/Chart';
 import Navbar from '../../components/navbar/Navbar';
 import Sidebar from '../../components/sidebar/Sidebar';
@@ -8,9 +8,11 @@ import './Single.scss';
 import apiUrl from '../../api/ApiUrl';
 import FeedbackTable from '../../components/feedbackTable.js/FeedbackTable';
 import ReceivedFeedbackTable from '../../components/feedbackTable.js/ReceivedFeedbackTable';
+import { IoArrowBack } from "react-icons/io5";
 
 const Single = () => {
   const { id } = useParams();
+  const navigate = useNavigate();  // useNavigate hook
   console.log('id: ', id);
   const [user, setUser] = useState(null);
   console.log('user: ', user);
@@ -41,6 +43,10 @@ const Single = () => {
       <Sidebar />
       <div className="singleContainer">
         <Navbar />
+        <button className='back' onClick={() => navigate('/users')}>
+          <IoArrowBack className='icon' />
+          Back
+        </button>
         <div className="top">
           <div className="left">
             <div className="editButton">Edit</div>

@@ -14,6 +14,7 @@ import { TablePagination } from "@mui/material";
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { green } from "@mui/material/colors";
 
 const FeedbackTable = () => {
   const { id } = useParams();
@@ -70,7 +71,7 @@ const FeedbackTable = () => {
             : data
           ).map((feedback) => (
             <TableRow key={feedback._id}>
-              <TableCell className="tableCell">{feedback._id}</TableCell>
+              <TableCell className="tableCell-id">{feedback._id}</TableCell>
               <TableCell className="tableCell">{feedback.type}</TableCell>
               <TableCell className="tableCell">{feedback.description}</TableCell>
               <TableCell className="tableCell">{feedback.isAnonymous ? "True" : "False"}</TableCell>

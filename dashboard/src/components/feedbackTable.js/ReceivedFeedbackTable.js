@@ -72,7 +72,7 @@ const ReceivedFeedbackTable = () => {
             : data
           ).map((feedback) => (
             <TableRow key={feedback._id}>
-              <TableCell className="tableCell">{feedback._id}</TableCell>
+              <TableCell className="tableCell-id">{feedback._id}</TableCell>
               <TableCell className="tableCell">{feedback.type}</TableCell>
               <TableCell className="tableCell">{feedback.description}</TableCell>
               <TableCell className="tableCell">{feedback.isAnonymous ? "True" : "False"}</TableCell>

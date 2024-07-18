@@ -77,7 +77,7 @@ const List = () => {
             : data
           ).map((log) => (
             <TableRow key={log._id}>
-              <TableCell className="tableCell">{log._id}</TableCell>
+              <TableCell className="tableCell-id">{log._id}</TableCell>
               <TableCell className="tableCell">{log.title}</TableCell>
               <TableCell className="tableCell">{log.tags}</TableCell>
               <TableCell className="tableCell">{log.projects}</TableCell>
