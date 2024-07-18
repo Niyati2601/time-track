@@ -328,7 +328,7 @@ const FeedBack = () => {
                   ) : null}
                   {console.log('feedback: ', feedback)}
                   {feedback.employee ? (
-                    <p className="text-md">Employee : {feedback.username}</p>
+                    <p className="text-md">Employee : {feedback.employee}</p>
                   ) : null}
                   <p className=""> Description : {feedback.description}</p>
                 </div>

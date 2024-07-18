@@ -3,9 +3,37 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
+import apiUrl from "../../api/ApiUrl";
 
 const New = ({ inputs, title }) => {
   const [file, setFile] = useState("");
+  const [data, setData] = useState({});
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(apiUrl.signUp.url, {
+        method: apiUrl.signUp.method,
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          username: data.username,
+          email: data.email,
+          password: data.password,
+          profilePhoto: data.profilePhoto,
+        }),
+      });
+      const dataApi = await res.json();
+      if (dataApi.success) {
+        console.log("dataApi: ", dataApi);
+      } else {
+        console.log("error: ", dataApi);
+      }
+    } catch (error) {
+      console.error("error: ", error);
+    }
+  };
 
   return (
     <div className="new">
@@ -27,7 +55,7 @@ const New = ({ inputs, title }) => {
             />
           </div>
           <div className="right">
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="formInput">
                 <label htmlFor="file">
                   Image: <DriveFolderUploadOutlinedIcon className="icon" />

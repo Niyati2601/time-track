@@ -4,40 +4,20 @@ export const userInputs = [
     label: "Username",
     type: "text",
     placeholder: "john_doe",
+    value: "",
   },
   {
     id: "2",
     label: "Email",
     type: "mail",
     placeholder: "XW8QH@example.com",
+    value: "",
   },
   {
     id: "3",
     label: "Password",
     type: "password",
-  },
-  {
-    id: "4",
-    label: "Address",
-    type: "text",
-    placeholder: "Elton St. 216 NewYork",
-  },
-  {
-    id: "5",
-    label: "Country",
-    type: "text",
-    placeholder: "USA",
-  },
-  {
-    id: "6",
-    label: "City",
-    type: "text",
-    placeholder: "USA",
-  },
-  {
-    id: "7",
-    label: "Phone",
-    type: "text",
+    value: "",
   },
   
 ];
