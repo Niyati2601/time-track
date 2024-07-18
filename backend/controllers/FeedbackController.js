@@ -3,8 +3,7 @@ const Feedback = require("../models/Feedback");
 // Create new feedback
 const createFeedback = async (req, res) => {
   try {
-    const { type, description, rating, isAnonymous, username } =
-      req.body;
+    const { type, description, rating, isAnonymous, username } = req.body;
     const user = req.userId;
     if (!user) {
       return res.status(400).json({
