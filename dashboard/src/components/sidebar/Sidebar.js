@@ -1,7 +1,7 @@
 import './Sidebar.scss';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import StorefrontIcon from '@mui/icons-material/Storefront';
+import GridViewIcon from '@mui/icons-material/GridView';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import InsightsIcon from '@mui/icons-material/Insights';
@@ -40,8 +40,8 @@ const Sidebar = () => {
                     </Link>
                     <Link to="/products" style={{ textDecoration: "none" }}>
                     <li>
-                        <StorefrontIcon className='icon' />
-                        <span>Products</span>
+                        <GridViewIcon className='icon' />
+                        <span>Projects</span>
                     </li>
                     </Link>
                     <li>

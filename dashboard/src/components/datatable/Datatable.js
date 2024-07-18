@@ -72,8 +72,7 @@ export default function DataTable() {
 
     return (
         <div className='datatable'>
-            <div className="datatableTitle">
-                Add New User
+            <div className="datatableTitle"> Users
                 <Link to="/users/new" className="link">
                     Add New
                 </Link>
@@ -89,8 +88,8 @@ export default function DataTable() {
                     },
                 }}
                 pageSize={5}
-                pageSizeOptions={[5, 10]} 
-                rowsPerPageOptions={[5, 10]}
+                pageSizeOptions={[5, 10, 25]} 
+                rowsPerPageOptions={[5, 10, 25]}
                 checkboxSelection
             />
         </div>

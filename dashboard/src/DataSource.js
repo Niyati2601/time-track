@@ -1,5 +1,6 @@
 import moment from 'moment'
 import { Link } from 'react-router-dom';
+import defaultImage from './assests/defaultImage.jpg';
 export const userColumns = [
     {
         field: 'id', headerName: 'ID', width: 250,
@@ -23,7 +24,7 @@ export const userColumns = [
         renderCell: (params) => {
             return (
                 <div className='cellWithImg'>
-                    <img className='cellImg' src={params.row.profilePhoto} alt='avatar' />
+                    <img className='cellImg' src={params.row.profilePhoto ? params.row.profilePhoto : defaultImage} alt='avatar' />
                     {params.row.username}
                 </div>
             );

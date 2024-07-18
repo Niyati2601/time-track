@@ -9,6 +9,7 @@ import apiUrl from '../../api/ApiUrl';
 import FeedbackTable from '../../components/feedbackTable.js/FeedbackTable';
 import ReceivedFeedbackTable from '../../components/feedbackTable.js/ReceivedFeedbackTable';
 import { IoArrowBack } from "react-icons/io5";
+import defaultImage from '../../assests/defaultImage.jpg';
 
 const Single = () => {
   const { id } = useParams();
@@ -52,7 +53,7 @@ const Single = () => {
             <div className="editButton">Edit</div>
             <h1 className="title">Information</h1>
             <div className="item">
-              <img src={user?.profilePhoto} alt="" className="itemImg" />
+              <img src={user?.profilePhoto ? user?.profilePhoto : defaultImage} alt="" className="itemImg" />
               <div className="details">
                 <h1 className="itemTitle">{user?.username}</h1>
                 <div className="detailItem">
