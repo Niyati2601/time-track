@@ -289,10 +289,11 @@ const TimelogEditor = ({ onOpen, onClose }) => {
             {Array.isArray(projects) && projects.length > 0 ? (
               projects.map((project) => {
                 return (
-                <option key={project._id} value={project.name}>
-                  {project.name}
-                </option>
-              )})
+                  <option key={project._id} value={project.name}>
+                    {project.name}
+                  </option>
+                );
+              })
             ) : (
               <option disabled>No projects found</option>
             )}
@@ -375,18 +376,19 @@ const TimelogEditor = ({ onOpen, onClose }) => {
               )}
               {isTagOpen && !isPlay && (
                 <div className="z-10 divide-y divide-gray-100 rounded-lg shadow w-48 bg-[#fff] dark:divide-gray-600 absolute right-0 bottom-14 text-gray-600">
-                  {tags && tags.map((tag) => (
-                    <div key={tag._id} className="p-2 text-sm">
-                      <input
-                        className="mr-2"
-                        type="checkbox"
-                        id={tag.name}
-                        checked={selectedTags.includes(tag.name)}
-                        onChange={() => handleTagChange(tag.name)}
-                      />
-                      <span>{tag.name}</span>
-                    </div>
-                  ))}
+                  {tags &&
+                    tags.map((tag) => (
+                      <div key={tag._id} className="p-2 text-sm">
+                        <input
+                          className="mr-2"
+                          type="checkbox"
+                          id={tag.name}
+                          checked={selectedTags.includes(tag.name)}
+                          onChange={() => handleTagChange(tag.name)}
+                        />
+                        <span>{tag.name}</span>
+                      </div>
+                    ))}
                 </div>
               )}
             </div>

@@ -3,8 +3,7 @@ const Feedback = require("../models/Feedback");
 // Create new feedback
 const createFeedback = async (req, res) => {
   try {
-    const { type, description, rating, isAnonymous, username } =
-      req.body;
+    const { type, description, rating, isAnonymous, username } = req.body;
     const user = req.userId;
     if (!user) {
       return res.status(400).json({
@@ -83,7 +82,9 @@ const getAllFeedbacks = async (req, res) => {
 const receivedFeedbacks = async (req, res) => {
   try {
     const userId = req.userId;
-    const feedbacks = await Feedback.find({ employeeId: userId });
+    const feedbacks = await Feedback.find({
+      $or: [{ employeeId: userId }, { type: "general", user: { $ne: userId } }],
+    });
     if (feedbacks && feedbacks.length > 0) {
       res.status(200).json({
         message: "Feedbacks retrieved successfully",

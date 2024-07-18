@@ -21,7 +21,7 @@ const sidebarItems = [
     text: "Timesheet",
     onClick: "/timesheet",
   },
-  {icon: <VscFeedback />, text: "Feedback", onClick: '/feedback'}
+  { icon: <VscFeedback />, text: "Feedback", onClick: "/feedback" },
 ];
 
 const Sidebar = () => {
@@ -133,12 +133,13 @@ const Sidebar = () => {
       onMouseLeave={() => setIsExpanded(false)}
     >
       {/* Logo */}
-      <div className="flex items-center my-4 px-4">
+      <div
+        className="flex items-center my-4 px-4 cursor-pointer"
+        onClick={() => navigate("/home")}
+      >
         <img src={logo} alt="Logo" className="w-14 h-14" />
         <span
-          className={`ml-4 text-xl font-semibold ${
-            isExpanded ? "block" : "hidden"
-          }`}
+          className={`ml-4 text-xl font-semibold ${isExpanded ? "block" : "hidden"}`}
         >
           TimeTrack
         </span>
