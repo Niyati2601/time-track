@@ -25,5 +25,9 @@ const apiUrl = {
         url: `${backendDomain}/api/user-received-feedback`,
         method: "get",
     },
+    signUp: {
+        url: `${backendDomain}/api/signup`,
+        method: "post",
+    }
 };
 export default apiUrl;

@@ -77,4 +77,61 @@
         cursor: pointer;
       }
     }
+    .datatableContainer{
+    
+
+    .delete-modal {
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    .delete-modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+    }
+  
+    .modal-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+  
+    .modal-text {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+  
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+  
+    .delete-button {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  
+    .cancel-button {
+      background-color: gray;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   }
+    
+    
+  }
+
+  //delete modal style
+  
