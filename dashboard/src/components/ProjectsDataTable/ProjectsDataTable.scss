@@ -1,0 +1,177 @@
+/* ProjectsDataTable.scss */
+
+.datatable {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  .datatableTitle {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .link {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1rem;
+    margin-left: 10px;
+  }
+  
+  .datatableContainer {
+    margin-top: 20px;
+  }
+  
+  .datagrid {
+    height: 300px; /* Adjust height as needed */
+  }
+  
+  .add-project-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .add-project-modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+  }
+  
+  .modal-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  input[type="text"],
+  select {
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 5px;
+  }
+  
+  .dropdown {
+    position: relative;
+  }
+  
+  .dropdown-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .dropdown-list {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 1;
+    width: 100%;
+    max-height: 200px; /* Adjust max height as needed */
+    overflow-y: auto;
+  }
+  
+  .dropdown-option {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1rem;
+  }
+  
+  .dropdown-option a {
+    color: #007bff;
+    cursor: pointer;
+  }
+  
+  .dropdown-option input[type="checkbox"] {
+    margin-right: 8px;
+  }
+  
+  .modal-buttons {
+    margin-top: 20px;
+  }
+  
+  .submit-button,
+  .cancel-button {
+    padding: 8px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  .submit-button {
+    background-color: #28a745;
+    color: #fff;
+  }
+  
+  .cancel-button {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  
+  .delete-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .delete-modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+  }
+  
+  .delete-modal-content .modal-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .cellAction {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .viewButton,
+  .deleteButton {
+    cursor: pointer;
+  }
+  
+  .viewButton:hover,
+  .deleteButton:hover {
+    color: #007bff;
+  }
+  

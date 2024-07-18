@@ -38,7 +38,7 @@ const Sidebar = () => {
                         <span>Users</span>
                     </li>
                     </Link>
-                    <Link to="/products" style={{ textDecoration: "none" }}>
+                    <Link to="/projects" style={{ textDecoration: "none" }}>
                     <li>
                         <GridViewIcon className='icon' />
                         <span>Projects</span>

@@ -24,6 +24,7 @@ const DeleteUserById = require("../controllers/DeleteUserById");
 const GetUserLogsById = require("../controllers/GetUserLogsById");
 const GetGivenFeedbacksById = require("../controllers/GetGivenFeedbacksById");
 const GetReceivedFeedbacksById = require("../controllers/GetReceivedFeedbacksById");
+const projectController = require('../controllers/ProjectController');
 
 router.post("/signup", signup);
 router.post("/login", userLoginController);
@@ -72,5 +73,20 @@ router.delete("/users/:id", Middleware, DeleteUserById);
 router.get("/user-logs/:id", Middleware, GetUserLogsById);
 router.get("/user-given-feedback/:id", Middleware, GetGivenFeedbacksById);
 router.get("/user-received-feedback/:id", Middleware, GetReceivedFeedbacksById);
+// Route to get all projects
+router.get('/get-projects', projectController.getAllProjects);
+
+// Route to get a single project by ID
+router.get('/get-projects/:id', projectController.getProjectById);
+
+// Route to create a new project
+router.post('/add-project', projectController.createProject);
+
+// Route to update a project by ID
+router.put('/update-project/:id', projectController.updateProject);
+
+// Route to delete a project by ID
+router.delete('/delete-project/:id', projectController.deleteProject)
+
 
 module.exports = router;

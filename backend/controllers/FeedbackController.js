@@ -83,7 +83,12 @@ const getAllFeedbacks = async (req, res) => {
 const receivedFeedbacks = async (req, res) => {
   try {
     const userId = req.userId;
-    const feedbacks = await Feedback.find({ employeeId: userId });
+    const feedbacks = await Feedback.find({
+      $or: [
+        { employeeId: userId },
+        { type: "general", user: { $ne: userId } }
+      ]
+    });
     if (feedbacks && feedbacks.length > 0) {
       res.status(200).json({
         message: "Feedbacks retrieved successfully",

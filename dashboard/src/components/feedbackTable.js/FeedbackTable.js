@@ -32,7 +32,7 @@ const FeedbackTable = () => {
         },
       });
       const data = await response.json();
-      setData(data.data);
+      setData(data.data || []);
     } catch (error) {
       console.error('Failed to fetch feedbacks:', error);
     }
@@ -75,7 +75,7 @@ const FeedbackTable = () => {
               <TableCell className="tableCell">{feedback.type}</TableCell>
               <TableCell className="tableCell">{feedback.description}</TableCell>
               <TableCell className="tableCell">{feedback.isAnonymous ? "True" : "False"}</TableCell>
-              <TableCell className="tableCell">{feedback.employee ? feedback.employee : "-"}</TableCell>
+              <TableCell className="tableCell">{feedback.isAnonymous === true ? "Anonymous" : feedback.employee ? feedback.employee : "All"}</TableCell>
               <TableCell className="tableCell">
                 <Rating
                   value={feedback.rating}

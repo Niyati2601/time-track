@@ -76,8 +76,8 @@ const ReceivedFeedbackTable = () => {
               <TableCell className="tableCell">{feedback.type}</TableCell>
               <TableCell className="tableCell">{feedback.description}</TableCell>
               <TableCell className="tableCell">{feedback.isAnonymous ? "True" : "False"}</TableCell>
-              <TableCell className="tableCell">{feedback.username ? feedback.username : "-"}</TableCell>
-              <TableCell className="tableCell">{feedback.user ? feedback.user : "-"}</TableCell>
+              <TableCell className="tableCell">{feedback.isAnonymous === true ? "Anonymous" : feedback.username ? feedback.username : "-"}</TableCell>
+              <TableCell className="tableCell">{feedback.isAnonymous === true ? "Anonymous" : feedback.user ? feedback.user : "-"}</TableCell>
               <TableCell className="tableCell">
                 <Rating
                   value={feedback.rating}

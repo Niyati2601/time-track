@@ -9,6 +9,7 @@
 
   .table {
     background-color: #111;
+    border: 1px solid gray;
 
     .tableCell {
       color: gray;
@@ -23,6 +24,7 @@
 
   .feedback-table {
     background-color: #111;
+    border: 1px solid gray;
 
     .tableCell {
       color: gray;
@@ -90,10 +92,6 @@
       .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon {
         color: gray;
       }
-
-      .css-14mxsc7-MuiDataGrid-root .MuiDataGrid-container--top [role=row], .css-14mxsc7-MuiDataGrid-root .MuiDataGrid-container--bottom [role=row] {
-        background: #111;
-    }
     }
   }
   .singleContainer {
