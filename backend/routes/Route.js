@@ -44,14 +44,11 @@ router.post("/timelog", Middleware, addLog.addLog);
 router.get("/getlogs", Middleware, getLogs);
 router.get("/getAllLogs", Middleware, getAllLogs);
 router.delete("/delete-log", Middleware, deleteLog);
-router.patch('/edit-log', Middleware, editLog);
-router.patch("/updateEndTime", Middleware, addLog.updateEndTimeInTimeLog);
 
 
 router.get('/weekLogs',Middleware, weekLogs)
 router.get('/monthLogs', Middleware, monthLogs);
 router.post('/getCustomLogs', Middleware, getCustomLogs);
-router.post("/timelog", Middleware, addLog.addLog);
 router.patch("/updateEndTime", Middleware, addLog.updateEndTimeInTimeLog);
 
 router.get("/projects", dataController.getProjects);
