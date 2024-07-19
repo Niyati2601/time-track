@@ -28,27 +28,27 @@ const projectController = require('../controllers/ProjectController');
 
 router.post("/signup", signup);
 router.post("/login", userLoginController);
+router.post("/logout", Middleware, Logout);
+
 
 router.get("/user-details", Middleware, GetUserDetails);
 
 router.put("/edit-profile", Middleware, EditProfile);
+
 // router.post('/clock-in-out', Middleware, ClockInOut);
 router.post("/clockin", Middleware, ClockInOut.clockIn);
 router.post("/clockout", Middleware, ClockInOut.clockOut);
 router.post("/clock-history", Middleware, ClockInOut.clockInAndOut);
 
-router.post("/logout", Middleware, Logout);
 
 router.post("/timelog", Middleware, addLog.addLog);
-
 router.get("/getlogs", Middleware, getLogs);
-
 router.get("/getAllLogs", Middleware, getAllLogs);
-
-router.patch("/updateEndTime", Middleware, addLog.updateEndTimeInTimeLog);
-
 router.delete("/delete-log", Middleware, deleteLog);
 router.patch('/edit-log', Middleware, editLog);
+router.patch("/updateEndTime", Middleware, addLog.updateEndTimeInTimeLog);
+
+
 router.get("/projects", dataController.getProjects);
 router.get("/tags", dataController.getTags);
 router.get("/tickets", dataController.getTickets);
@@ -66,6 +66,12 @@ router.get('/getFeedback',Middleware, feedbackController.getAllFeedbacks);
 router.get('/receivedFeedbacks',Middleware, feedbackController.receivedFeedbacks);
 
 router.get("/getAllUsers", Middleware, getAllUsers);
+router.get('/getProjects', Middleware, projectController.getProjectsByUserId);
+
+
+
+
+
 
 /* admin routes */
 router.get("/users/:id", Middleware, GetUserById);
@@ -73,20 +79,12 @@ router.delete("/users/:id", Middleware, DeleteUserById);
 router.get("/user-logs/:id", Middleware, GetUserLogsById);
 router.get("/user-given-feedback/:id", Middleware, GetGivenFeedbacksById);
 router.get("/user-received-feedback/:id", Middleware, GetReceivedFeedbacksById);
-// Route to get all projects
 router.get('/get-projects', projectController.getAllProjects);
-
-// Route to get a single project by ID
 router.get('/get-projects/:id', projectController.getProjectById);
-
-// Route to create a new project
 router.post('/add-project', projectController.createProject);
-
-// Route to update a project by ID
 router.put('/update-project/:id', projectController.updateProject);
+router.delete('/delete-project/:id', projectController.deleteProject);
 
-// Route to delete a project by ID
-router.delete('/delete-project/:id', projectController.deleteProject)
 
 
 module.exports = router;

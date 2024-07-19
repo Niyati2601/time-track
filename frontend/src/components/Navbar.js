@@ -13,6 +13,7 @@ import apiUrl from "../api/Api";
 import toast from "react-hot-toast";
 import defaultImage from "../assets/defaultImage.jpg";
 import {VscFeedback} from 'react-icons/vsc';
+import { PiSquaresFour } from "react-icons/pi";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -30,6 +31,7 @@ const Navbar = () => {
       "/home": { text: "Dashboard", icon: <IoHomeOutline /> },
       "/clockInOut": { text: "Clock In/Out", icon: <FaRegClock /> },
       "/timesheet": { text: "Timesheet", icon: <IoCalendarClearOutline /> },
+      "/projects": { text: "Projects", icon: <PiSquaresFour /> },
       "/feedback": { text: "Feedback", icon: <VscFeedback /> },
       // Add other paths and their corresponding headers and icons here
     };

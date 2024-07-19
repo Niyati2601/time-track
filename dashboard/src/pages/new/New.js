@@ -4,10 +4,41 @@ import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
 import apiUrl from "../../api/ApiUrl";
+import imageToBase64 from "../../helpers/imageToBase64";
+import { useNavigate } from "react-router-dom";
 
 const New = ({ inputs, title }) => {
+  const navigate = useNavigate();
+
   const [file, setFile] = useState("");
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    profilePhoto: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
+
+  const handleProfilePicture = async (e) => {
+    const files = e.target.files[0];
+    setFile(e.target.files[0]);
+    const picture = await imageToBase64(files);
+    setData((prev) => {
+      return {
+        ...prev,
+        profilePhoto: picture,
+      };
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,16 +48,17 @@ const New = ({ inputs, title }) => {
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify({
-          username: data.username,
-          email: data.email,
-          password: data.password,
-          profilePhoto: data.profilePhoto,
-        }),
+        body: JSON.stringify(data),
       });
       const dataApi = await res.json();
       if (dataApi.success) {
-        console.log("dataApi: ", dataApi);
+        setData({
+          username: "",
+          email: "",
+          password: "",
+          profilePhoto: "",
+        });
+        navigate("/users");
       } else {
         console.log("error: ", dataApi);
       }
@@ -63,15 +95,21 @@ const New = ({ inputs, title }) => {
                 <input
                   type="file"
                   id="file"
-                  onChange={(e) => setFile(e.target.files[0])}
+                  onChange={handleProfilePicture}
                   style={{ display: "none" }}
                 />
               </div>
 
               {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
+                  {console.log("input: ", input)}
                   <label>{input.label}</label>
-                  <input type={input.type} placeholder={input.placeholder} />
+                  <input
+                    name={input.name}
+                    type={input.type}
+                    placeholder={input.placeholder}
+                    onChange={handleChange}
+                  />
                 </div>
               ))}
               <button>Send</button>
