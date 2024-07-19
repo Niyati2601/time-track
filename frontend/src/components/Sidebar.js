@@ -6,6 +6,7 @@ import { MdOutlineTimer } from "react-icons/md";
 import { LuTimerOff } from "react-icons/lu";
 import { IoCalendarClearOutline } from "react-icons/io5";
 import { VscFeedback } from "react-icons/vsc";
+import { HiMiniSquares2X2 } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { ClockingContext } from "../context/ClockingContext";
 import apiUrl from "../api/Api";
@@ -21,6 +22,7 @@ const sidebarItems = [
     text: "Timesheet",
     onClick: "/timesheet",
   },
+  { icon: <HiMiniSquares2X2 />, text: "Projects", onClick: "/projects" },
   { icon: <VscFeedback />, text: "Feedback", onClick: "/feedback" },
 ];
 

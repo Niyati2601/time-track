@@ -28,20 +28,26 @@ const projectController = require('../controllers/ProjectController');
 
 router.post("/signup", signup);
 router.post("/login", userLoginController);
+router.post("/logout", Middleware, Logout);
+
 
 router.get("/user-details", Middleware, GetUserDetails);
 router.put("/edit-profile", Middleware, EditProfile);
+
+// router.post('/clock-in-out', Middleware, ClockInOut);
 router.post("/clockin", Middleware, ClockInOut.clockIn);
 router.post("/clockout", Middleware, ClockInOut.clockOut);
 router.post("/clock-history", Middleware, ClockInOut.clockInAndOut);
 
-router.post("/logout", Middleware, Logout);
 
-
+router.post("/timelog", Middleware, addLog.addLog);
 router.get("/getlogs", Middleware, getLogs);
 router.get("/getAllLogs", Middleware, getAllLogs);
 router.delete("/delete-log", Middleware, deleteLog);
 router.patch('/edit-log', Middleware, editLog);
+router.patch("/updateEndTime", Middleware, addLog.updateEndTimeInTimeLog);
+
+
 router.get('/weekLogs',Middleware, weekLogs)
 router.get('/monthLogs', Middleware, monthLogs);
 router.post('/getCustomLogs', Middleware, getCustomLogs);
@@ -61,6 +67,12 @@ router.get('/getFeedback',Middleware, feedbackController.getAllFeedbacks);
 router.get('/receivedFeedbacks',Middleware, feedbackController.receivedFeedbacks);
 
 router.get("/getAllUsers", Middleware, getAllUsers);
+router.get('/getProjects', Middleware, projectController.getProjectsByUserId);
+
+
+
+
+
 
 /* admin routes */
 router.get("/users/:id", Middleware, GetUserById);

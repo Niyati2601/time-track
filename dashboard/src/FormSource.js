@@ -1,23 +1,23 @@
 export const userInputs = [
   {
     id: "1",
+    name: "username",
     label: "Username",
     type: "text",
     placeholder: "john_doe",
-    value: "",
   },
   {
     id: "2",
+    name: "email",
     label: "Email",
     type: "mail",
     placeholder: "XW8QH@example.com",
-    value: "",
   },
   {
     id: "3",
+    name: "password",
     label: "Password",
     type: "password",
-    value: "",
   },
   
 ];
