@@ -30,25 +30,24 @@ router.post("/signup", signup);
 router.post("/login", userLoginController);
 
 router.get("/user-details", Middleware, GetUserDetails);
-
 router.put("/edit-profile", Middleware, EditProfile);
-// router.post('/clock-in-out', Middleware, ClockInOut);
 router.post("/clockin", Middleware, ClockInOut.clockIn);
 router.post("/clockout", Middleware, ClockInOut.clockOut);
 router.post("/clock-history", Middleware, ClockInOut.clockInAndOut);
 
 router.post("/logout", Middleware, Logout);
 
-router.post("/timelog", Middleware, addLog.addLog);
 
 router.get("/getlogs", Middleware, getLogs);
-
 router.get("/getAllLogs", Middleware, getAllLogs);
-
-router.patch("/updateEndTime", Middleware, addLog.updateEndTimeInTimeLog);
-
 router.delete("/delete-log", Middleware, deleteLog);
 router.patch('/edit-log', Middleware, editLog);
+router.get('/weekLogs',Middleware, weekLogs)
+router.get('/monthLogs', Middleware, monthLogs);
+router.post('/getCustomLogs', Middleware, getCustomLogs);
+router.post("/timelog", Middleware, addLog.addLog);
+router.patch("/updateEndTime", Middleware, addLog.updateEndTimeInTimeLog);
+
 router.get("/projects", dataController.getProjects);
 router.get("/tags", dataController.getTags);
 router.get("/tickets", dataController.getTickets);
@@ -56,10 +55,6 @@ router.get("/tickets", dataController.getTickets);
 router.post('/dayIn',Middleware, DayInOut.postDayIn);
 router.post('/dayOut',Middleware, DayInOut.postDayOut);
 
-router.get('/weekLogs',Middleware, weekLogs)
-router.get('/monthLogs', Middleware, monthLogs);
-
-router.post('/getCustomLogs', Middleware, getCustomLogs);
 
 router.post('/feedback',Middleware, feedbackController.createFeedback);
 router.get('/getFeedback',Middleware, feedbackController.getAllFeedbacks);
@@ -73,20 +68,11 @@ router.delete("/users/:id", Middleware, DeleteUserById);
 router.get("/user-logs/:id", Middleware, GetUserLogsById);
 router.get("/user-given-feedback/:id", Middleware, GetGivenFeedbacksById);
 router.get("/user-received-feedback/:id", Middleware, GetReceivedFeedbacksById);
-// Route to get all projects
 router.get('/get-projects', projectController.getAllProjects);
-
-// Route to get a single project by ID
 router.get('/get-projects/:id', projectController.getProjectById);
-
-// Route to create a new project
 router.post('/add-project', projectController.createProject);
-
-// Route to update a project by ID
 router.put('/update-project/:id', projectController.updateProject);
-
-// Route to delete a project by ID
 router.delete('/delete-project/:id', projectController.deleteProject)
-
+router.get('/get-assignee-by-projectId/:id', projectController.getAssigneesByProjectId)
 
 module.exports = router;

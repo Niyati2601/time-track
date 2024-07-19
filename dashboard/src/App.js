@@ -9,6 +9,8 @@ import { productInputs, userInputs } from './FormSource';
 import './style/dark.scss';
 import { ThemeContext } from './context/ThemeContext';
 import Projects from './pages/projects/Projects';
+import ProjectsSingle from './pages/single/ProjectsSingle';
+
 
 function App() {
   const {darkMode} = useContext(ThemeContext);
@@ -27,7 +29,7 @@ function App() {
         </Route>
         <Route  path="projects">
         <Route index element={<Projects />}   />
-        <Route path=":productId" element={<Single />} />
+        <Route path=":id" element={<ProjectsSingle />} />
         <Route path="new" element={<New inputs={productInputs} title={"Add New Product"} />} />
         </Route>
         <Route path='orders'>

@@ -1,8 +1,5 @@
-// controllers/projectController.js
-
 const Project = require('../models/Projects');
 
-// Get all projects
 exports.getAllProjects = async (req, res) => {
     try {
         const projects = await Project.find().populate('assignees');
@@ -12,7 +9,6 @@ exports.getAllProjects = async (req, res) => {
     }
 };
 
-// Get a single project by ID
 exports.getProjectById = async (req, res) => {
     try {
         const project = await Project.findById(req.params.id).populate('assignees');
@@ -25,7 +21,18 @@ exports.getProjectById = async (req, res) => {
     }
 };
 
-// Create a new project
+exports.getAssigneesByProjectId = async (req, res) => {
+    try {
+        const project = await Project.findById(req.params.id).populate('assignees');
+        if (!project) {
+            return res.status(404).json({ success: false, message: 'Project not found' });
+        }
+        res.status(200).json({ success: true, data: project.assignees });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 exports.createProject = async (req, res) => {
     try {
         const newProject = new Project(req.body);
@@ -36,7 +43,6 @@ exports.createProject = async (req, res) => {
     }
 };
 
-// Update a project by ID
 exports.updateProject = async (req, res) => {
     try {
         const updatedProject = await Project.findByIdAndUpdate(req.params.id, req.body, {
@@ -52,7 +58,6 @@ exports.updateProject = async (req, res) => {
     }
 };
 
-// Delete a project by ID
 exports.deleteProject = async (req, res) => {
     try {
         const deletedProject = await Project.findByIdAndDelete(req.params.id);
@@ -64,3 +69,5 @@ exports.deleteProject = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
+

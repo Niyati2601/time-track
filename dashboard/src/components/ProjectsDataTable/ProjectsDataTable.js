@@ -1,22 +1,46 @@
 import React, { useEffect, useState } from "react";
 import "./ProjectsDataTable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns } from "../../DataSource";
+import { projectColumns } from "../../DataSource";
 import { useNavigate } from "react-router-dom";
 import apiUrl from "../../api/ApiUrl";
 import { VscEye } from "react-icons/vsc";
 import { MdDeleteOutline } from "react-icons/md";
+import Select from 'react-select';
+
+const projectScopeOptions = [
+    { value: 'Web Application', label: 'Web Application' },
+    { value: 'Admin Panel', label: 'Admin Panel' },
+    { value: 'Mobile App Android', label: 'Mobile App Android' },
+    { value: 'Mobile App Ios', label: 'Mobile App Ios' },
+    { value: 'Mobile App Hybrid', label: 'Mobile App Hybrid' }
+];
 
 export default function ProjectsDataTable() {
-    const [users, setUsers] = useState([]);
+    const [projects, setProjects] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-    const [deleteUserId, setDeleteUserId] = useState("");
+    const [deleteProjectId, setDeleteProjectId] = useState("");
     const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
-    const [newProject, setNewProject] = useState({ name: "", type: "common", assignees: [] });
+    const [newProject, setNewProject] = useState({ name: "", type: "general", assignees: [], projectScope: [] });
     const [isAssigneeDropdownOpen, setIsAssigneeDropdownOpen] = useState(false);
 
     const navigate = useNavigate();
+
+    const fetchProjects = async () => {
+        const res = await fetch(apiUrl.getProjects.url, {
+            method: apiUrl.getProjects.method,
+            credentials: "include",
+            headers: {
+                "content-type": "application/json",
+            },
+        });
+
+        const data = await res.json();
+        if (data.success) {
+            setProjects(data.data);
+        }
+    };
 
     const fetchUsers = async () => {
         const res = await fetch(apiUrl.getAllUsers.url, {
@@ -29,12 +53,12 @@ export default function ProjectsDataTable() {
 
         const data = await res.json();
         if (data.success) {
-            setUsers(data.data);
             setAllUsers(data.data);
         }
     };
 
     useEffect(() => {
+        fetchProjects();
         fetchUsers();
     }, []);
 
@@ -44,8 +68,8 @@ export default function ProjectsDataTable() {
 
     const handleDelete = async (id) => {
         try {
-            const response = await fetch(`${apiUrl.deleteUserById.url}/${id}`, {
-                method: apiUrl.deleteUserById.method,
+            const response = await fetch(`${apiUrl.deleteProject.url}/${id}`, {
+                method: apiUrl.deleteProject.method,
                 credentials: "include",
                 headers: {
                     "content-type": "application/json",
@@ -53,11 +77,11 @@ export default function ProjectsDataTable() {
             });
             const data = await response.json();
             if (data.success) {
-                fetchUsers();
+                fetchProjects();
                 setIsDeleteModalOpen(false);
             }
         } catch (error) {
-            console.error("Failed to delete user:", error);
+            console.error("Failed to delete project:", error);
         }
     };
 
@@ -77,17 +101,20 @@ export default function ProjectsDataTable() {
         }));
     };
 
-    const handleAssigneeChange = (e) => {
-        const { value, checked } = e.target;
-        setNewProject((prev) => {
-            const newAssignees = checked
-                ? [...prev.assignees, value]
-                : prev.assignees.filter((assignee) => assignee !== value);
-            return {
-                ...prev,
-                assignees: newAssignees,
-            };
-        });
+    const handleAssigneeChange = (selectedOptions) => {
+        const assignees = selectedOptions ? selectedOptions.map(option => option.value) : [];
+        setNewProject((prev) => ({
+            ...prev,
+            assignees: assignees,
+        }));
+    };
+
+    const handleScopeChange = (selectedOptions) => {
+        const scopes = selectedOptions ? selectedOptions.map(option => option.value) : [];
+        setNewProject((prev) => ({
+            ...prev,
+            projectScope: scopes,
+        }));
     };
 
     const handleAddProjectSubmit = async (e) => {
@@ -103,7 +130,7 @@ export default function ProjectsDataTable() {
             });
             const data = await response.json();
             if (data.success) {
-                fetchUsers();
+                fetchProjects();
                 setIsAddProjectModalOpen(false);
             }
         } catch (error) {
@@ -121,7 +148,7 @@ export default function ProjectsDataTable() {
                     <div className="cellAction">
                         <span
                             className="viewButton"
-                            onClick={() => navigate(`/users/${params.row._id}`)}
+                            onClick={() => navigate(`/projects/${params.row._id}`)}
                         >
                             <VscEye size={24} />
                         </span>
@@ -129,7 +156,7 @@ export default function ProjectsDataTable() {
                             className="deleteButton"
                             onClick={() => {
                                 setIsDeleteModalOpen(true);
-                                setDeleteUserId(params.row._id);
+                                setDeleteProjectId(params.row._id);
                             }}
                         >
                             <MdDeleteOutline size={24} />
@@ -139,6 +166,8 @@ export default function ProjectsDataTable() {
             },
         },
     ];
+
+    const assigneeOptions = allUsers.map(user => ({ value: user._id, label: user.username }));
 
     return (
         <div className="datatable">
@@ -151,8 +180,8 @@ export default function ProjectsDataTable() {
             <div className="datatableContainer">
                 <DataGrid
                     className="datagrid"
-                    rows={users}
-                    columns={userColumns.concat(actionColumn)}
+                    rows={projects}
+                    columns={projectColumns.concat(actionColumn)}
                     getRowId={(row) => row._id}
                     initialState={{
                         pagination: {
@@ -168,11 +197,11 @@ export default function ProjectsDataTable() {
                     <div className="delete-modal-overlay">
                         <div className="delete-modal-content">
                             <h2 className="modal-title">
-                                Are you sure you want to delete this user?
+                                Are you sure you want to delete this project?
                             </h2>
                             <div className="modal-buttons">
                                 <button
-                                    onClick={() => handleDelete(deleteUserId)}
+                                    onClick={() => handleDelete(deleteProjectId)}
                                     className="delete-button"
                                 >
                                     Delete
@@ -213,37 +242,106 @@ export default function ProjectsDataTable() {
                                         <option value="personal">Personal</option>
                                     </select>
                                 </div>
+                                <div className="form-group">
+                                    <label htmlFor="description">Description:</label>
+                                    <textarea
+                                        id="description"
+                                        name="description"
+                                        value={newProject.description}
+                                        onChange={handleProjectInputChange}
+                                        rows="5"
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="projectCode">Project Code:</label>
+                                    <input
+                                        type="text"
+                                        id="projectCode"
+                                        name="projectCode"
+                                        value={newProject.projectCode}
+                                        onChange={handleProjectInputChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="projectScope">Project Scope:</label>
+                                    <Select
+                                        isMulti
+                                        options={projectScopeOptions}
+                                        value={projectScopeOptions.filter(option => newProject.projectScope.includes(option.value))}
+                                        onChange={handleScopeChange}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="estimatedStartDate">Estimated Start Date:</label>
+                                    <input
+                                        type="date"
+                                        id="estimatedStartDate"
+                                        name="estimatedStartDate"
+                                        value={newProject.estimatedStartDate}
+                                        onChange={handleProjectInputChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="estimatedEndDate">Estimated End Date:</label>
+                                    <input
+                                        type="date"
+                                        id="estimatedEndDate"
+                                        name="estimatedEndDate"
+                                        value={newProject.estimatedEndDate}
+                                        onChange={handleProjectInputChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="actualStartDate">Actual Start Date:</label>
+                                    <input
+                                        type="date"
+                                        id="actualStartDate"
+                                        name="actualStartDate"
+                                        value={newProject.actualStartDate}
+                                        onChange={handleProjectInputChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="actualEndDate">Actual End Date:</label>
+                                    <input
+                                        type="date"
+                                        id="actualEndDate"
+                                        name="actualEndDate"
+                                        value={newProject.actualEndDate}
+                                        onChange={handleProjectInputChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="projectStatus">Project Status:</label>
+                                    <select
+                                        id="projectStatus"
+                                        name="projectStatus"
+                                        value={newProject.projectStatus}
+                                        onChange={handleProjectInputChange}
+                                        required
+                                    >
+                                        <option value="in_progress">In Progress</option>
+                                        <option value="in_planning">In Planning</option>
+                                        <option value="in_support">Support</option>
+                                        <option value="on_hold">On Hold</option>
+                                        <option value="completed">Completed</option>
+                                    </select>
+                                </div>
                                 {newProject.type === "personal" && (
                                     <div className="form-group">
                                         <label htmlFor="assignees">Assignees:</label>
-                                        <div className="dropdown">
-                                            <select
-                                                type="assignees"
-                                                onClick={() => setIsAssigneeDropdownOpen(!isAssigneeDropdownOpen)}
-                                                className="dropdown-toggle"
-                                                value={newProject.assignees}
-                                                id="assignees"
-                                                name="assignees"
-                                            >
-                                            </select>
-                                                
-                                            {isAssigneeDropdownOpen && (
-                                                <div className="dropdown-list">
-                                                    {allUsers.map((user) => (
-                                                        <label key={user._id} className="dropdown-option">
-                                                            <input
-                                                                type="checkbox"
-                                                                name="dropdown-group"
-                                                                value={user._id}
-                                                                checked={newProject.assignees.includes(user._id)}
-                                                                onChange={handleAssigneeChange}
-                                                            />
-                                                           {user.username}
-                                                        </label>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
+                                        <Select
+                                            isMulti
+                                            options={assigneeOptions}
+                                            value={assigneeOptions.filter(option => newProject.assignees.includes(option.value))}
+                                            onChange={handleAssigneeChange}
+                                        />
                                     </div>
                                 )}
                                 <div className="modal-buttons">

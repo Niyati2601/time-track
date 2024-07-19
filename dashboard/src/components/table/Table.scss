@@ -17,12 +17,13 @@
     .cellWrapper {
       display: flex;
       align-items: center;
+      justify-content: center;
   
       .image {
-        width: 32px;
-        height: 32px;
+        width: 46px;
+        height: 46px;
         border-radius: 50%;
-        margin-right: 10px;
+        margin-right: 20px;
         object-fit: cover;
       }
     }

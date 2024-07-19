@@ -28,6 +28,30 @@ const apiUrl = {
     signUp: {
         url: `${backendDomain}/api/signup`,
         method: "post",
+    },
+    addProject : {
+        url: `${backendDomain}/api/add-project`,
+        method: "post",
+    },
+    getProjects : {
+        url: `${backendDomain}/api/get-projects`,
+        method: "get",
+    },
+    getProjectById : {
+        url: `${backendDomain}/api/get-projects`,
+        method: "get",  
+    },
+    updateProject : {
+        url: `${backendDomain}/api/update-project`,
+        method: "patch",
+    },
+    deleteProject : {
+        url: `${backendDomain}/api/delete-project`,
+        method: "delete",
+    },
+    getAssigneesByProjectId : {
+        url: `${backendDomain}/api/get-assignee-by-projectId`,
+        method: "get",
     }
 };
 export default apiUrl;
