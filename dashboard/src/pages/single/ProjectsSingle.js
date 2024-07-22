@@ -109,7 +109,7 @@ const ProjectsSingle = () => {
                 src={project?.logo ? project?.logo : projectDefaultImage}
                 alt=""
                 className="itemImg"
-                style={{ border: "1px solid #7451f8",}}
+                style={{ border: "1px solid #7451f8" }}
               />
               <div className="details">
                 <h1 className="itemTitle">{project?.name}</h1>
@@ -168,7 +168,11 @@ const ProjectsSingle = () => {
                     <div className="detailItem">
                       <span className="itemKey">Actual End Date:</span>
                       <span className="itemValue">
-                        {project?.actualEndDate===null ? "N/A" : moment(project?.actualEndDate).format("MMM DD, YYYY")}
+                        {project?.actualEndDate === null
+                          ? "N/A"
+                          : moment(project?.actualEndDate).format(
+                              "MMM DD, YYYY"
+                            )}
                       </span>
                     </div>
                   </>
@@ -184,10 +188,12 @@ const ProjectsSingle = () => {
             )}
           </div>
         </div>
-        <div className="bottom">
-          <h1 className="title">Project Assignee</h1>
-          <ProjectAssigneeTable />
-        </div>
+        {project?.type === "personal" && (
+          <div className="bottom">
+            <h1 className="title">Project Assignee</h1>
+            <ProjectAssigneeTable />
+          </div>
+        )}
       </div>
     </div>
   );

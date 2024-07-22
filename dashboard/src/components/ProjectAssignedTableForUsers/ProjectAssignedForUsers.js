@@ -73,7 +73,7 @@ const ProjectAssignedForUsers = () => {
               <TableCell className="tableCell">{project.type}</TableCell>
               <TableCell className="tableCell">{project.name}</TableCell>
               <TableCell className="tableCell">{project.description ? project.description : '-'}</TableCell>
-              <TableCell className="tableCell">{project.projectScope ? project.projectScope : '-'}</TableCell>
+              <TableCell className="tableCell">{project.projectScope ? (project.projectScope).join(", ") : '-'}</TableCell>
               <TableCell className="tableCell">{ project.estimatedStartDate  ? moment(project.estimatedStartDate).format("DD/MM/YYYY") : 'N/A' }</TableCell>
               <TableCell className="tableCell">{ project.estimatedEndDate  ? moment(project.estimatedEndDate).format("DD/MM/YYYY") : 'N/A' }</TableCell>
               <TableCell className="tableCell">{ project.actualStartDate  ? moment(project.actualStartDate).format("DD/MM/YYYY") : 'N/A' }</TableCell>
