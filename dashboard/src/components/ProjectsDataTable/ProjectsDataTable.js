@@ -7,7 +7,7 @@ import apiUrl from "../../api/ApiUrl";
 import { VscEye } from "react-icons/vsc";
 import { MdDeleteOutline } from "react-icons/md";
 import Select from "react-select";
-import Logo from "../../assests/defaultImage.jpg";
+import Logo from "../../assests/defaultProjectImage.jpg";
 import imageToBase64 from "../../helpers/imageToBase64";
 
 const projectScopeOptions = [
@@ -31,10 +31,7 @@ export default function ProjectsDataTable() {
     assignees: [],
     projectScope: [],
   });
-  const [isAssigneeDropdownOpen, setIsAssigneeDropdownOpen] = useState(false);
   const [file, setFile] = useState("");
-
-  
 
   const navigate = useNavigate();
 
@@ -269,6 +266,7 @@ export default function ProjectsDataTable() {
                         width: "70px",
                         height: "70px",
                         borderRadius: "50%",
+                        border: "1px solid #7451f8",
                         display:'flex',
                         justifyContent:'center',
                         alignItems:'center',
@@ -318,115 +316,124 @@ export default function ProjectsDataTable() {
                     required
                   />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="projectCode">Project Code:</label>
-                  <input
-                    type="text"
-                    id="projectCode"
-                    name="projectCode"
-                    value={newProject.projectCode}
-                    onChange={handleProjectInputChange}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="projectScope">Project Scope:</label>
-                  <Select
-                    isMulti
-                    options={projectScopeOptions}
-                    value={projectScopeOptions.filter((option) =>
-                      newProject.projectScope.includes(option.value)
-                    )}
-                    onChange={handleScopeChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="estimatedStartDate">
-                    Estimated Start Date:
-                  </label>
-                  <input
-                    type="date"
-                    id="estimatedStartDate"
-                    name="estimatedStartDate"
-                    value={newProject.estimatedStartDate}
-                    onChange={handleProjectInputChange}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="estimatedEndDate">Estimated End Date:</label>
-                  <input
-                    type="date"
-                    id="estimatedEndDate"
-                    name="estimatedEndDate"
-                    value={newProject.estimatedEndDate}
-                    onChange={handleProjectInputChange}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="actualStartDate">Actual Start Date:</label>
-                  <input
-                    type="date"
-                    id="actualStartDate"
-                    name="actualStartDate"
-                    value={newProject.actualStartDate}
-                    onChange={handleProjectInputChange}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="actualEndDate">Actual End Date:</label>
-                  <input
-                    type="date"
-                    id="actualEndDate"
-                    name="actualEndDate"
-                    value={newProject.actualEndDate}
-                    onChange={handleProjectInputChange}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="projectStatus">Project Status:</label>
-                  <select
-                    id="projectStatus"
-                    name="projectStatus"
-                    value={newProject.projectStatus}
-                    onChange={handleProjectInputChange}
-                    required
-                  >
-                    <option value="in_progress">In Progress</option>
-                    <option value="in_planning">In Planning</option>
-                    <option value="in_support">Support</option>
-                    <option value="on_hold">On Hold</option>
-                    <option value="completed">Completed</option>
-                  </select>
-                </div>
                 {newProject.type === "personal" && (
-                  <div className="form-group">
-                    <label htmlFor="assignees">Assignees:</label>
-                    <Select
-                      isMulti
-                      options={assigneeOptions}
-                      value={assigneeOptions.filter((option) =>
-                        newProject.assignees.includes(option.value)
-                      )}
-                      onChange={handleAssigneeChange}
-                    />
-                  </div>
+                  <>
+                    <div className="form-group">
+                      <label htmlFor="projectCode">Project Code:</label>
+                      <input
+                        type="text"
+                        id="projectCode"
+                        name="projectCode"
+                        value={newProject.projectCode}
+                        onChange={handleProjectInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="projectScope">Project Scope:</label>
+                      <Select
+                        isMulti
+                        options={projectScopeOptions}
+                        value={projectScopeOptions.filter((option) =>
+                          newProject.projectScope.includes(option.value)
+                        )}
+                        onChange={handleScopeChange}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="estimatedStartDate">
+                        Estimated Start Date:
+                      </label>
+                      <input
+                        type="date"
+                        id="estimatedStartDate"
+                        name="estimatedStartDate"
+                        value={newProject.estimatedStartDate}
+                        onChange={handleProjectInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="estimatedEndDate">
+                        Estimated End Date:
+                      </label>
+                      <input
+                        type="date"
+                        id="estimatedEndDate"
+                        name="estimatedEndDate"
+                        value={newProject.estimatedEndDate}
+                        onChange={handleProjectInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="actualStartDate">
+                        Actual Start Date:
+                      </label>
+                      <input
+                        type="date"
+                        id="actualStartDate"
+                        name="actualStartDate"
+                        value={newProject.actualStartDate}
+                        onChange={handleProjectInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="actualEndDate">Actual End Date:</label>
+                      <input
+                        type="date"
+                        id="actualEndDate"
+                        name="actualEndDate"
+                        value={newProject.actualEndDate}
+                        onChange={handleProjectInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="projectStatus">Project Status:</label>
+                      <select
+                        id="projectStatus"
+                        name="projectStatus"
+                        value={newProject.projectStatus}
+                        onChange={handleProjectInputChange}
+                        required
+                      >
+                        <option value="in_progress">In Progress</option>
+                        <option value="in_planning">In Planning</option>
+                        <option value="in_support">Support</option>
+                        <option value="on_hold">On Hold</option>
+                        <option value="completed">Completed</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label htmlFor="assignees">Assignees:</label>
+                      <Select
+                        isMulti
+                        options={assigneeOptions}
+                        value={assigneeOptions.filter((option) =>
+                          newProject.assignees.includes(option.value)
+                        )}
+                        onChange={handleAssigneeChange}
+                      />
+                    </div>
+
+                    
+                  </>
                 )}
                 <div className="modal-buttons">
-                  <button type="submit" className="submit-button">
-                    Add Project
-                  </button>
-                  <button
-                    type="button"
-                    onClick={closeAddProjectModal}
-                    className="cancel-button"
-                  >
-                    Cancel
-                  </button>
-                </div>
+                      <button type="submit" className="submit-button">
+                        Add Project
+                      </button>
+                      <button
+                        type="button"
+                        onClick={closeAddProjectModal}
+                        className="cancel-button"
+                      >
+                        Cancel
+                      </button>
+                    </div>
               </form>
             </div>
           </div>

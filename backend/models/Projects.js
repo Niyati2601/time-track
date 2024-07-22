@@ -5,9 +5,6 @@ const projectSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    logo:{
-        type: String,
-    },
     type: {
         type: String,
         enum: ['general', 'personal'],
