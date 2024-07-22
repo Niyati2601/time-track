@@ -14,9 +14,7 @@ import defaultImage from '../../assests/defaultImage.jpg';
 const Single = () => {
   const { id } = useParams();
   const navigate = useNavigate();  // useNavigate hook
-  console.log('id: ', id);
   const [user, setUser] = useState(null);
-  console.log('user: ', user);
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -29,7 +27,6 @@ const Single = () => {
           },
         });
         const data = await response.json();
-        console.log('data: ', data);
         setUser(data.data);
       } catch (error) {
         console.error('Failed to fetch user details:', error);
