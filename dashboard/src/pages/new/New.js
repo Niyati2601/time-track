@@ -102,7 +102,6 @@ const New = ({ inputs, title }) => {
 
               {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
-                  {console.log("input: ", input)}
                   <label>{input.label}</label>
                   <input
                     name={input.name}

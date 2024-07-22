@@ -13,7 +13,6 @@ import moment from 'moment';
 
 const ProjectsSingle = () => {
   const { id } = useParams();
-  console.log('id:', id);
   const navigate = useNavigate();
   const [project, setProject] = useState(null);
 
@@ -68,7 +67,7 @@ const ProjectsSingle = () => {
             <div className="editButton">Edit</div>
             <h1 className="title">Project Details</h1>
             <div className="item">
-              <img src={project?.profilePhoto ? project?.profilePhoto : projectDefaultImage} alt="" className="itemImg" />
+              <img src={project?.logo ? project?.logo : projectDefaultImage} alt="" className="itemImg" />
               <div className="details">
                 <h1 className="itemTitle">{project?.name}</h1>
                 <div className="detailItem">
