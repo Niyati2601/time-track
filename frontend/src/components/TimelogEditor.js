@@ -198,8 +198,8 @@ const TimelogEditor = ({ onOpen, onClose }) => {
   };
   const fetchTags = async () => {
     try {
-      const res = await fetch(apiUrl.getTags.url, {
-        method: apiUrl.getTags.method,
+      const res = await fetch(apiUrl.getCategories.url, {
+        method: apiUrl.getCategories.method,
         credentials: "include",
         headers: {
           "content-type": "application/json",

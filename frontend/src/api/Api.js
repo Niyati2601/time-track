@@ -109,5 +109,9 @@ const apiUrl = {
     url: `${backendDomain}/api/getProjects`,
     method: "get",
   },
+  getCategories :{
+    url: `${backendDomain}/api/get-category`,
+    method: "get",
+  }
 };
 export default apiUrl
