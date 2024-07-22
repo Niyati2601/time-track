@@ -30,7 +30,7 @@ const categoriesController = require("../controllers/CategoriesController");
 
 router.post("/signup", signup);
 router.post("/login", userLoginController);
-router.post("/logout", Middleware, Logout);
+router.post("/logout", Logout);
 
 
 router.get("/user-details", Middleware, GetUserDetails);

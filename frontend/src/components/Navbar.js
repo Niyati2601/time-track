@@ -71,9 +71,11 @@ const Navbar = () => {
         navigate("/");
       } else {
         toast.error("Logout Failed");
+        navigate("/");
       }
     } catch (error) {
       toast.error("Error logging out");
+      navigate("/");
     }
   };
 
