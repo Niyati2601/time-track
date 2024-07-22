@@ -73,5 +73,9 @@ const apiUrl = {
         url: `${backendDomain}/api/delete-category`,
         method: "delete",
     },
+    editCategory : {
+        url: `${backendDomain}/api/edit-category`,
+        method: "PATCH",
+    },
 };
 export default apiUrl;

@@ -32,6 +32,15 @@ exports.getCategory = async (req, res) => {
     }
 };
 
+exports.editCategory = async (req, res) => {
+    try {
+        const category = await categoryModal.findByIdAndUpdate(req.params.id, req.body);
+        res.status(200).json({ success: true, data: category });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 exports.deleteCategory = async (req, res) => {
     try {
         const category = await categoryModal.findByIdAndDelete(req.params.id);

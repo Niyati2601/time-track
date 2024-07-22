@@ -89,6 +89,7 @@ router.get('/project-assignee/:id', projectController.getProjectsByUserIdAdmin);
 router.patch('/edit-user/:id', EditUser);
 router.post('/add-category', categoriesController.addCategory);
 router.get('/get-category', categoriesController.getCategory);
+router.patch('/edit-category/:id', categoriesController.editCategory);
 router.delete('/delete-category/:id', categoriesController.deleteCategory);
 
 module.exports = router;
