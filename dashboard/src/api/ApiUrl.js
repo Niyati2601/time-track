@@ -43,7 +43,7 @@ const apiUrl = {
     },
     updateProject : {
         url: `${backendDomain}/api/update-project`,
-        method: "patch",
+        method: "PATCH",
     },
     deleteProject : {
         url: `${backendDomain}/api/delete-project`,
