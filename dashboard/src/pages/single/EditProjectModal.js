@@ -67,7 +67,7 @@ const EditModal = ({ project, onClose, onSave }) => {
               onChange={handleProfilePicture}
             />
             <img
-              src={formData.logo ? formData.logo : defaultImage}
+              src={file ? URL.createObjectURL(file) : formData.logo || defaultImage}
               alt="logo"
               className="modal-logo"
               style={{
@@ -94,6 +94,7 @@ const EditModal = ({ project, onClose, onSave }) => {
             name="name"
             value={formData.name}
             onChange={handleChange}
+            required
           />
         </div>
         <div className="formGroup">
@@ -125,6 +126,7 @@ const EditModal = ({ project, onClose, onSave }) => {
                 name="projectCode"
                 value={formData.projectCode}
                 onChange={handleChange}
+                required
               />
             </div>
             <div className="formGroup">
@@ -161,6 +163,7 @@ const EditModal = ({ project, onClose, onSave }) => {
                 name="estimatedStartDate"
                 value={moment(formData.estimatedStartDate).format("YYYY-MM-DD")}
                 onChange={handleChange}
+                required
               />
             </div>
             <div className="formGroup">
@@ -171,6 +174,7 @@ const EditModal = ({ project, onClose, onSave }) => {
                 name="estimatedEndDate"
                 value={moment(formData.estimatedEndDate).format("YYYY-MM-DD")}
                 onChange={handleChange}
+                required
               />
             </div>
             <div className="formGroup">
@@ -181,6 +185,7 @@ const EditModal = ({ project, onClose, onSave }) => {
                 name="actualStartDate"
                 value={moment(formData.actualStartDate).format("YYYY-MM-DD")}
                 onChange={handleChange}
+                required
               />
             </div>
             <div className="formGroup">

@@ -32,6 +32,7 @@ export default function ProjectsDataTable() {
     projectScope: [],
   });
   const [file, setFile] = useState("");
+  const [dateError, setDateError] = useState("");
 
   const navigate = useNavigate();
 
@@ -103,6 +104,7 @@ export default function ProjectsDataTable() {
       ...prev,
       logo: "",
     }));
+    setDateError("");
   };
 
   const handleProjectInputChange = (e) => {
@@ -133,8 +135,32 @@ export default function ProjectsDataTable() {
     }));
   };
 
+  const validateDates = () => {
+    const {
+      estimatedStartDate,
+      estimatedEndDate,
+      actualStartDate,
+      actualEndDate,
+    } = newProject;
+
+    if (estimatedEndDate && estimatedStartDate > estimatedEndDate) {
+      setDateError("Estimated end date should be after the start date.");
+      return false;
+    }
+
+    if (actualEndDate && actualStartDate > actualEndDate) {
+      setDateError("Actual end date should be after the start date.");
+      return false;
+    }
+
+    setDateError("");
+    return true;
+  };
+
   const handleAddProjectSubmit = async (e) => {
     e.preventDefault();
+    if (!validateDates()) return;
+
     try {
       const response = await fetch(apiUrl.addProject.url, {
         method: apiUrl.addProject.method,
@@ -267,18 +293,22 @@ export default function ProjectsDataTable() {
                         height: "70px",
                         borderRadius: "50%",
                         border: "1px solid #7451f8",
-                        display:'flex',
-                        justifyContent:'center',
-                        alignItems:'center',
-                        margin: 'auto'
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        margin: "auto",
                       }}
                     />
-                    <h3 style={{
-                      display:'flex',
-                      justifyContent:'center',
-                      alignItems:'center',
-                      margin: 'auto'
-                    }}>Upload Project Logo</h3>
+                    <h3
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        margin: "auto",
+                      }}
+                    >
+                      Upload Project Logo
+                    </h3>
                   </label>
                 </div>
                 <div className="form-group">
@@ -387,7 +417,6 @@ export default function ProjectsDataTable() {
                         name="actualEndDate"
                         value={newProject.actualEndDate}
                         onChange={handleProjectInputChange}
-                        required
                       />
                     </div>
                     <div className="form-group">
@@ -418,22 +447,25 @@ export default function ProjectsDataTable() {
                         onChange={handleAssigneeChange}
                       />
                     </div>
-
-                    
                   </>
                 )}
+                {dateError && (
+                  <p className="date-error" style={{ color: "red" }}>
+                    {dateError}
+                  </p>
+                )}
                 <div className="modal-buttons">
-                      <button type="submit" className="submit-button">
-                        Add Project
-                      </button>
-                      <button
-                        type="button"
-                        onClick={closeAddProjectModal}
-                        className="cancel-button"
-                      >
-                        Cancel
-                      </button>
-                    </div>
+                  <button type="submit" className="submit-button">
+                    Add Project
+                  </button>
+                  <button
+                    type="button"
+                    onClick={closeAddProjectModal}
+                    className="cancel-button"
+                  >
+                    Cancel
+                  </button>
+                </div>
               </form>
             </div>
           </div>

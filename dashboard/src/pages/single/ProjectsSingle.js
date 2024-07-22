@@ -167,7 +167,7 @@ const ProjectsSingle = () => {
                     <div className="detailItem">
                       <span className="itemKey">Actual End Date:</span>
                       <span className="itemValue">
-                        {moment(project?.actualEndDate).format("MMM DD, YYYY")}
+                        {project?.actualEndDate===null ? "N/A" : moment(project?.actualEndDate).format("MMM DD, YYYY")}
                       </span>
                     </div>
                   </>

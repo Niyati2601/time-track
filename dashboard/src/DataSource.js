@@ -188,7 +188,7 @@ export const projectColumns = [
     headerName: 'Actual End Date',
     width: 230,
     renderCell: (params) => (
-      <div>{moment(params.row.actualEndDate).format("MMM DD, YYYY")}</div>
+      <div>{params.row.actualEndDate===null ? "-" : moment(params.row.actualEndDate).format("MMM DD, YYYY")}</div>
     )
   },
   {
