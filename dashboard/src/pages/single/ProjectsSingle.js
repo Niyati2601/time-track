@@ -16,7 +16,9 @@ const ProjectsSingle = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(null);
+  console.log('project: ', project?.projectScope);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
 
   const handleEditModal = () => {
     setIsEditModalOpen(!isEditModalOpen);
@@ -139,7 +141,11 @@ const ProjectsSingle = () => {
                     </div>
                     <div className="detailItem">
                       <span className="itemKey">Scope:</span>
-                      <span className="itemValue">{project?.projectScope}</span>
+                      <span>
+                        {project?.projectScope.map((scope,index) => {
+                          return <span key={index} className="itemValue-scope">{scope}</span>;
+                        })}
+                      </span>
                     </div>
                     <div className="detailItem">
                       <span className="itemKey">Estimated Start Date:</span>

@@ -1,6 +1,7 @@
 import moment from "moment";
 import { Link } from "react-router-dom";
 import defaultImage from "./assests/defaultImage.jpg";
+
 export const userColumns = [
   {
     field: "id",
@@ -59,16 +60,13 @@ export const projectColumns = [
     field: 'id', headerName: 'ID', width: 250,
     renderCell: (params) => {
       return (
-
         <div>
           <Link to={`/projects/${params.row._id}`} key={params.row._id} style={{ textDecoration: 'none', color: 'green' }}>
             {params.row._id}
           </Link>
         </div>
-
       )
     }
-
   },
   {
     field: 'name',
@@ -95,33 +93,27 @@ export const projectColumns = [
       if (status) {
         switch (status) {
           case 'in_progress':
-            // backgroundColor = '#38a169'; // Green
-            textColor = '#38a169'; // White
+            textColor = '#38a169';
             border = '1px solid #38a169';
             break;
           case 'in_planning':
-            // backgroundColor = '#fbbf24'; // Yellow
-            textColor = '#fbbf24'; // White
+            textColor = '#fbbf24';
             border = '1px solid #fbbf24';
             break;
           case 'on_hold':
-            // backgroundColor = '#6b7280'; // Gray
-            textColor = '#6b7280'; // White
+            textColor = '#6b7280';
             border = '1px solid #6b7280';
             break;
           case 'completed':
-            // backgroundColor = '#3b82f6'; // Blue
-            textColor = '#3b82f6'; // White
+            textColor = '#3b82f6';
             border = '1px solid #3b82f6';
             break;
           case 'in_support':
-            // backgroundColor = '#a855f7'; // Purple
-            textColor = '#a855f7'; // White
+            textColor = '#a855f7';
             border = '1px solid #a855f7';
             break;
           default:
-            // backgroundColor = '#ef4444'; // Red
-            textColor = '#ef4444'; // White
+            textColor = '#ef4444';
             border = '1px solid #ef4444';
             break;
         }
@@ -132,7 +124,6 @@ export const projectColumns = [
           style={{
             padding: '0.2rem 0.2rem',
             borderRadius: '12px',
-            backgroundColor: backgroundColor,
             color: textColor,
             textAlign: 'center',
             fontSize: '0.875rem',
@@ -158,6 +149,23 @@ export const projectColumns = [
     field: 'projectScope',
     headerName: 'Scope',
     width: 230,
+    renderCell: (params) => (
+      <div className="projectScope" style={{ display: 'flex', flexWrap: 'wrap' }}>
+        {params.row.projectScope.map((scope, index) => (
+          <div key={index} className="scopeItem" style={{
+            fontSize: '11px',
+            backgroundColor: "transparent",
+            border: '1px solid rgb(243, 209, 145)',
+            padding: '5px',
+            color: 'rgb(226, 167, 58)',
+            borderRadius: '5px',
+            margin: '2px'
+          }}>
+            {scope}
+          </div>
+        ))}
+      </div>
+    )
   },
   {
     field: 'estimatedStartDate',
@@ -188,7 +196,7 @@ export const projectColumns = [
     headerName: 'Actual End Date',
     width: 230,
     renderCell: (params) => (
-      <div>{params.row.actualEndDate===null ? "-" : moment(params.row.actualEndDate).format("MMM DD, YYYY")}</div>
+      <div>{params.row.actualEndDate === null ? "-" : moment(params.row.actualEndDate).format("MMM DD, YYYY")}</div>
     )
   },
   {
@@ -199,7 +207,6 @@ export const projectColumns = [
       return <div>{moment(params.row.createdAt).format("MMM DD, YYYY")}</div>
     }
   }
-
 ];
 
 export const CategoriesColumn = [
@@ -207,16 +214,13 @@ export const CategoriesColumn = [
     field: 'id', headerName: 'ID', width: 250,
     renderCell: (params) => {
       return (
-
         <div>
           <Link to={`/projects/${params.row._id}`} key={params.row._id} style={{ textDecoration: 'none', color: 'green' }}>
             {params.row._id}
           </Link>
         </div>
-
       )
     }
-
   },
   {
     field: 'name',

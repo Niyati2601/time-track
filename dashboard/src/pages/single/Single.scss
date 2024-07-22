@@ -84,6 +84,15 @@
                             .itemValue {
                                 font-weight: 300;
                             }
+                            .itemValue-scope {
+                              font-size: 11px;
+                              background-color: transparent;
+                              border: 1px solid rgb(243, 209, 145);
+                              padding: 5px;
+                              color: rgb(226, 167, 58);
+                              border-radius: 5px;
+                              margin-right: 5px;
+                            }
                         }
                     }
                 }
