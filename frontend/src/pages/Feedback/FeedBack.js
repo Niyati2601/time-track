@@ -123,7 +123,7 @@ const FeedBack = () => {
   }, [activeTab, user]);
 
   return (
-    <div className="mx-auto max-w-8xl">
+    <div className="mx-auto lg:max-w-7xl">
     <div className="text-md font-medium text-center text-gray-500 border-b border-gray-200">
       <ul className="flex flex-wrap -mb-px">
         <li className="mr-2">

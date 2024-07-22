@@ -89,6 +89,25 @@ exports.deleteProject = async (req, res) => {
 exports.getProjectsByUserId = async (req, res) => {
   try {
     const user = req.userId;
+    const projects = await Project.find({ $or:[{assignees: user} , {type:'general'}]}).populate('assignees');
+    if (projects) {
+      return res
+        .status(200)
+        .json({ success: true, data: projects, error: false });
+    } else {
+      return res
+        .status(404)
+        .json({ success: false, message: "No projects found", error: true });
+    }
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, message: error.message, error: true });
+  }
+};
+exports.getProjectsByUserIdAdmin = async (req, res) => {
+  try {
+    const user = req.params.id;
     const projects = await Project.find({ $or:[{assignees: user} , {type:'general'}]});
     if (projects) {
       return res
@@ -105,3 +124,5 @@ exports.getProjectsByUserId = async (req, res) => {
       .json({ success: false, message: error.message, error: true });
   }
 };
+
+

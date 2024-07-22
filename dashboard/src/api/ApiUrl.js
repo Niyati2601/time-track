@@ -52,6 +52,10 @@ const apiUrl = {
     getAssigneesByProjectId : {
         url: `${backendDomain}/api/get-assignee-by-projectId`,
         method: "get",
-    }
+    },
+    getProjectsByUserIdAdmin : {
+        url: `${backendDomain}/api/project-assignee`,
+        method: "get",
+    },
 };
 export default apiUrl;

@@ -82,6 +82,7 @@ router.get('/get-projects/:id', projectController.getProjectById);
 router.post('/add-project', projectController.createProject);
 router.put('/update-project/:id', projectController.updateProject);
 router.delete('/delete-project/:id', projectController.deleteProject)
-router.get('/get-assignee-by-projectId/:id', projectController.getAssigneesByProjectId)
+router.get('/get-assignee-by-projectId/:id', projectController.getAssigneesByProjectId);
+router.get('/project-assignee/:id', projectController.getProjectsByUserIdAdmin);
 
 module.exports = router;

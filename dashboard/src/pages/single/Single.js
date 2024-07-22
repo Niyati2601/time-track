@@ -10,6 +10,7 @@ import FeedbackTable from '../../components/feedbackTable.js/FeedbackTable';
 import ReceivedFeedbackTable from '../../components/feedbackTable.js/ReceivedFeedbackTable';
 import { IoArrowBack } from "react-icons/io5";
 import defaultImage from '../../assests/defaultImage.jpg';
+import ProjectAssignedForUsers from '../../components/ProjectAssignedTableForUsers/ProjectAssignedForUsers';
 
 const Single = () => {
   const { id } = useParams();
@@ -82,6 +83,10 @@ const Single = () => {
         <div className="bottom">
           <h1 className="title">Feedbacks (Received)</h1>
           <ReceivedFeedbackTable />
+        </div>
+        <div className='bottom'>
+          <h1 className="title">Projects</h1>
+          <ProjectAssignedForUsers />
         </div>
       </div>
     </div>
