@@ -26,6 +26,22 @@
 
 .datagrid {
   height: 300px; /* Adjust height as needed */
+  width: 1700px;
+  overflow-x:hidden;
+  overflow-y:auto;
+
+  .css-1rtad1 {
+      position: absolute;
+      display: inline-block;
+      z-index: 6;
+      --size: calc(max(var(--DataGrid-scrollbarSize), 14px));
+      width: 100%;
+      height: var(--size);
+      overflow-y: hidden;
+      overflow-x: auto;
+      outline: 0;
+      bottom: 0px;
+  }
 }
 
 .add-project-modal-overlay {
@@ -48,6 +64,7 @@
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
   max-height: 90vh;
   overflow-y: auto;
+
 }
 
 .modal-title {

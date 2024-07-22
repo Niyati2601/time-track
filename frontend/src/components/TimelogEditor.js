@@ -179,8 +179,8 @@ const TimelogEditor = ({ onOpen, onClose }) => {
   }, [selectedProject, selectedTicket, title, selectedTags]);
   const fetchProjects = async () => {
     try {
-      const res = await fetch(apiUrl.getProjects.url, {
-        method: apiUrl.getProjects.method,
+      const res = await fetch(apiUrl.getProjectsByUserId.url, {
+        method: apiUrl.getProjectsByUserId.method,
         credentials: "include",
         headers: {
           "content-type": "application/json",

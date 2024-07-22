@@ -15,7 +15,6 @@ import moment from "moment";
 const ProjectAssigneeTable = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
-  console.log('data: ', data);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -29,10 +28,10 @@ const ProjectAssigneeTable = () => {
         },
       });
       const data = await response.json();
-      console.log('data: ', data);
+      
       setData(data?.data || []); // Ensure that data is an array
     } catch (error) {
-      console.error('Failed to fetch logs:', error);
+      
       setData([]); // Set data to an empty array on error
     }
   };
@@ -59,7 +58,7 @@ const ProjectAssigneeTable = () => {
   };
 
   const userId = data.map((user) => user._id)
-  console.log('userId: ', userId);
+  
 
   return (
     <TableContainer component={Paper} className="table">

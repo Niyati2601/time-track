@@ -10,6 +10,7 @@ import './style/dark.scss';
 import { ThemeContext } from './context/ThemeContext';
 import Projects from './pages/projects/Projects';
 import ProjectsSingle from './pages/single/ProjectsSingle';
+import Categories from './pages/projects/Categories';
 
 
 function App() {
@@ -32,8 +33,8 @@ function App() {
         <Route path=":id" element={<ProjectsSingle />} />
         <Route path="new" element={<New inputs={productInputs} title={"Add New Product"} />} />
         </Route>
-        <Route path='orders'>
-          <Route index element={<List />} />
+        <Route path='categories'>
+          <Route index element={<Categories />} />
         </Route>
       </Routes>
     </BrowserRouter>

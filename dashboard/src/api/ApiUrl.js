@@ -41,10 +41,6 @@ const apiUrl = {
         url: `${backendDomain}/api/get-projects`,
         method: "get",  
     },
-    updateProject : {
-        url: `${backendDomain}/api/update-project`,
-        method: "patch",
-    },
     deleteProject : {
         url: `${backendDomain}/api/delete-project`,
         method: "delete",
@@ -56,6 +52,22 @@ const apiUrl = {
     getProjectsByUserIdAdmin : {
         url: `${backendDomain}/api/project-assignee`,
         method: "get",
+    },
+    editUser : {
+        url: `${backendDomain}/api/edit-user`,
+        method: "PATCH",
+    },
+    addCategory : {
+        url: `${backendDomain}/api/add-category`,
+        method: "post",
+    },
+    getCategories : {
+        url: `${backendDomain}/api/get-category`,
+        method: "get",
+    },
+    deleteCategory : {
+        url: `${backendDomain}/api/delete-category`,
+        method: "delete",
     },
 };
 export default apiUrl;

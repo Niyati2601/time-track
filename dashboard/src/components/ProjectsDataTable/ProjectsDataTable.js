@@ -219,11 +219,11 @@ export default function ProjectsDataTable() {
           getRowId={(row) => row._id}
           initialState={{
             pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
+              paginationModel: { page: 0, pageSize: 10 },
             },
           }}
-          pageSize={5}
-          pageSizeOptions={[5, 10]}
+          pageSize={10}
+          pageSizeOptions={[5, 10, 15, 20, 25]}
           rowsPerPageOptions={[5, 10]}
           checkboxSelection
         />
@@ -269,9 +269,18 @@ export default function ProjectsDataTable() {
                         width: "70px",
                         height: "70px",
                         borderRadius: "50%",
+                        display:'flex',
+                        justifyContent:'center',
+                        alignItems:'center',
+                        margin: 'auto'
                       }}
                     />
-                    <h3>Upload Project Logo</h3>
+                    <h3 style={{
+                      display:'flex',
+                      justifyContent:'center',
+                      alignItems:'center',
+                      margin: 'auto'
+                    }}>Upload Project Logo</h3>
                   </label>
                 </div>
                 <div className="form-group">

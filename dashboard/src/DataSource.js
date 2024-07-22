@@ -201,3 +201,34 @@ export const projectColumns = [
   }
 
 ];
+
+export const CategoriesColumn = [
+  {
+    field: 'id', headerName: 'ID', width: 250,
+    renderCell: (params) => {
+      return (
+
+        <div>
+          <Link to={`/projects/${params.row._id}`} key={params.row._id} style={{ textDecoration: 'none', color: 'green' }}>
+            {params.row._id}
+          </Link>
+        </div>
+
+      )
+    }
+
+  },
+  {
+    field: 'name',
+    headerName: 'Name',
+    width: 230,
+  },
+  {
+    field: 'createdAt',
+    headerName: 'Created At',
+    width: 230,
+    renderCell: (params) => {
+      return <div>{moment(params.row.createdAt).format("MMM DD, YYYY")}</div>
+    }
+  }
+];

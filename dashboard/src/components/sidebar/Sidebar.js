@@ -2,7 +2,7 @@ import './Sidebar.scss';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import GridViewIcon from '@mui/icons-material/GridView';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import CategoryIcon from '@mui/icons-material/Category';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import InsightsIcon from '@mui/icons-material/Insights';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
@@ -44,10 +44,12 @@ const Sidebar = () => {
                         <span>Projects</span>
                     </li>
                     </Link>
+                    <Link to="/categories" style={{ textDecoration: "none" }}>
                     <li>
-                        <AddShoppingCartIcon className='icon' />
-                        <span>Orders</span>
+                        <CategoryIcon className='icon' />
+                        <span>Categories</span>
                     </li>
+                    </Link>
                     <li>
                         <LocalShippingIcon className='icon' />
                         <span>Delivery</span>

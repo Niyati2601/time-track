@@ -25,6 +25,8 @@ const GetUserLogsById = require("../controllers/GetUserLogsById");
 const GetGivenFeedbacksById = require("../controllers/GetGivenFeedbacksById");
 const GetReceivedFeedbacksById = require("../controllers/GetReceivedFeedbacksById");
 const projectController = require('../controllers/ProjectController');
+const EditUser = require("../controllers/EdituserForAdmin");
+const categoriesController = require("../controllers/CategoriesController");
 
 router.post("/signup", signup);
 router.post("/login", userLoginController);
@@ -84,5 +86,9 @@ router.put('/update-project/:id', projectController.updateProject);
 router.delete('/delete-project/:id', projectController.deleteProject)
 router.get('/get-assignee-by-projectId/:id', projectController.getAssigneesByProjectId);
 router.get('/project-assignee/:id', projectController.getProjectsByUserIdAdmin);
+router.patch('/edit-user/:id', EditUser);
+router.post('/add-category', categoriesController.addCategory);
+router.get('/get-category', categoriesController.getCategory);
+router.delete('/delete-category/:id', categoriesController.deleteCategory);
 
 module.exports = router;
