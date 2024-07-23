@@ -12,6 +12,8 @@ import Projects from './pages/projects/Projects';
 import ProjectsSingle from './pages/single/ProjectsSingle';
 import Categories from './pages/projects/Categories';
 import Signup from './pages/signup/Signup';
+import { Toaster } from "react-hot-toast";
+
 
 
 function App() {
@@ -19,6 +21,7 @@ function App() {
   
   return (
     <div className={darkMode? 'app dark': 'app' }>
+      <Toaster/>
     <BrowserRouter>
       <Routes>
         <Route exact path="/" element={<Home />} />

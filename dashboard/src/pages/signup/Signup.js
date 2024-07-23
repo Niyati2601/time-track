@@ -4,6 +4,7 @@ import imageToBase64 from "../../helpers/imageToBase64";
 import Logo from "../../assests/defaultImage.jpg";
 import apiUrl from "../../api/ApiUrl";
 import {useNavigate} from 'react-router-dom';
+import toast from "react-hot-toast";
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -28,9 +29,9 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); 
     try {
-      const res = await fetch(apiUrl.signUp.url, {
+      const res = await fetch(apiUrl.signUpAdmin.url, {
         credentials: "include",
-        method: apiUrl.signUp.method,
+        method: apiUrl.signUpAdmin.method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -46,11 +47,12 @@ const Signup = () => {
           profilePhoto: "",
         });
         navigate("/login");
+        toast.success(data.message);
       } else {
-        console.error('Signup failed:', data.message);
+        toast.error('Signup failed:', data.message);
       }
     } catch (error) {
-      console.error('Error during signup:', error);
+      toast.error('Error during signup:', error);
     }
   };
 

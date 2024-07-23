@@ -42,7 +42,7 @@ exports.createProject = async (req, res) => {
   try {
     const newProject = new Project(req.body);
     const savedProject = await newProject.save();
-    res.status(201).json({ success: true, data: savedProject });
+    res.status(201).json({ success: true, data: savedProject , message: "Project created successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

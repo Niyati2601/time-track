@@ -34,6 +34,10 @@ const apiUrl = {
         method: "get",
     },
     signUp: {
+        url: `${backendDomain}/api/signup`,
+        method: "post",
+    },
+    signUpAdmin: {
         url: `${backendDomain}/api/admin-signup`,
         method: "post",
     },

@@ -6,6 +6,7 @@ import { useState } from "react";
 import apiUrl from "../../api/ApiUrl";
 import imageToBase64 from "../../helpers/imageToBase64";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const New = ({ inputs, title }) => {
   const navigate = useNavigate();
@@ -59,11 +60,12 @@ const New = ({ inputs, title }) => {
           profilePhoto: "",
         });
         navigate("/users");
+        toast.success(dataApi.message);
       } else {
-        console.log("error: ", dataApi);
+        toast.error("error: ", dataApi);
       }
     } catch (error) {
-      console.error("error: ", error);
+      toast.error("error: ", error);
     }
   };
 

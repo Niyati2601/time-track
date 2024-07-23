@@ -1,16 +1,70 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Widgets.scss'
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
 import PersonOutline from '@mui/icons-material/PersonOutline';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import GridViewIcon from '@mui/icons-material/GridView';    
+import CategoryIcon from '@mui/icons-material/Category';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import apiUrl from '../../api/ApiUrl';
 
 const Widgets = ({type}) => {
 
+    const [count, setCount] = useState(0);
+    const [projectCount, setProjectCount] = useState(0);
+    const [categoryCount, setCategoryCount] = useState(0);
+
+    const fetchUsers = async () => {
+        const res = await fetch(apiUrl.getAllUsers.url, {
+            method: apiUrl.getAllUsers.method,
+            credentials: "include",
+            headers: {
+                "content-type": "application/json",
+            },
+        });
+
+        const data = await res.json();
+        if (data.success) {
+            setCount(data.data.length);
+        }
+    };
+
+    const fetchProjects = async () => {
+        const res = await fetch(apiUrl.getProjects.url, {
+          method: apiUrl.getProjects.method,
+          credentials: "include",
+          headers: {
+            "content-type": "application/json",
+          },
+        });
+    
+        const data = await res.json();
+        if (data.success) {
+          setProjectCount(data.data.length);
+        }
+      };
+
+      const fetchCategories = async () => {
+        const res = await fetch(apiUrl.getCategories.url, {
+            method: apiUrl.getCategories.method,
+            credentials: "include",
+            headers: {
+                "content-type": "application/json",
+            },
+        });
+
+        const data = await res.json();
+        if (data.success) {
+            setCategoryCount(data.data.length);
+        }
+    };
+
+    useEffect(() => {
+        fetchUsers();
+        fetchProjects();
+        fetchCategories();
+    }, []);
+
     let data;
-    const amount = 100;
-    const diff = 20;
 
     switch (type) {
         case 'user':
@@ -18,6 +72,7 @@ const Widgets = ({type}) => {
                 title: 'USERS',
                 isMoney: false,
                 link: 'See all users',
+                amount: count,
                 icon: (
                     <PersonOutline className='icon' />
                 )
@@ -28,18 +83,20 @@ const Widgets = ({type}) => {
                 title: 'PROJECTS',
                 isMoney: false,
                 link: 'View all projects',
+                amount: projectCount,
                 icon: (
-                   <AddShoppingCartIcon className='icon' />
+                   <GridViewIcon className='icon' />
                 )
             }
             break;
         case 'earning':
             data = {
-                title: 'EARNINGS',
+                title: 'CATEGORIES',
                 isMoney: true,
                 link: 'View net earnings',
+                amount: categoryCount,
                 icon: (
-                    <CurrencyRupeeIcon className='icon' />
+                    <CategoryIcon className='icon' />
                 )
             }
             break;
@@ -48,6 +105,7 @@ const Widgets = ({type}) => {
                 title: 'BALANCE',
                 isMoney: true,
                 link: 'See details',
+                amount: 50,
                 icon: (
                     <AccountBalanceWalletIcon className='icon' />
                 )
@@ -62,14 +120,10 @@ const Widgets = ({type}) => {
     <div className='widget'>
         <div className="left">
             <span className='title'>{data.title}</span>
-            <span className='counter'>{data.isMoney && '$'} {amount}</span>
+            <span className='counter'>{data.isMoney && '$'} {data.amount}</span>
             <span className='link'>{data.link}</span>
         </div>
         <div className="right">
-            <div className="percentage positive">
-                <KeyboardArrowUpOutlinedIcon />
-                {diff} %
-            </div>
             {data.icon}
         </div>
     </div>

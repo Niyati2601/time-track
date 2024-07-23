@@ -6,7 +6,7 @@ const Middleware = (req, res, next) => {
         return res.status(403).json({ message: 'No token provided' });
     }
 
-    jwt.verify(token, process.env.TOKEN_SECRET_ADMIN, (err, decoded) => {
+    jwt.verify(token, process.env.TOKEN_SECRET_KEY, (err, decoded) => {
         if (err) {
             return res.status(500).json({ message: 'Failed to authenticate token' });
         }

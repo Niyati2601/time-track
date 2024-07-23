@@ -9,6 +9,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import Select from "react-select";
 import Logo from "../../assests/defaultProjectImage.jpg";
 import imageToBase64 from "../../helpers/imageToBase64";
+import toast from "react-hot-toast";
 
 const projectScopeOptions = [
   { value: "Web Application", label: "Web Application" },
@@ -174,6 +175,7 @@ export default function ProjectsDataTable() {
       if (data.success) {
         fetchProjects();
         setIsAddProjectModalOpen(false);
+        toast.success(data.message);
       }
     } catch (error) {
       console.error("Failed to add project:", error);
