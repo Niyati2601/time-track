@@ -59,7 +59,7 @@ const Profile = () => {
         e.preventDefault();
 
         const updatedData = {
-            name: userData.adminName,
+            adminName: userData.adminName,
             email: userData.email,
             profilePhoto: userData.profilePhoto,
         };
