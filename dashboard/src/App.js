@@ -12,6 +12,7 @@ import Projects from './pages/projects/Projects';
 import ProjectsSingle from './pages/single/ProjectsSingle';
 import Categories from './pages/projects/Categories';
 import Signup from './pages/signup/Signup';
+import Profile from './pages/profile/Profile';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
+        <Route exact path="/profile" element={<Profile />} />
         <Route  path="users">
         <Route index element={<List />}   />
         <Route path=":id" element={<Single />} />

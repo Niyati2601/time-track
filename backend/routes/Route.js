@@ -31,11 +31,11 @@ const adminLoginController = require("../controllers/AdminLogin");
 
 router.post("/signup", signup.signup);
 router.post("/login", userLoginController);
-router.post("/logout", Logout);
+router.post("/logout", Logout.Logout);
 
 
 router.get("/user-details", Middleware.Middleware, GetUserDetails.GetUserDetails);
-router.put("/edit-profile", Middleware.Middleware, EditProfile);
+router.put("/edit-profile", Middleware.Middleware, EditProfile.EditProfile);
 
 // router.post('/clock-in-out', Middleware, ClockInOut);
 router.post("/clockin", Middleware.Middleware, ClockInOut.clockIn);
@@ -77,6 +77,8 @@ router.get('/getProjects', Middleware.Middleware, projectController.getProjectsB
 /* admin routes */
 router.post("/admin-signup", signup.adminSignup);
 router.post("/admin-login",adminLoginController);
+router.post("/admin-logout", Logout.AdminLogout);
+router.patch("/admin-edit-profile",  Middleware.isAdmin, EditProfile.AdminEditProfile)
 router.get("/admin-details", Middleware.isAdmin, GetUserDetails.GetAdminDetails);
 router.get("/users/:id", Middleware.isAdmin, GetUserById);
 router.delete("/users/:id", Middleware.isAdmin, DeleteUserById);
