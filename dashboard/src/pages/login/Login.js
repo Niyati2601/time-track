@@ -51,9 +51,9 @@ const Login = () => {
       const res = await fetch(apiUrl.adminDetails.url, {
         method: apiUrl.adminDetails.method,
         credentials: 'include',
-        // headers: {
-        //   'Content-Type': 'application/json',
-        // },
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
 
       const data = await res.json();
@@ -71,7 +71,7 @@ const Login = () => {
 
   return (
     <div className='login'>
-      <form onSubmit={handleSubmit}>
+      <form className='form' onSubmit={handleSubmit}>
         <h4>Time-Track</h4>
         <p>Login</p>
         <input

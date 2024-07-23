@@ -21,13 +21,13 @@ async function adminLoginController(req, res) {
                 email: admin.email,
                 role: admin.role
             }
-            const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET_KEY, {expiresIn: '30d'} )
+            const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET_ADMIN, {expiresIn: '30d'} )
 
-            // const tokenOptions = {
-            //     httpOnly: true,
-            //     secure: true
-            // }
-            res.cookie("token", token).json({
+            const tokenOptions = {
+                httpOnly: true,
+                secure: true
+            }
+            res.cookie("adminToken", token, tokenOptions).json({
                 message: "Login successfully",
                 data: token,
                 success: true,

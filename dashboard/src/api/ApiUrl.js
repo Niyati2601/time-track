@@ -34,7 +34,7 @@ const apiUrl = {
         method: "get",
     },
     signUp: {
-        url: `${backendDomain}/api/signup`,
+        url: `${backendDomain}/api/admin-signup`,
         method: "post",
     },
     addProject : {

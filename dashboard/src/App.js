@@ -11,6 +11,7 @@ import { ThemeContext } from './context/ThemeContext';
 import Projects from './pages/projects/Projects';
 import ProjectsSingle from './pages/single/ProjectsSingle';
 import Categories from './pages/projects/Categories';
+import Signup from './pages/signup/Signup';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/login" element={<Login />} />
+        <Route exact path="/signup" element={<Signup />} />
         <Route  path="users">
         <Route index element={<List />}   />
         <Route path=":id" element={<Single />} />

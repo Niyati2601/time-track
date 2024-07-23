@@ -9,7 +9,7 @@
     min-height: 100vh;
 }
 
-form{
+.form{
     background: #262626;
     padding: 20px;
     display:inline-flex;
@@ -22,17 +22,17 @@ form{
     position:relative;
 }
 
-form h4{
+.form h4{
     margin-top:20px;
     font-size: 30px;
     color:white;
     margin-bottom: 30px;
 }
-form p{
+.form p{
   color:white;
 }
 
-form input {
+.form input {
     border:none;
     background: none;
     text-align: center;
@@ -47,11 +47,11 @@ form input {
     font-size: 15px;
 }
 
-form input[type="email"], form input[type="password"]{
+.form input[type="email"], form input[type="password"]{
     border:solid 2px #1B9CFC
 }
 
-form input[type="submit"]{
+.form input[type="submit"]{
     border:solid 2px #55E6C1;
     box-sizing: border-box;
     height:50px;
@@ -60,12 +60,12 @@ form input[type="submit"]{
 }
 
 
-form input[type="email"]:focus, form input[type="password"]:focus{
+.form input[type="email"]:focus, form input[type="password"]:focus{
     width:80%;
     border:solid 2px #55E6C1;
 }
 
-form input[type="submit"]:hover{
+.form input[type="submit"]:hover{
     background: #55E6C1;
     color:#182C61;
 }
