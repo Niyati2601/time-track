@@ -65,7 +65,7 @@ router.post('/feedback',Middleware, feedbackController.createFeedback);
 router.get('/getFeedback',Middleware, feedbackController.getAllFeedbacks);
 router.get('/receivedFeedbacks',Middleware, feedbackController.receivedFeedbacks);
 
-router.get("/getAllUsers", Middleware, getAllUsers);
+router.get("/getAllUsers", getAllUsers);
 router.get('/getProjects', Middleware, projectController.getProjectsByUserId);
 
 

@@ -1,7 +1,7 @@
 const userModal = require("../models/User")
 
 const GetUserDetails = async (req, res) => {
-    try {
+    try { 
         const user = await userModal.findById( req.userId )
         res.status(200).json({
             success: true,
