@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './Widgets.scss'
-import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
 import PersonOutline from '@mui/icons-material/PersonOutline';
 import GridViewIcon from '@mui/icons-material/GridView';    
 import CategoryIcon from '@mui/icons-material/Category';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import apiUrl from '../../api/ApiUrl';
+import { useNavigate } from 'react-router-dom';
 
 const Widgets = ({type}) => {
+
+    const navigate = useNavigate();
 
     const [count, setCount] = useState(0);
     const [projectCount, setProjectCount] = useState(0);
@@ -64,6 +66,18 @@ const Widgets = ({type}) => {
         fetchCategories();
     }, []);
 
+    const handleNavigation=()=>{
+        if (data.link === 'View all users') {
+            navigate('/users');
+        }else if (data.link === 'View all projects') {
+            navigate('/projects');
+        }else if (data.link === 'View all Categories') {
+            navigate('/categories');
+        }else{
+            navigate('/');
+        }
+    }
+
     let data;
 
     switch (type) {
@@ -71,7 +85,7 @@ const Widgets = ({type}) => {
             data = {
                 title: 'USERS',
                 isMoney: false,
-                link: 'See all users',
+                link: 'View all users',
                 amount: count,
                 icon: (
                     <PersonOutline className='icon' />
@@ -93,7 +107,7 @@ const Widgets = ({type}) => {
             data = {
                 title: 'CATEGORIES',
                 isMoney: true,
-                link: 'View net earnings',
+                link: 'View all Categories',
                 amount: categoryCount,
                 icon: (
                     <CategoryIcon className='icon' />
@@ -121,7 +135,7 @@ const Widgets = ({type}) => {
         <div className="left">
             <span className='title'>{data.title}</span>
             <span className='counter'>{data.isMoney && '$'} {data.amount}</span>
-            <span className='link'>{data.link}</span>
+            <span className='link' onClick={handleNavigation}>{data.link}</span>
         </div>
         <div className="right">
             {data.icon}
