@@ -1,5 +1,6 @@
 const userModal = require("../models/User");
 const bcrypt = require("bcryptjs");
+const adminModal = require("../models/Admin");
 
 
 const EditProfile = async (req, res) => {
@@ -42,5 +43,42 @@ const EditProfile = async (req, res) => {
     });
   }
 };
+const AdminEditProfile = async (req, res) => {
+  try {
+    const user = await adminModal.findById(req.userId);
+    if (user) {
+      const updatedData = {
+        adminName: req.body.adminName,
+        email: req.body.email,
+        profilePhoto: req.body.profilePhoto,
+      };
 
-module.exports = EditProfile;
+      const updatedAdmin = await adminModal.findByIdAndUpdate(
+        req.userId,
+        updatedData,
+        { new: true }
+      );
+
+      res.status(200).json({
+        success: true,
+        error: false,
+        message: "Profile Updated",
+        data: updatedAdmin,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        error: true,
+        message: "User Not Found",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: true,
+      message: error.message,
+    });
+  }
+};
+
+module.exports = {EditProfile, AdminEditProfile};

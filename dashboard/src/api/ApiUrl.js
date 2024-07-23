@@ -89,5 +89,13 @@ const apiUrl = {
         url: `${backendDomain}/api/edit-category`,
         method: "PATCH",
     },
+    logout: {
+        url: `${backendDomain}/api/admin-logout`,
+        method: "post",
+    },
+    editProfile: {
+        url: `${backendDomain}/api/admin-edit-profile`,
+        method: "PATCH",
+    }
 };
 export default apiUrl;

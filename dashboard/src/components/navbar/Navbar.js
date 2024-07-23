@@ -9,9 +9,13 @@ import FullscreenExitOutlinedIcon from '@mui/icons-material/FullscreenExitOutlin
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { ThemeContext } from '../../context/ThemeContext';
 import { useContext, useState, useEffect } from 'react';
+import { setAdminDetails } from '../../redux/adminSlice';
+import apiUrl from '../../api/ApiUrl';
 
 const Navbar = () => {
   const { dispatch } = useContext(ThemeContext);
+  const [userData, setUserData] = useState('');
+  console.log('userData: ', userData);
 
   // Initialize dark mode state based on localStorage
   const [darkMode, setDarkMode] = useState(() => {
@@ -26,6 +30,31 @@ const Navbar = () => {
     localStorage.setItem('darkMode', newMode);
     dispatch({ type: 'Toggle' });
   };
+  const fetchAdminDetails = async () => {
+    try {
+      const res = await fetch(apiUrl.adminDetails.url, {
+        method: apiUrl.adminDetails.method,
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        dispatch(setAdminDetails(data.data));
+        setUserData(data.data);
+      } else {
+        console.error('Failed to fetch admin details:', data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching admin details:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAdminDetails();
+  }, []);
 
   return (
     <div className='navbar'>
@@ -58,7 +87,7 @@ const Navbar = () => {
           </div>
           <div className="item">
             <img
-              src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+              src={ userData?.profilePhoto || "https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"}
               alt=""
               className="avatar"
             />
