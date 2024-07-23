@@ -4,8 +4,6 @@ const adminModal = require("../models/Admin");
 const GetUserDetails = async (req, res) => {
     try { 
         const user = await userModal.findById( req.userId )
-        // console.log('req.userId: ', req.userId);
-        // console.log(req.userRole)
         res.status(200).json({
             success: true,
             error: false,

@@ -169,3 +169,16 @@
     transform: scale(20);
   }
 }
+
+@keyframes rotate360 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate-hover:hover {
+  animation: rotate360 1s linear;
+}
