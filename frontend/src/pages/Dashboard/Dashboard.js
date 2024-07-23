@@ -8,6 +8,10 @@ import { FaRegCalendar } from "react-icons/fa";
 import Select from "react-select";
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { IoMdClose } from "react-icons/io";
+import { GrFormNextLink } from "react-icons/gr";
+import { AiOutlineMinusCircle } from "react-icons/ai";
+import {useNavigate} from 'react-router-dom';
 
 
 const Dashboard = () => {
@@ -20,6 +24,7 @@ const Dashboard = () => {
   console.log("selected: ", selected);
   const [addedItems, setAddedItems] = useState([]);
   console.log("addedItems: ", addedItems);
+  const navigate = useNavigate();
 
   const dropdownRef = useRef(null);
 
@@ -186,13 +191,17 @@ const Dashboard = () => {
         },
       });
       const data = await res.json();
+     const projectImage = data?.data?.map((project) => project?.logo)
+     console.log('projectImage: ', projectImage);
       if (data.success) {
         const formattedProjects = data.data
-          .filter((project) => project.type === "personal")
-          .map((project) => ({
-            value: project._id,
-            label: project.name,
-          }));
+        .filter((project) => project.type === "personal")
+        .map((project) => ({
+          logo: project.logo,
+          value: project._id,
+          label: project.name,
+        }));
+        console.log('formattedProjects: ', formattedProjects);
         setProjects(formattedProjects);
       } else {
         toast.error(data.message);
@@ -206,20 +215,22 @@ const Dashboard = () => {
     if (addProjectModal) {
       fetchProjects();
     }
-  }, [addProjectModal, selected]);
+  }, [addProjectModal]);
 
   const handleProjectChange = (selectedOption) => {
     setSelected(selectedOption);
   };
 
   const handleAddProject = async () => {
-    if (selected) {
-      setAddedItems([...addedItems, selected]);
+    if (selected.length > 0) {
+      setAddedItems([...addedItems, ...selected]);
+      setSelected([]);
       setAddProjectModal(false);
     }
   };
 
   const DraggableProject = ({ project, index, moveProject }) => {
+    console.log('project: ', project);
     const [, ref] = useDrag({
       type: "PROJECT",
       item: { index },
@@ -238,14 +249,34 @@ const Dashboard = () => {
     return (
       <div
         ref={(node) => ref(drop(node))}
-        className="bg-gray-800 text-white font-bold rounded mt-2 w-full p-3"
+        className="bg-blue-100 text-blue-600 font-bold rounded mt-2 w-full p-3 cursor-move"
       >
-        {project.map((project) => (
-          <div>{project.label}</div>
-        )
-      )}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <div className="w-10 h-10 rounded-full flex items-center justify-center mr-2">
+              <img
+                src={project.logo}
+                alt="project logo"
+                className="w-10 h-10 rounded-full"
+              />
+            </div>
+            {project.label}
+          </div>
+          <div className="float-right flex gap-2">
+          <button onClick={() => handleRemoveProject(index)}>
+            <AiOutlineMinusCircle size={20} />
+          </button>
+          <button onClick={() => navigate('/projects')}>
+          <GrFormNextLink size={25} />
+          </button>
+          </div>
+        </div>
       </div>
     );
+  };
+  const handleRemoveProject = (index) => {
+    const updatedItems = addedItems.filter((_, i) => i !== index);
+    setAddedItems(updatedItems);
   };
 
   useEffect(() => {
@@ -255,8 +286,8 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("selectedProjects", JSON.stringify(selected));
-  }, [selected]);
+    localStorage.setItem("selectedProjects", JSON.stringify(addedItems));
+  }, [addedItems]);
 
   const moveProject = (fromIndex, toIndex) => {
     const updatedProjects = [...addedItems];
@@ -264,6 +295,10 @@ const Dashboard = () => {
     updatedProjects.splice(toIndex, 0, movedProject);
     setAddedItems(updatedProjects);
   };
+  const filteredProjects = projects.filter(
+    (project) => !addedItems.some((addedItem) => addedItem.value === project.value)
+  );
+
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -395,97 +430,71 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="w-full md:w-1/2 p-4 bg-white rounded-lg shadow-md mt-4">
-          <h1 className="text-2xl text-gray-600 font-semibold border-b-2 pb-2">
-            Projects WatchList
-          </h1>
-          <div className="flex flex-col items-center">
+        <div className="w-full md:w-2/3 p-4 bg-white rounded-lg shadow-md mt-3">
+          <div className="flex justify-between items-center">
+            <h2 className="text-lg font-semibold text-gray-600 pb-2">
+              Watchlist
+            </h2>
             <button
-              className="flex items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4"
+              className="bg-blue-600 text-white rounded px-2 py-1 "
               onClick={toggleAddProjectModal}
-            >
-              <GoPlus className="mr-2" />
-              Add Project
+            > 
+              <span className="flex items-center gap-1">
+              <GoPlus />
+              Add Projects
+              </span>
             </button>
-
-            <p className="mt-2 text-gray-600 text-center">
-              Customize your watchlist by adding projects based on your
-              preference.
-            </p>
           </div>
-          {selected.length > 0 && (
-            <div className="w-full">
-              {addedItems.length > 0 && (
-                <div className="w-full">
-                  {addedItems.map((project, index) => (
-                    <DraggableProject
-                      key={project.value}
-                      project={project}
-                      index={index}
-                      moveProject={moveProject}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-          {addProjectModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
-              <div className="relative w-full max-w-lg p-6 bg-white rounded-md shadow-lg">
-                <button
-                  onClick={onRequestClose}
-                  className="absolute top-0 right-0 mt-4 mr-4 text-gray-600 hover:text-gray-900"
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    ></path>
-                  </svg>
-                </button>
-                <h5 className="mb-4 text-xl font-semibold text-blue-500">
-                  Add projects to your watchlist
-                </h5>
-
-                <div className="space-y-4">
-                  <Select
-                    isMulti
-                    className="w-full"
-                    options={projects.filter(
-                      (project) => project.value !== null
-                    )}
-                    value={selected}
-                    onChange={handleProjectChange}
-                  />
-                  <div className="flex m-auto justify-center">
-                    <button
-                      type="submit"
-                      className="w-20 px-4 py-2 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:bg-blue-300 mr-2"
-                      onClick={handleAddProject}
-                    >
-                      Add
-                    </button>
-                    <button
-                      type="button"
-                      className="w-20 px-4 py-2 font-semibold bg-white border text-blue-500 border-blue-500 rounded-md hover:bg-blue-900 focus:outline-none focus:bg-blue-700"
-                      onClick={onRequestClose}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-              </div>
+          {addedItems.length > 0 ? (
+            addedItems.map((project, index) => (
+              <DraggableProject
+              key={project.value}
+              project={project}
+              index={index}
+              moveProject={moveProject}
+              />
+            ))
+          ) : (
+            <div className="text-center py-4">
+              <img
+                src={noData}
+                alt="No data"
+                className="w-32 mx-auto mb-2"
+              />
+              <p className="text-gray-500">No projects in watchlist.</p>
             </div>
           )}
         </div>
+        {addProjectModal && (
+          <div className="absolute top-0 left-0 right-0 bottom-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50 mt-4">
+            <div className="bg-white rounded-lg shadow-lg p-4 w-96">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg font-semibold text-gray-600">
+                  Add Project
+                </h2>
+                <button
+                  className="text-gray-600 hover:text-gray-800 rotate-hover"
+                  onClick={onRequestClose}
+                >
+                  <IoMdClose className='text-lg ' />
+                </button>
+              </div>
+              <Select
+                options={filteredProjects}
+                isMulti
+                value={selected}
+                onChange={handleProjectChange}
+                placeholder="Select projects"
+              />
+              <button
+                className="bg-blue-600 text-white rounded py-2 mt-4 w-full"
+                onClick={handleAddProject}
+              >
+                Add to Watchlist
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </DndProvider>
   );
