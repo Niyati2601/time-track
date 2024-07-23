@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { TablePagination } from "@mui/material";
+
 const ProjectAssignedForUsers = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
@@ -46,6 +47,23 @@ const ProjectAssignedForUsers = () => {
     setPage(0);
   };
 
+  const getScopeColor = (scope) => {
+    switch (scope) {
+      case 'Web Application':
+        return '#DC3954';
+      case 'Admin Panel':
+        return '#154EEF';
+      case 'Mobile App Hybrid':
+        return 'green';
+      case 'Mobile App Ios':
+        return 'grey';
+      case 'Mobile App Android':
+        return '#fbbf24';
+      default:
+        return 'black';
+    }
+  };
+
   return (
     <TableContainer component={Paper} className="project-table">
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -73,11 +91,38 @@ const ProjectAssignedForUsers = () => {
               <TableCell className="tableCell">{project.type}</TableCell>
               <TableCell className="tableCell">{project.name}</TableCell>
               <TableCell className="tableCell">{project.description ? project.description : '-'}</TableCell>
-              <TableCell className="tableCell">{project.projectScope ? (project.projectScope).join(", ") : '-'}</TableCell>
-              <TableCell className="tableCell">{ project.estimatedStartDate  ? moment(project.estimatedStartDate).format("DD/MM/YYYY") : 'N/A' }</TableCell>
-              <TableCell className="tableCell">{ project.estimatedEndDate  ? moment(project.estimatedEndDate).format("DD/MM/YYYY") : 'N/A' }</TableCell>
-              <TableCell className="tableCell">{ project.actualStartDate  ? moment(project.actualStartDate).format("DD/MM/YYYY") : 'N/A' }</TableCell>
-              <TableCell className="tableCell">{ project.actualEndDate  ? moment(project.actualEndDate).format("DD/MM/YYYY") : 'N/A' }</TableCell>
+              <TableCell className="tableCell">
+                <div className="scopeContainer" style={{display:'flex', margin:'auto', justifyContent:'center'}}>
+                {project.projectScope ? project.projectScope.map((scope, index) => {
+                  const color = getScopeColor(scope);
+                  return (
+                    <div key={index} className="scopeItem" style={{
+                      padding: '0.1rem 0.1rem',
+                      borderRadius: '5px',
+                      color: color,
+                      textAlign: 'center',
+                      fontSize: '0.675rem',
+                      fontWeight: 'bold',
+                      display: 'flex',
+                      flexDirection: 'row',
+                      width: 'max-content',
+                      height: '30px',
+                      lineHeight: '30px',
+                      border: `1px solid ${color}`,
+                      margin: '0.1rem 0.1rem',
+                      marginTop: '8px',
+                      textWrap:'wrap'
+                    }}>
+                      {scope}
+                    </div>
+                  );
+                }) : '-'}
+                </div>
+              </TableCell>
+              <TableCell className="tableCell">{project.estimatedStartDate ? moment(project.estimatedStartDate).format("DD/MM/YYYY") : 'N/A'}</TableCell>
+              <TableCell className="tableCell">{project.estimatedEndDate ? moment(project.estimatedEndDate).format("DD/MM/YYYY") : 'N/A'}</TableCell>
+              <TableCell className="tableCell">{project.actualStartDate ? moment(project.actualStartDate).format("DD/MM/YYYY") : 'N/A'}</TableCell>
+              <TableCell className="tableCell">{project.actualEndDate ? moment(project.actualEndDate).format("DD/MM/YYYY") : 'N/A'}</TableCell>
               <TableCell className="tableCell">{moment(project.createdAt).format("DD/MM/YYYY")}</TableCell>
             </TableRow>
           ))}

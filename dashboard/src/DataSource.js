@@ -2,6 +2,23 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import defaultImage from "./assests/defaultImage.jpg";
 
+const getScopeColor = (scope) => {
+  switch (scope) {
+    case 'Web Application':
+      return '#DC3954';
+    case 'Admin Panel':
+      return '#154EEF';
+    case 'Mobile App Hybrid':
+      return 'green';
+    case 'Mobile App Ios':
+      return 'grey';
+    case 'Mobile App Android':
+      return '#fbbf24';
+    default:
+      return 'black';
+  }
+};
+
 export const userColumns = [
   {
     field: "id",
@@ -123,7 +140,7 @@ export const projectColumns = [
         <div
           style={{
             padding: '0.2rem 0.2rem',
-            borderRadius: '12px',
+            borderRadius: '5px',
             color: textColor,
             textAlign: 'center',
             fontSize: '0.875rem',
@@ -148,22 +165,32 @@ export const projectColumns = [
   {
     field: 'projectScope',
     headerName: 'Scope',
-    width: 230,
+    width: 330,
     renderCell: (params) => (
       <div className="projectScope" style={{ display: 'flex', flexWrap: 'wrap' }}>
-        {params.row.projectScope.map((scope, index) => (
+        {params.row.projectScope.map((scope, index) => {
+           const color = getScopeColor(scope);
+          return (
           <div key={index} className="scopeItem" style={{
-            fontSize: '11px',
-            backgroundColor: "transparent",
-            border: '1px solid rgb(243, 209, 145)',
-            padding: '5px',
-            color: 'rgb(226, 167, 58)',
+            padding: '0.1rem 0.1rem',
             borderRadius: '5px',
-            margin: '2px'
+            color:color,
+            textAlign: 'center',
+            fontSize: '0.675rem',
+            fontWeight: 'bold',
+            display: 'flex',
+            flexDirection:"row",
+            width: 'fit-content',
+            height: '30px',
+            lineHeight: '30px',
+            border: `1px solid ${color}` ,
+            margin: '0.1rem 0.1rem',
+            marginTop: '8px'
+            
           }}>
             {scope}
           </div>
-        ))}
+        )})}
       </div>
     )
   },

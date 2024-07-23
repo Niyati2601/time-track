@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Chart from "../../components/chart/Chart";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
-import List from "../../components/table/Table";
 import "./Single.scss";
 import apiUrl from "../../api/ApiUrl";
 import { IoArrowBack } from "react-icons/io5";
@@ -91,6 +89,23 @@ const ProjectsSingle = () => {
     fetchProjectDetails();
   }, [id]);
 
+  const getScopeColor = (scope) => {
+    switch (scope) {
+      case 'Web Application':
+        return '#DC3954';
+      case 'Admin Panel':
+        return '#154EEF';
+      case 'Mobile App Hybrid':
+        return 'green';
+      case 'Mobile App Ios':
+        return 'grey';
+      case 'Mobile App Android':
+        return '#fbbf24';
+      default:
+        return 'black';
+    }
+  };
+
   return (
     <div className="single">
       <Sidebar />
@@ -141,11 +156,26 @@ const ProjectsSingle = () => {
                     </div>
                     <div className="detailItem">
                       <span className="itemKey">Scope:</span>
-                      <span>
+                      
                         {project?.projectScope.map((scope,index) => {
-                          return <span key={index} className="itemValue-scope">{scope}</span>;
+                          const color = getScopeColor(scope);
+                          return (
+                          <span key={index} className="itemValue" style={{
+                            padding: '0.1rem 0.1rem',
+                            borderRadius: '5px',
+                            color:color,
+                            textAlign: 'center',
+                            fontSize: '0.675rem',
+                            fontWeight: 'bold',
+                            width: 'fit-content',
+                            height: '30px',
+                            lineHeight: '30px',
+                            border: `1px solid ${color}` ,
+                            margin: '0.1rem 0.1rem',
+                            marginTop: '8px'
+                          }}>{scope}</span>
+                        )
                         })}
-                      </span>
                     </div>
                     <div className="detailItem">
                       <span className="itemKey">Estimated Start Date:</span>

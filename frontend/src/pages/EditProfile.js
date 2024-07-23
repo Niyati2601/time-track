@@ -19,9 +19,9 @@ const EditProfile = ({ isOpen, onRequestClose }) => {
 
   useEffect(() => {
     if (user) {
-      setUsername(user.user.username || "");
-      setEmail(user.user.email || "");
-      setPhotoPreview(user.user.profilePhoto || "");
+      setUsername(user?.user?.username || "");
+      setEmail(user?.user?.email || "");
+      setPhotoPreview(user?.user?.profilePhoto || "");
     }
   }, [user]);
 

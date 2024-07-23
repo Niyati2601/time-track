@@ -1,6 +1,14 @@
 const backendDomain = "http://localhost:8000";
 
 const apiUrl = {
+    login: {
+        url: `${backendDomain}/api/admin-login`,
+        method: "post",
+    },
+    adminDetails: {
+        url: `${backendDomain}/api/admin-details`,
+        method: "get",
+    },
     getAllUsers: {
         url: `${backendDomain}/api/getAllUsers`,
         method: "get",

@@ -1,33 +1,33 @@
-const userModel = require("../models/User");
+const adminModel = require("../models/Admin");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-async function userLoginController(req, res) {
+async function adminLoginController(req, res) {
     try {
         const { email, password } = req.body
         
         if (!email || !password) {
             throw new Error("Please Provide Email and Password")
         }
-        const user = await userModel.findOne({ email });
-        if (!user) {
-            throw new Error("User doesn't Exists");
+        const admin = await adminModel.findOne({ email });
+        if (!admin) {
+            throw new Error("admin doesn't Exists");
         }
-        const checkPassword = await bcrypt.compare(password, user.password)
+        const checkPassword = await bcrypt.compare(password, admin.password)
         
         if (checkPassword) {
             const tokenData = {
-                _id: user._id, 
-                email: user.email,
-                role: user.role
+                _id: admin._id, 
+                email: admin.email,
+                role: admin.role
             }
             const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET_KEY, {expiresIn: '30d'} )
 
-            const tokenOptions = {
-                httpOnly: true,
-                secure: true
-            }
-            res.cookie("token", token, tokenOptions).json({
+            // const tokenOptions = {
+            //     httpOnly: true,
+            //     secure: true
+            // }
+            res.cookie("token", token).json({
                 message: "Login successfully",
                 data: token,
                 success: true,
@@ -46,4 +46,4 @@ async function userLoginController(req, res) {
         });
     }
 }
-module.exports = userLoginController;
+module.exports = adminLoginController;
