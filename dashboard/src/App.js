@@ -14,6 +14,7 @@ import Categories from './pages/projects/Categories';
 import Signup from './pages/signup/Signup';
 import Profile from './pages/profile/Profile';
 import { Toaster } from "react-hot-toast";
+import Feedback from './pages/projects/Feedback';
 
 
 
@@ -42,6 +43,9 @@ function App() {
         </Route>
         <Route path='categories'>
           <Route index element={<Categories />} />
+        </Route>
+        <Route path='feedback'>
+          <Route index element={<Feedback />} />
         </Route>
       </Routes>
     </BrowserRouter>
