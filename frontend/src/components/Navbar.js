@@ -32,6 +32,7 @@ const Navbar = () => {
       "/clockInOut": { text: "Clock In/Out", icon: <FaRegClock /> },
       "/timesheet": { text: "Timesheet", icon: <IoCalendarClearOutline /> },
       "/projects": { text: "Projects", icon: <PiSquaresFour /> },
+      "/project-details/:id": { text: "Project Details", icon: <PiSquaresFour /> },
       "/feedback": { text: "Feedback", icon: <VscFeedback /> },
       // Add other paths and their corresponding headers and icons here
     };

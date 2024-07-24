@@ -125,5 +125,24 @@ exports.getProjectsByUserIdAdmin = async (req, res) => {
   }
 };
 
+exports.getProjectDetails = async (req,res) => {
+  try {
+    const project = await Project.findById(req.params.id).populate('assignees');
+    if (project) {
+      return res
+        .status(200)
+        .json({ success: true, data: project, error: false });
+    } else {
+      return res
+        .status(404)
+        .json({ success: false, message: "No projects found", error: true });
+    } 
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, message: error.message, error: true });
+  }
+}
+
 
 

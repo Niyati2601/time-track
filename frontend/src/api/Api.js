@@ -112,6 +112,10 @@ const apiUrl = {
   getCategories :{
     url: `${backendDomain}/api/get-category`,
     method: "get",
+  },
+  getProjectDetails: {
+    url: `${backendDomain}/api/get-project-details`,
+    method: "get",
   }
 };
 export default apiUrl

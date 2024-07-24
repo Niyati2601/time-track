@@ -106,7 +106,7 @@ export const projectColumns = [
     width: 230,
     renderCell: (params) => {
       const status = params.row.projectStatus;
-      let backgroundColor, textColor, border;
+      let textColor, border;
       if (status) {
         switch (status) {
           case 'in_progress':
@@ -241,10 +241,8 @@ export const CategoriesColumn = [
     field: 'id', headerName: 'ID', width: 250,
     renderCell: (params) => {
       return (
-        <div>
-          <Link to={`/projects/${params.row._id}`} key={params.row._id} style={{ textDecoration: 'none', color: 'green' }}>
+        <div style={{ textDecoration: 'none', color: 'green', cursor:"pointer" }}>
             {params.row._id}
-          </Link>
         </div>
       )
     }

@@ -92,6 +92,7 @@ router.patch('/update-project/:id', projectController.updateProject);
 router.delete('/delete-project/:id', projectController.deleteProject)
 router.get('/get-assignee-by-projectId/:id', projectController.getAssigneesByProjectId);
 router.get('/project-assignee/:id', projectController.getProjectsByUserIdAdmin);
+router.get('/get-project-details/:id', projectController.getProjectDetails);
 router.patch('/edit-user/:id', EditUser);
 router.post('/add-category', categoriesController.addCategory);
 router.get('/get-category', categoriesController.getCategory);

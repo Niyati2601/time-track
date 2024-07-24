@@ -11,10 +11,11 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import apiUrl from "./api/Api";
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "./redux/userSlice";
-import { toast } from "react-hot-toast";
+// import { toast } from "react-hot-toast";
 import { useEffect } from "react";
 import FeedBack from "./pages/Feedback/FeedBack";
 import Project from "./pages/project/Project";
+import ProjectDetails from "./pages/project/ProjectDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -56,6 +57,7 @@ function App() {
           <Route path="clockInOut" element={<ClockInOut />} />
           <Route path="timesheet" element={<Timesheet />} />
           <Route path="projects" element={<Project />} />
+          <Route path="project-details/:id" element={<ProjectDetails />} />
           <Route path="feedback" element={<FeedBack />} />
         </Route>
       </Routes>
