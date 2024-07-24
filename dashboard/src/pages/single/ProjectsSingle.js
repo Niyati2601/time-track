@@ -14,7 +14,7 @@ const ProjectsSingle = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(null);
-  console.log('project: ', project?.projectScope);
+  console.log('project: ', project);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
 

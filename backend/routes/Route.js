@@ -28,6 +28,7 @@ const projectController = require('../controllers/ProjectController');
 const EditUser = require("../controllers/EdituserForAdmin");
 const categoriesController = require("../controllers/CategoriesController");
 const adminLoginController = require("../controllers/AdminLogin");
+const { editClock } = require("../controllers/EditClockinOut");
 
 router.post("/signup", signup.signup);
 router.post("/login", userLoginController);
@@ -85,18 +86,19 @@ router.delete("/users/:id", Middleware.isAdmin, DeleteUserById);
 router.get("/user-logs/:id", Middleware.isAdmin, GetUserLogsById);
 router.get("/user-given-feedback/:id", Middleware.isAdmin, GetGivenFeedbacksById);
 router.get("/user-received-feedback/:id", Middleware.isAdmin, GetReceivedFeedbacksById);
-router.get('/get-projects', projectController.getAllProjects);
-router.get('/get-projects/:id', projectController.getProjectById);
-router.post('/add-project', projectController.createProject);
-router.patch('/update-project/:id', projectController.updateProject);
-router.delete('/delete-project/:id', projectController.deleteProject)
-router.get('/get-assignee-by-projectId/:id', projectController.getAssigneesByProjectId);
-router.get('/project-assignee/:id', projectController.getProjectsByUserIdAdmin);
-router.get('/get-project-details/:id', projectController.getProjectDetails);
-router.patch('/edit-user/:id', EditUser);
-router.post('/add-category', categoriesController.addCategory);
-router.get('/get-category', categoriesController.getCategory);
-router.patch('/edit-category/:id', categoriesController.editCategory);
-router.delete('/delete-category/:id', categoriesController.deleteCategory);
+router.get('/get-projects', Middleware.isAdmin,projectController.getAllProjects);
+router.get('/get-projects/:id', Middleware.isAdmin,projectController.getProjectById);
+router.post('/add-project', Middleware.isAdmin,projectController.createProject);
+router.patch('/update-project/:id', Middleware.isAdmin,projectController.updateProject);
+router.delete('/delete-project/:id', Middleware.isAdmin,projectController.deleteProject)
+router.get('/get-assignee-by-projectId/:id', Middleware.isAdmin,projectController.getAssigneesByProjectId);
+router.get('/project-assignee/:id', Middleware.isAdmin,projectController.getProjectsByUserIdAdmin);
+router.get('/get-project-details/:id', Middleware.isAdmin,projectController.getProjectDetails);
+router.patch('/edit-user/:id', Middleware.isAdmin,EditUser);
+router.post('/add-category', Middleware.isAdmin,categoriesController.addCategory);
+router.get('/get-category', Middleware.isAdmin,categoriesController.getCategory);
+router.patch('/edit-category/:id', Middleware.isAdmin,categoriesController.editCategory);
+router.delete('/delete-category/:id', Middleware.isAdmin,categoriesController.deleteCategory);
+router.patch('/edit-clockinout/:id', Middleware.isAdmin, editClock);
 
 module.exports = router;
