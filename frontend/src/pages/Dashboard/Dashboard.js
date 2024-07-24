@@ -21,9 +21,7 @@ const Dashboard = () => {
   const [addProjectModal, setAddProjectModal] = useState(false);
   const [projects, setProjects] = useState([]);
   const [selected, setSelected] = useState([]);
-  console.log("selected: ", selected);
   const [addedItems, setAddedItems] = useState([]);
-  console.log("addedItems: ", addedItems);
   const navigate = useNavigate();
 
   const dropdownRef = useRef(null);
@@ -191,8 +189,8 @@ const Dashboard = () => {
         },
       });
       const data = await res.json();
-     const projectImage = data?.data?.map((project) => project?.logo)
-     console.log('projectImage: ', projectImage);
+    //  const projectImage = data?.data?.map((project) => project?.logo)
+    //  console.log('projectImage: ', projectImage);
       if (data.success) {
         const formattedProjects = data.data
         .filter((project) => project.type === "personal")
@@ -201,7 +199,7 @@ const Dashboard = () => {
           value: project._id,
           label: project.name,
         }));
-        console.log('formattedProjects: ', formattedProjects);
+        // console.log('formattedProjects: ', formattedProjects);
         setProjects(formattedProjects);
       } else {
         toast.error(data.message);
@@ -230,7 +228,6 @@ const Dashboard = () => {
   };
 
   const DraggableProject = ({ project, index, moveProject }) => {
-    console.log('project: ', project);
     const [, ref] = useDrag({
       type: "PROJECT",
       item: { index },

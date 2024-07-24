@@ -8,6 +8,7 @@ import apiUrl from "../../api/ApiUrl";
 import { BiSolidEdit } from "react-icons/bi";
 import { MdDeleteOutline } from "react-icons/md";
 import { VscEye } from "react-icons/vsc";
+import toast from "react-hot-toast";
 
 export default function DataTable() {
     const [users, setUsers] = useState([]);
@@ -51,6 +52,7 @@ export default function DataTable() {
             if (data.success) {
                 fetchUsers();
                 setIsDeleteModalOpen(false);
+                toast.success("User deleted successfully");
             }
         } catch (error) {
             console.error("Failed to delete user:", error);

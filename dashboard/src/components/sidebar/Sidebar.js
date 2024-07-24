@@ -16,6 +16,7 @@ import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PsychologyIcon from '@mui/icons-material/Psychology';
+import toast from 'react-hot-toast';
 
 const Sidebar = () => {
     const { dispatch } = useContext(ThemeContext);
@@ -34,6 +35,7 @@ const Sidebar = () => {
             const data = await res.json();
             if (data.success) {
                 navigate('/login');
+                toast.success('Logout successful');
             } else {
                 console.error('Failed to fetch admin details:', data.message);
             }

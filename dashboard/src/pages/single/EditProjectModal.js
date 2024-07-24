@@ -6,6 +6,7 @@ import imageToBase64 from "../../helpers/imageToBase64";
 import defaultImage from "../../assests/defaultProjectImage.jpg";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import apiUrl from "../../api/ApiUrl";
+import toast from "react-hot-toast";
 
 const EditModal = ({ project, onClose, onSave }) => {
   const projectScopeOptions = [
@@ -61,7 +62,7 @@ const EditModal = ({ project, onClose, onSave }) => {
         setAssigneeOptions(availableAssignees);
       }
     } catch (error) {
-      
+      toast.error(error.message);
     }
   };
 
