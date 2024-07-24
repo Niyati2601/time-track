@@ -96,6 +96,10 @@ const apiUrl = {
     editProfile: {
         url: `${backendDomain}/api/admin-edit-profile`,
         method: "PATCH",
+    },
+    clockInOut:{
+        url: `${backendDomain}/api/clock-history`,
+        method: "post",
     }
 };
 export default apiUrl;

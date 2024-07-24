@@ -134,7 +134,7 @@ const Widgets = ({type}) => {
     <div className='widget'>
         <div className="left">
             <span className='title'>{data.title}</span>
-            <span className='counter'>{data.isMoney && '$'} {data.amount}</span>
+            <span className='counter'>{data.isMoney} {data.amount}</span>
             <span className='link' onClick={handleNavigation}>{data.link}</span>
         </div>
         <div className="right">
