@@ -108,7 +108,7 @@ exports.getProjectsByUserId = async (req, res) => {
 exports.getProjectsByUserIdAdmin = async (req, res) => {
   try {
     const user = req.params.id;
-    const projects = await Project.find({ $or:[{assignees: user} , {type:'general'}]});
+    const projects = await Project.find({ assignees: user});
     if (projects) {
       return res
         .status(200)

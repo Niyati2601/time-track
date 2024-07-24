@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import apiUrl from "../../api/ApiUrl";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { TablePagination } from "@mui/material";
@@ -70,7 +70,7 @@ const ProjectAssignedForUsers = () => {
         <TableHead>
           <TableRow>
             <TableCell className="tableCell">ID</TableCell>
-            <TableCell className="tableCell">Type</TableCell>
+            {/* <TableCell className="tableCell">Type</TableCell> */}
             <TableCell className="tableCell">Name</TableCell>
             <TableCell className="tableCell">Description</TableCell>
             <TableCell className="tableCell">Scope</TableCell>
@@ -87,8 +87,10 @@ const ProjectAssignedForUsers = () => {
             : data
           ).map((project) => (
             <TableRow key={project._id}>
-              <TableCell className="tableCell-id">{project._id}</TableCell>
-              <TableCell className="tableCell">{project.type}</TableCell>
+              <TableCell className="tableCell-id">
+                <Link to={`/projects/${project._id}`} style={{ textDecoration: 'none', color: 'green' }}>
+                {project._id}</Link></TableCell>
+              {/* <TableCell className="tableCell">{project.type}</TableCell> */}
               <TableCell className="tableCell">{project.name}</TableCell>
               <TableCell className="tableCell">{project.description ? project.description : '-'}</TableCell>
               <TableCell className="tableCell">
