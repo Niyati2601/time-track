@@ -89,6 +89,7 @@ export default function ProjectsDataTable() {
       if (data.success) {
         fetchProjects();
         setIsDeleteModalOpen(false);
+        toast.success("Project deleted successfully");
       }
     } catch (error) {
       console.error("Failed to delete project:", error);

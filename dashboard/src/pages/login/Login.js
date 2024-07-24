@@ -55,7 +55,6 @@ const Login = () => {
       const data = await res.json();
       if (data.success) {
         dispatch(setAdminDetails(data.data));
-        toast.success("Login successful");
       } else {
         toast.error("Failed to fetch admin details:", data.message);
       }

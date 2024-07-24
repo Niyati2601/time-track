@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import apiUrl from "../../api/ApiUrl";
 import { MdDeleteOutline, MdEdit } from "react-icons/md";
 import { VscEye } from "react-icons/vsc";
+import toast from "react-hot-toast";
 
 export default function CategoriesDataTable() {
     const [categories, setCategories] = useState([]);
@@ -61,6 +62,7 @@ export default function CategoriesDataTable() {
             });
             const data = await response.json();
             if (data.success) {
+                toast.success("Category deleted successfully");
                 fetchCategories();
                 setIsDeleteModalOpen(false);
             }
@@ -116,6 +118,7 @@ export default function CategoriesDataTable() {
                 setIsEditCategoryModalOpen(false);
                 setCategoryName("");
                 setEditCategoryId("");
+                toast.success("Category updated successfully");
             }
         } catch (error) {
             console.error("Failed to edit category:", error);
