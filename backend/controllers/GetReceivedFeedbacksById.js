@@ -3,7 +3,12 @@ const Feedback = require("../models/Feedback");
 const GetReceivedFeedbacksById = async (req, res) => {
     try {
         const user = req.params.id;
-        const feedbacks = await Feedback.find({ employeeId: user });
+        const feedbacks = await Feedback.find({ 
+            $or: [
+                { employeeId: user },
+                { type: "general" }
+            ]
+         });
 
         if (feedbacks) {
             return res.status(200).json({
