@@ -111,7 +111,7 @@ const ProjectsSingle = () => {
       <Sidebar />
       <div className="singleContainer">
         <Navbar />
-        <button className="back" onClick={() => navigate("/projects")}>
+        <button className="back" onClick={() => navigate(-1)}>
           <IoArrowBack className="icon" />
           Back
         </button>
