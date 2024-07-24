@@ -41,7 +41,7 @@
       }
     }
   
-    .edit-category-modal {
+    .edit-clock-modal {
       width: 100%;
       background-color: rgba(0, 0, 0, 0.5);
       display: flex;
@@ -49,7 +49,7 @@
       justify-content: center;
     }
   
-    .edit-category-modal-overlay {
+    .edit-clock-modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
@@ -61,7 +61,7 @@
       align-items: center;
     }
   
-    .edit-category-modal-content {
+    .edit-clock-modal-content {
       background-color: #fff;
       padding: 20px;
       border-radius: 8px;
