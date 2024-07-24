@@ -5,6 +5,7 @@ import moment from "moment";
 import imageToBase64 from "../../helpers/imageToBase64";
 import defaultImage from "../../assests/defaultProjectImage.jpg";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import apiUrl from "../../api/ApiUrl";
 
 const EditModal = ({ project, onClose, onSave }) => {
   const projectScopeOptions = [
@@ -17,10 +18,52 @@ const EditModal = ({ project, onClose, onSave }) => {
 
   const [formData, setFormData] = useState({ ...project });
   const [file, setFile] = useState("");
+  const [allUsers, setAllUsers] = useState([]);
+  const [assigneeOptions, setAssigneeOptions] = useState([]);
+  const [selectedAssignees, setSelectedAssignees] = useState([]);
 
   useEffect(() => {
     setFormData({ ...project });
+    setSelectedAssignees(
+      project.assignees.map((assignee) => ({
+        value: assignee._id,
+        label: assignee.username,
+      }))
+    );
   }, [project]);
+
+  useEffect(() => {
+    fetchAssignees();
+  }, []);
+
+  const fetchAssignees = async () => {
+    try {
+      const res = await fetch(apiUrl.getAllUsers.url, {
+        method: apiUrl.getAllUsers.method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+      
+
+      if (data.success) {
+        const userOptions = data.data.map((user) => ({
+          value: user._id,
+          label: user.username,
+        }));
+        setAllUsers(userOptions);
+        const availableAssignees = userOptions.filter(
+          (user) => !project.assignees.some((assignee) => assignee._id === user.value)
+        );
+        
+        setAssigneeOptions(availableAssignees);
+      }
+    } catch (error) {
+      
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,7 +71,14 @@ const EditModal = ({ project, onClose, onSave }) => {
   };
 
   const handleSave = () => {
-    onSave(formData);
+    const updatedFormData = {
+      ...formData,
+      assignees: selectedAssignees.map((assignee) => ({
+        _id: assignee.value,
+        username: assignee.label,
+      })),
+    };
+    onSave(updatedFormData);
     onClose();
   };
 
@@ -40,6 +90,15 @@ const EditModal = ({ project, onClose, onSave }) => {
       ...prev,
       projectScope: scopes,
     }));
+  };
+
+  const handleAssigneesChange = (selectedOptions) => {
+    setSelectedAssignees(selectedOptions);
+    const remainingOptions = allUsers.filter(
+      (user) => !selectedOptions.some((assignee) => assignee.value === user.value)
+    );
+    setAssigneeOptions(remainingOptions);
+    
   };
 
   const handleProfilePicture = async (e) => {
@@ -97,7 +156,7 @@ const EditModal = ({ project, onClose, onSave }) => {
             required
           />
         </div>
-        <div className="formGroup">
+        {/* <div className="formGroup">
           <label htmlFor="select">Type:</label>
           <select
             id="select"
@@ -108,7 +167,7 @@ const EditModal = ({ project, onClose, onSave }) => {
             <option value="general">General</option>
             <option value="personal">Personal</option>
           </select>
-        </div>
+        </div> */}
         <div className="formGroup">
           <label>Description:</label>
           <textarea
@@ -153,6 +212,15 @@ const EditModal = ({ project, onClose, onSave }) => {
                   formData.projectScope.includes(option.value)
                 )}
                 onChange={handleScopeChange}
+              />
+            </div>
+            <div className="formGroup">
+              <label htmlFor="assignees">Assignees:</label>
+              <Select
+                isMulti
+                options={assigneeOptions}
+                value={selectedAssignees}
+                onChange={handleAssigneesChange}
               />
             </div>
             <div className="formGroup">

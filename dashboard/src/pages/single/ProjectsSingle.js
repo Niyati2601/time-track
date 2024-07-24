@@ -126,7 +126,7 @@ const ProjectsSingle = () => {
                 src={project?.logo ? project?.logo : projectDefaultImage}
                 alt=""
                 className="itemImg"
-                style={{ border: "1px solid #7451f8" }}
+                style={{ border: "1px solid #7451f8", objectFit:"contain" }}
               />
               <div className="details">
                 <h1 className="itemTitle">{project?.name}</h1>
