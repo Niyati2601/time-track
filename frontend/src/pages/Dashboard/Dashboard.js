@@ -266,7 +266,7 @@ const Dashboard = () => {
           <button onClick={() => handleRemoveProject(index)}>
             <AiOutlineMinusCircle size={20} />
           </button>
-          <button onClick={() => navigate('/projects')}>
+          <button onClick={() => navigate(`/project-details/${project.value}`)}>
           <GrFormNextLink size={25} />
           </button>
           </div>

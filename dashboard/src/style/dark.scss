@@ -51,6 +51,20 @@
       }
     }
   }
+  .clock-table{
+    background-color: #111;
+    border: 1px solid gray;
+
+    .tableCell {
+      color: gray;
+    }
+    .pagination {
+      color: gray;
+      .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon {
+        color: gray;
+      }
+    }
+  }
 
   .navbar {
     color: #999;
