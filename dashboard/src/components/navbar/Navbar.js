@@ -11,11 +11,12 @@ import { ThemeContext } from '../../context/ThemeContext';
 import { useContext, useState, useEffect } from 'react';
 import { setAdminDetails } from '../../redux/adminSlice';
 import apiUrl from '../../api/ApiUrl';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const { dispatch } = useContext(ThemeContext);
   const [userData, setUserData] = useState('');
-  console.log('userData: ', userData);
 
   // Initialize dark mode state based on localStorage
   const [darkMode, setDarkMode] = useState(() => {
@@ -85,7 +86,7 @@ const Navbar = () => {
           <div className="item">
             <ListAltRoundedIcon className='icon' />
           </div>
-          <div className="item">
+          <div className="item" onClick={()=> navigate(`/profile`)}>
             <img
               src={ userData?.profilePhoto || "https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"}
               alt=""

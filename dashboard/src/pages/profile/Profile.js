@@ -7,6 +7,7 @@ import apiUrl from "../../api/ApiUrl";
 import { useDispatch } from "react-redux";
 import { setAdminDetails } from "../../redux/adminSlice";
 import imageToBase64 from "../../helpers/imageToBase64";
+import {toast} from "react-hot-toast";
 
 const Profile = () => {
     const [userData, setUserData] = useState({});
@@ -79,6 +80,7 @@ const Profile = () => {
                 dispatch(setAdminDetails(data.data));
                 setUserData(data.data);
                 setEditable(false);
+                toast.success("Profile updated successfully");
             } else {
                 console.error('Failed to update profile:', data.message);
             }
