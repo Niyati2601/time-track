@@ -28,7 +28,7 @@ const projectController = require('../controllers/ProjectController');
 const EditUser = require("../controllers/EdituserForAdmin");
 const categoriesController = require("../controllers/CategoriesController");
 const adminLoginController = require("../controllers/AdminLogin");
-const { editClock } = require("../controllers/EditClockinOut");
+const  editClockForAdmin  = require("../controllers/EditClockinOut");
 
 router.post("/signup", signup.signup);
 router.post("/login", userLoginController);
@@ -99,6 +99,6 @@ router.post('/add-category', Middleware.isAdmin,categoriesController.addCategory
 router.get('/get-category', Middleware.isAdmin,categoriesController.getCategory);
 router.patch('/edit-category/:id', Middleware.isAdmin,categoriesController.editCategory);
 router.delete('/delete-category/:id', Middleware.isAdmin,categoriesController.deleteCategory);
-router.patch('/edit-clockinout/:id', Middleware.isAdmin, editClock);
+router.patch('/edit-clock-in-out/:id', Middleware.isAdmin, editClockForAdmin);
 
 module.exports = router;

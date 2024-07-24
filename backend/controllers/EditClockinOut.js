@@ -1,28 +1,29 @@
 const Clocking = require("../models/Clock");
 
-const editClock = async (req, res) => {
+const editClockForAdmin = async (req, res) => {
   try {
-    const { userId, clockInTime, clockOutTime } = req.body;
-    const changeTime = Clocking.findByIdAndUpdate(
-        userId,
-      { clockInTime, clockOutTime },
-      { new: true }
-    );
-    if (changeTime) {
-      return res.status(200).json({
+    const clock = await Clocking.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (clock) {
+      res.status(200).json({
+        message: "Clock updated successfully",
         success: true,
-        message: "Clock-in time updated successfully",
-        changeTime,
+        error: false,
+        data: clock,
       });
     } else {
-      return res.status(400).json({
+      res.status(404).json({
+        message: "Clock not found",
         success: false,
-        message: "Clock-in time not updated",
+        error: true,
       });
     }
   } catch (error) {
-    return res.status(500).json({ message: error.message, success: false });
+    res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
   }
 };
 
-module.exports = { editClock };
+module.exports = editClockForAdmin;

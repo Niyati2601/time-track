@@ -100,6 +100,10 @@ const apiUrl = {
     clockInOut:{
         url: `${backendDomain}/api/clock-history`,
         method: "post",
+    },
+    editClock :{
+        url: `${backendDomain}/api/edit-clock-in-out`,
+        method: "PATCH",
     }
 };
 export default apiUrl;
