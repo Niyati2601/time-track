@@ -8,7 +8,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import GridViewIcon from '@mui/icons-material/GridView';
 import CategoryIcon from '@mui/icons-material/Category';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import InsightsIcon from '@mui/icons-material/Insights';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -91,10 +91,12 @@ const Sidebar = () => {
                             <span>Categories</span>
                         </li>
                     </Link>
+                    <Link to="/feedback" style={{ textDecoration: "none" }}>
                     <li>
-                        <LocalShippingIcon className='icon' />
-                        <span>Delivery</span>
+                        <QuestionAnswerIcon className='icon' />
+                        <span>Feedback</span>
                     </li>
+                    </Link>
                     <p className="title">USEFUL</p>
                     <li>
                         <InsightsIcon className='icon' />
