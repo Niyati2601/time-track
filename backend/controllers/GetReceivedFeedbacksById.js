@@ -6,8 +6,8 @@ const GetReceivedFeedbacksById = async (req, res) => {
         const feedbacks = await Feedback.find({ 
             $or: [
                 { employeeId: user },
-                { type: "general" }
-            ]
+                { type: "general" , user: { $ne: user } },
+                ]
          });
 
         if (feedbacks) {
