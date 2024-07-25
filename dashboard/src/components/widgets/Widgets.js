@@ -3,9 +3,10 @@ import './Widgets.scss'
 import PersonOutline from '@mui/icons-material/PersonOutline';
 import GridViewIcon from '@mui/icons-material/GridView';    
 import CategoryIcon from '@mui/icons-material/Category';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import ForumIcon from '@mui/icons-material/Forum';
 import apiUrl from '../../api/ApiUrl';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Widgets = ({type}) => {
 
@@ -14,6 +15,7 @@ const Widgets = ({type}) => {
     const [count, setCount] = useState(0);
     const [projectCount, setProjectCount] = useState(0);
     const [categoryCount, setCategoryCount] = useState(0);
+    const [feedbackCount, setFeedbackCount] = useState(0);
 
     const fetchUsers = async () => {
         const res = await fetch(apiUrl.getAllUsers.url, {
@@ -60,10 +62,31 @@ const Widgets = ({type}) => {
         }
     };
 
+    const fetchFeedbacks=async()=>{
+        try {
+            const res = await fetch(apiUrl.getAllFeedbacks.url, {
+                method: apiUrl.getAllFeedbacks.method,
+                credentials: "include",
+                headers: {
+                    "content-type": "application/json",
+                },
+            });
+            const data = await res.json();
+            if (data.success) {
+                setFeedbackCount(data.data.length);
+            }else{
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+
     useEffect(() => {
         fetchUsers();
         fetchProjects();
         fetchCategories();
+        fetchFeedbacks();
     }, []);
 
     const handleNavigation=()=>{
@@ -73,7 +96,10 @@ const Widgets = ({type}) => {
             navigate('/projects');
         }else if (data.link === 'View all Categories') {
             navigate('/categories');
-        }else{
+        }else if (data.link === 'View general Feedbacks') {
+            navigate('/feedback');
+        }
+        else{
             navigate('/');
         }
     }
@@ -92,7 +118,7 @@ const Widgets = ({type}) => {
                 )
             }
             break;
-        case 'order':
+        case 'projects':
             data = {
                 title: 'PROJECTS',
                 isMoney: false,
@@ -103,7 +129,7 @@ const Widgets = ({type}) => {
                 )
             }
             break;
-        case 'earning':
+        case 'categories':
             data = {
                 title: 'CATEGORIES',
                 isMoney: true,
@@ -114,14 +140,14 @@ const Widgets = ({type}) => {
                 )
             }
             break;
-        case 'balance':
+        case 'feedbacks':
             data = {
-                title: 'BALANCE',
+                title: 'FEEDBACKS',
                 isMoney: true,
-                link: 'See details',
-                amount: 50,
+                link: 'View general Feedbacks',    
+                amount: feedbackCount,
                 icon: (
-                    <AccountBalanceWalletIcon className='icon' />
+                    <ForumIcon className='icon' />
                 )
             }
             break;

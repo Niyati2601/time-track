@@ -29,6 +29,8 @@ const EditUser = require("../controllers/EdituserForAdmin");
 const categoriesController = require("../controllers/CategoriesController");
 const adminLoginController = require("../controllers/AdminLogin");
 const  editClockForAdmin  = require("../controllers/EditClockinOut");
+const GetGeneralFeedbacks = require("../controllers/GetGeneralFeedbacks");
+const deleteFeedbackById = require("../controllers/DeleteFeedbackById");
 
 router.post("/signup", signup.signup);
 router.post("/login", userLoginController);
@@ -100,5 +102,8 @@ router.get('/get-category', Middleware.isAdmin,categoriesController.getCategory)
 router.patch('/edit-category/:id', Middleware.isAdmin,categoriesController.editCategory);
 router.delete('/delete-category/:id', Middleware.isAdmin,categoriesController.deleteCategory);
 router.patch('/edit-clock-in-out/:id', Middleware.isAdmin, editClockForAdmin);
+router.get('/get-general-feedbacks', Middleware.isAdmin, GetGeneralFeedbacks.GetGeneralFeedbacks);
+router.get('/get-all-feedbacks', Middleware.isAdmin, GetGeneralFeedbacks.getAllFeedbacks);
+router.delete('/delete-feedback/:id', Middleware.isAdmin, deleteFeedbackById);
 
 module.exports = router;
