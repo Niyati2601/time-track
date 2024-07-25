@@ -259,6 +259,7 @@ export default function CategoriesDataTable() {
                                         <button
                                             type="submit"
                                             className="submit-button"
+                                            onClick={closeEditCategoryModal}
                                         >
                                             Edit
                                         </button>

@@ -104,6 +104,18 @@ const apiUrl = {
     editClock :{
         url: `${backendDomain}/api/edit-clock-in-out`,
         method: "PATCH",
+    },
+    getGeneralFeedbacks :{
+        url: `${backendDomain}/api/get-general-feedbacks`,
+        method: "get",
+    },
+    deleteFeedbacks:{
+        url: `${backendDomain}/api/delete-feedback`,
+        method: "delete",
+    },
+    getAllFeedbacks:{
+        url: `${backendDomain}/api/get-all-feedbacks`,
+        method: "get",
     }
 };
 export default apiUrl;
