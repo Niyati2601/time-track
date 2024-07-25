@@ -101,9 +101,9 @@ export default function AdminDataTable() {
         <div className="datatable">
             <div className="datatableTitle">
                 Admins
-                <Link to="/users/new" className="link">
+                {/* <Link to="/users/new" className="link">
                     Add New
-                </Link>
+                </Link> */}
             </div>
             <div className="datatableContainer">
                 <DataGrid
@@ -126,7 +126,7 @@ export default function AdminDataTable() {
                         <div className="delete-modal-overlay">
                             <div className="delete-modal-content">
                                 <h2 className="modal-title">
-                                    Are you sure you want to delete this user?
+                                    Are you sure you want to delete this admin?
                                 </h2>
                                 <div className="modal-buttons">
                                     <button

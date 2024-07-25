@@ -3,11 +3,11 @@ import "./Signup.scss";
 import imageToBase64 from "../../helpers/imageToBase64";
 import Logo from "../../assests/defaultImage.jpg";
 import apiUrl from "../../api/ApiUrl";
-import {useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import toast from "react-hot-toast";
 
 const Signup = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [newUser, setNewUser] = useState({
     username: "",
     email: "",
@@ -27,7 +27,7 @@ const Signup = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     try {
       const res = await fetch(apiUrl.signUpAdmin.url, {
         credentials: "include",
@@ -41,7 +41,7 @@ const Signup = () => {
       const data = await res.json();
       if (data.success) {
         setNewUser({
-         username: "",
+          username: "",
           email: "",
           password: "",
           profilePhoto: "",
@@ -131,6 +131,8 @@ const Signup = () => {
           required
         />
         <input type="submit" value="Signup" />
+        <p>Already have an account? <Link to={'/login'} style={{textDecoration:"none", color: "#55e6c1"}}>
+          Login</Link></p>
       </form>
     </div>
   );

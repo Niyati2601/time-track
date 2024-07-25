@@ -364,7 +364,7 @@ export const FeedbackColumn = [
       return (
         <div>
           <div
-            style={{ textDecoration: 'none', color: params.row.isAnonymous=== true ? "white" : "green" }}
+            style={{ textDecoration: 'none', color: params.row.isAnonymous=== true ? "gray" : "green" }}
           >
             {params.row.isAnonymous=== true ? "Anonymous User" : params.row.user.username}
           </div>

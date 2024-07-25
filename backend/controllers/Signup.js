@@ -24,6 +24,7 @@ const signup = async (req, res) => {
           email,
           password: hashPassword,
           profilePhoto: req.body.profilePhoto,
+          role: "user",
         });
         await newUser.save();
         res.status(201).json({ message: "User created successfully", success: true, error: false});

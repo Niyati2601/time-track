@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Login.scss";
 import apiUrl from "../../api/ApiUrl";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAdminDetails } from "../../redux/adminSlice";
 import toast from "react-hot-toast";
@@ -86,6 +86,8 @@ const Login = () => {
           required
         />
         <input type="submit" value="Login" />
+        <p>Don't have an account? <Link to={'/signup'} style={{textDecoration:"none", color: "#55e6c1"}}>
+        Signup</Link></p>
       </form>
     </div>
   );

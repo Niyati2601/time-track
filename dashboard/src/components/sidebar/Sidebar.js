@@ -9,7 +9,7 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import GridViewIcon from '@mui/icons-material/GridView';
 import CategoryIcon from '@mui/icons-material/Category';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
-import InsightsIcon from '@mui/icons-material/Insights';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
@@ -102,7 +102,7 @@ const Sidebar = () => {
                     <p className="title">ADMIN</p>
                     <Link to="/admins" style={{ textDecoration: "none" }}>
                     <li>
-                        <InsightsIcon className='icon' />
+                        <SupervisorAccountIcon className='icon' />
                         <span>Admins</span>
                     </li>
                     </Link>
