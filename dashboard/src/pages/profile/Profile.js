@@ -60,7 +60,7 @@ const Profile = () => {
         e.preventDefault();
 
         const updatedData = {
-            adminName: userData.adminName,
+            username: userData.username,
             email: userData.email,
             profilePhoto: userData.profilePhoto,
         };
@@ -133,9 +133,9 @@ const Profile = () => {
                             <div className="formInput">
                                 <label>Name</label>
                                 <input
-                                    name="adminName"
+                                    name="username"
                                     type="text"
-                                    value={userData.adminName || ""}
+                                    value={userData.username || ""}
                                     onChange={handleChange}
                                     disabled={!editable}
                                 />

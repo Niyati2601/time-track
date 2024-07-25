@@ -99,11 +99,13 @@ const Sidebar = () => {
                         <span>Feedback</span>
                     </li>
                     </Link>
-                    <p className="title">USEFUL</p>
+                    <p className="title">ADMIN</p>
+                    <Link to="/admins" style={{ textDecoration: "none" }}>
                     <li>
                         <InsightsIcon className='icon' />
-                        <span>Stats</span>
+                        <span>Admins</span>
                     </li>
+                    </Link>
                     <li>
                         <NotificationsActiveIcon className='icon' />
                         <span>Notifications</span>

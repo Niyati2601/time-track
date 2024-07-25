@@ -1,6 +1,29 @@
 import moment from "moment";
 import { Link } from "react-router-dom";
 import defaultImage from "./assests/defaultImage.jpg";
+import { Switch } from "@mui/material";
+import apiUrl from "./api/ApiUrl";
+import MentorSwitch from "./components/switch/MentorSwitch";
+
+
+const editUserRole = async (id, isMentor) => {
+  const response = await fetch(`${apiUrl.editUser.url}/${id}`, {
+    method: apiUrl.editUser.method,
+    credentials: "include",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ isMentor }),
+  });
+
+  const data = await response.json();
+  if (data.success) {
+    return data.data;
+  } else {
+    
+  }
+};
+
 
 const getScopeColor = (scope) => {
   switch (scope) {
@@ -62,6 +85,31 @@ export const userColumns = [
     headerName: "Email",
     width: 230,
   },
+  {
+    field: "role",
+    headerName: "Role",
+    width: 230,
+    renderCell: (params) => {
+      return <div style={{ textTransform: "uppercase" }}>{params.row.role}</div>;
+    },
+  },
+  {
+    field: "isMentor",
+    headerName: "Mentor",
+    width: 230,
+    renderCell: (params) => {
+      const handleToggleChange = async (newIsMentor) => {
+        await editUserRole(params.row._id, newIsMentor);
+      };
+
+      return (
+        <MentorSwitch
+          isMentor={params.row.isMentor}
+          onChange={handleToggleChange}
+        />
+      );
+    },
+  },  
   {
     field: "createdAt",
     headerName: "Created At",

@@ -11,6 +11,8 @@ const EditUser = async (req, res) => {
         username: req.body.username,
         email: req.body.email,
         profilePhoto: req.body.profilePhoto,
+        role: req.body.role,
+        isMentor: req.body.isMentor
       };
 
       const updatedUser = await userModal.findByIdAndUpdate(

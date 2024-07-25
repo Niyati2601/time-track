@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 const Signup = () => {
     const navigate = useNavigate();
   const [newUser, setNewUser] = useState({
-    adminName: "",
+    username: "",
     email: "",
     password: "",
     profilePhoto: "",
@@ -41,7 +41,7 @@ const Signup = () => {
       const data = await res.json();
       if (data.success) {
         setNewUser({
-         adminName: "",
+         username: "",
           email: "",
           password: "",
           profilePhoto: "",
@@ -107,8 +107,8 @@ const Signup = () => {
         </label>
         <input
           type="text"
-          name="adminName"
-          value={newUser.adminName}
+          name="username"
+          value={newUser.username}
           onChange={handleChange}
           placeholder="Admin Name"
           required

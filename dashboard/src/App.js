@@ -15,6 +15,8 @@ import Signup from './pages/signup/Signup';
 import Profile from './pages/profile/Profile';
 import { Toaster } from "react-hot-toast";
 import Feedback from './pages/projects/Feedback';
+import AdminDataTable from './components/datatable/AdminDatatable';
+import Admin from './pages/list/Admin';
 
 
 
@@ -34,7 +36,6 @@ function App() {
         <Route index element={<List />}   />
         <Route path=":id" element={<Single />} />
         <Route path="new" element={<New inputs={userInputs}  title={"Add New User"}/>} />
-
         </Route>
         <Route  path="projects">
         <Route index element={<Projects />}   />
@@ -46,6 +47,9 @@ function App() {
         </Route>
         <Route path='feedback'>
           <Route index element={<Feedback />} />
+        </Route>
+        <Route  path="admins">
+        <Route index element={<Admin />}   />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -10,7 +10,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { VscEye } from "react-icons/vsc";
 import toast from "react-hot-toast";
 
-export default function DataTable() {
+export default function AdminDataTable() {
     const [users, setUsers] = useState([]);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [deleteUserId, setDeleteUserId] = useState("");
@@ -88,19 +88,19 @@ export default function DataTable() {
         },
     ];
     const userRows = users
-  .filter(user => user.role !== 'admin') // Filter users with role "User"
+  .filter(user => user.role !== 'user') // Filter users with role "User"
   .map(user => {
     console.log('user: ', user);
     return {
       ...user,
-      role: user.role === 'admin' ? 'Admin' : 'User',
+      role: user.role === 'user' ? 'User' : 'Admin',
     };
   });
 
     return (
         <div className="datatable">
             <div className="datatableTitle">
-                Users
+                Admins
                 <Link to="/users/new" className="link">
                     Add New
                 </Link>

@@ -1,5 +1,5 @@
 const userModal = require("../models/User");
-const adminModal = require("../models/Admin");
+const adminModal = require("../models/User");
 
 const GetUserDetails = async (req, res) => {
     try { 

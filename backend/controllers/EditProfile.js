@@ -1,6 +1,6 @@
 const userModal = require("../models/User");
 const bcrypt = require("bcryptjs");
-const adminModal = require("../models/Admin");
+const adminModal = require("../models/User");
 
 
 const EditProfile = async (req, res) => {
@@ -46,12 +46,15 @@ const EditProfile = async (req, res) => {
 const AdminEditProfile = async (req, res) => {
   try {
     const user = await adminModal.findById(req.userId);
+    console.log('user: ', user);
     if (user) {
       const updatedData = {
-        adminName: req.body.adminName,
+        username: req.body.username,
         email: req.body.email,
         profilePhoto: req.body.profilePhoto,
+        role: req.body.role,
       };
+      console.log(updatedData)
 
       const updatedAdmin = await adminModal.findByIdAndUpdate(
         req.userId,
