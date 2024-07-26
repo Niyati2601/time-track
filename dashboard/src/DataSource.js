@@ -1,10 +1,12 @@
 import moment from "moment";
 import { Link } from "react-router-dom";
 import defaultImage from "./assests/defaultImage.jpg";
-import { Switch } from "@mui/material";
+import { Rating } from "@mui/material";
 import apiUrl from "./api/ApiUrl";
 import MentorSwitch from "./components/switch/MentorSwitch";
-
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import toast from "react-hot-toast";
 
 const editUserRole = async (id, isMentor) => {
   const response = await fetch(`${apiUrl.editUser.url}/${id}`, {
@@ -20,7 +22,7 @@ const editUserRole = async (id, isMentor) => {
   if (data.success) {
     return data.data;
   } else {
-    
+    toast.error(data.message);
   }
 };
 
@@ -90,7 +92,9 @@ export const userColumns = [
     headerName: "Role",
     width: 230,
     renderCell: (params) => {
-      return <div style={{ textTransform: "uppercase" }}>{params.row.role}</div>;
+      return (
+        <div style={{ textTransform: "uppercase" }}>{params.row.role}</div>
+      );
     },
   },
   {
@@ -364,11 +368,32 @@ export const FeedbackColumn = [
       return (
         <div>
           <div
-            style={{ textDecoration: 'none', color: params.row.isAnonymous=== true ? "white" : "green" }}
+            style={{
+              textDecoration: "none",
+              color: params.row.isAnonymous === true ? "white" : "green",
+            }}
           >
-            {params.row.isAnonymous=== true ? "Anonymous User" : params.row.user.username}
+            {params.row.isAnonymous === true
+              ? "Anonymous User"
+              : params.row.user.username}
           </div>
         </div>
+      );
+    },
+  },
+  {
+    field: "Rating",
+    headerName: "Rating",
+    width: 230,
+    renderCell: (params) => {
+      return (
+        <Rating
+          value={params.row.rating}
+          readOnly
+          precision={1}
+          icon={<StarIcon style={{ color: "#ffc107" }} />}
+          emptyIcon={<StarBorderIcon style={{ color: "#ffc107" }} />}
+        />
       );
     },
   },
