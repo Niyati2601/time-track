@@ -1,6 +1,6 @@
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
-import { MdDeleteOutline, MdEdit } from "react-icons/md";
+import { MdDeleteOutline } from "react-icons/md";
 import { FeedbackColumn } from "../../DataSource";
 import apiUrl from "../../api/ApiUrl";
 import toast from "react-hot-toast";
