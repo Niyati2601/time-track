@@ -16,6 +16,7 @@ const Home = () => {
           <Widgets type='projects' />
           <Widgets type='categories'/>
           <Widgets type='feedbacks' />
+          <Widgets type='Admins' />
         </div>
         <div className="charts">
           <Featured />

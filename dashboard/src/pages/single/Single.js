@@ -122,26 +122,24 @@ const Single = () => {
             <Chart aspect={3 / 1} title="User Spending ( Last 6 Months)" />
           </div>
         </div>
-        <div className="bottom">
-          <h1 className="title">User Logs</h1>
-          <List />
-        </div>
-        <div className="bottom">
-          <h1 className="title">Feedbacks (Given)</h1>
-          <FeedbackTable />
-        </div>
-        <div className="bottom">
-          <h1 className="title">Feedbacks (Received)</h1>
-          <ReceivedFeedbackTable />
-        </div>
-        <div className="bottom">
-          <h1 className="title">Projects</h1>
-          <ProjectAssignedForUsers />
-        </div>
-        <div className="bottom">
-          <h1 className="title">Clock In/Out Details</h1>
-          <ClockInOutTable />
-        </div>
+        {user?.role === "user" &&
+          <><div className="bottom">
+            <h1 className="title">User Logs</h1>
+            <List />
+          </div><div className="bottom">
+              <h1 className="title">Feedbacks (Given)</h1>
+              <FeedbackTable />
+            </div><div className="bottom">
+              <h1 className="title">Feedbacks (Received)</h1>
+              <ReceivedFeedbackTable />
+            </div><div className="bottom">
+              <h1 className="title">Projects</h1>
+              <ProjectAssignedForUsers />
+            </div><div className="bottom">
+              <h1 className="title">Clock In/Out Details</h1>
+              <ClockInOutTable />
+            </div></>
+        }
       </div>
 
       {isEditProfileModalOpen && (

@@ -4,6 +4,7 @@ import PersonOutline from '@mui/icons-material/PersonOutline';
 import GridViewIcon from '@mui/icons-material/GridView';    
 import CategoryIcon from '@mui/icons-material/Category';
 import ForumIcon from '@mui/icons-material/Forum';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import apiUrl from '../../api/ApiUrl';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -13,6 +14,7 @@ const Widgets = ({type}) => {
     const navigate = useNavigate();
 
     const [count, setCount] = useState(0);
+    const [adminCount, setAdminCount] = useState(0);
     const [projectCount, setProjectCount] = useState(0);
     const [categoryCount, setCategoryCount] = useState(0);
     const [feedbackCount, setFeedbackCount] = useState(0);
@@ -27,8 +29,11 @@ const Widgets = ({type}) => {
         });
 
         const data = await res.json();
+        const data1 = data.data.filter((data) => data?.role === "user" )
+        const data2 = data.data.filter((data) => data?.role === "admin" )
         if (data.success) {
-            setCount(data.data.length);
+            setCount(data1.length);
+            setAdminCount(data2.length);
         }
     };
 
@@ -98,6 +103,8 @@ const Widgets = ({type}) => {
             navigate('/categories');
         }else if (data.link === 'View general Feedbacks') {
             navigate('/feedback');
+        } else if (data.link === 'View all Admins') {
+            navigate('/admins');
         }
         else{
             navigate('/');
@@ -151,6 +158,17 @@ const Widgets = ({type}) => {
                 )
             }
             break;
+            case 'Admins' : 
+            data = {
+                title: 'ADMINS',
+                isMoney: false,
+                link: 'View all Admins',
+                amount: adminCount,
+                icon: (
+                    <SupervisorAccountIcon className='icon' />
+                )
+            }
+            break;
 
         default:
             break;
@@ -159,7 +177,7 @@ const Widgets = ({type}) => {
   return (
     <div className='widget'>
         <div className="left">
-            <span className='title'>{data.title}</span>
+            <span className='title'>{data?.title}</span>
             <span className='counter'>{data.isMoney} {data.amount}</span>
             <span className='link' onClick={handleNavigation}>{data.link}</span>
         </div>

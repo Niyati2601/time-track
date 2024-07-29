@@ -285,7 +285,7 @@ const List = () => {
                     onChange={handleChangeLog}
                   >
                     {projectOptions.map((project) => (
-                      <option key={project.value} value={project.value}>
+                      <option key={project.value} value={project.label}>
                         {project.label}
                       </option>
                     ))}

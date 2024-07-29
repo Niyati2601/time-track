@@ -70,7 +70,6 @@ const ProjectAssignedForUsers = () => {
         <TableHead>
           <TableRow>
             <TableCell className="tableCell">ID</TableCell>
-            {/* <TableCell className="tableCell">Type</TableCell> */}
             <TableCell className="tableCell">Name</TableCell>
             <TableCell className="tableCell">Description</TableCell>
             <TableCell className="tableCell">Scope</TableCell>
@@ -90,7 +89,6 @@ const ProjectAssignedForUsers = () => {
               <TableCell className="tableCell-id">
                 <Link to={`/projects/${project._id}`} style={{ textDecoration: 'none', color: 'green' }}>
                 {project._id}</Link></TableCell>
-              {/* <TableCell className="tableCell">{project.type}</TableCell> */}
               <TableCell className="tableCell">{project.name}</TableCell>
               <TableCell className="tableCell">{project.description ? project.description : '-'}</TableCell>
               <TableCell className="tableCell">
