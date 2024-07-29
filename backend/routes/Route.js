@@ -47,6 +47,7 @@ router.post("/clock-history", Middleware.Middleware, ClockInOut.clockInAndOut);
 
 
 router.post("/timelog", Middleware.Middleware, addLog.addLog);
+router.patch("/edit-log", Middleware.Middleware, editLog.editLog);
 router.get("/getlogs", Middleware.Middleware, getLogs);
 router.get("/getAllLogs", Middleware.Middleware, getAllLogs);
 router.delete("/delete-log", Middleware.Middleware, deleteLog);
@@ -83,6 +84,7 @@ router.post("/admin-login",adminLoginController);
 router.post("/admin-logout", Logout.AdminLogout);
 router.patch("/admin-edit-profile",  Middleware.isAdmin, EditProfile.AdminEditProfile)
 router.get("/admin-details", Middleware.isAdmin, GetUserDetails.GetAdminDetails);
+router.patch("/admin-edit-log/:id", Middleware.isAdmin, editLog.editLogAdmin);
 router.get("/users/:id", Middleware.isAdmin, GetUserById);
 router.delete("/users/:id", Middleware.isAdmin, DeleteUserById);
 router.get("/user-logs/:id", Middleware.isAdmin, GetUserLogsById);

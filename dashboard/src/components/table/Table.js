@@ -22,19 +22,17 @@ const List = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isEditLogModalOpen, setIsEditLogModalOpen] = useState(false);
   const [currentLog, setCurrentLog] = useState(null);
-  console.log('currentLog: ', currentLog);
+
   const [projectOptions, setProjectOptions] = useState([]);
   const [tags, setTags] = useState([]);
-  const [editLogs,setEditLogs] = useState({
+  const [editLogs, setEditLogs] = useState({
     _id: "",
     title: "",
     projects: "",
     tags: [],
     startTIme: new Date(),
     endTIme: new Date(),
-  })
-  console.log('editLogs: ', editLogs);
-  
+  });
 
   const handleLogs = async () => {
     try {
@@ -48,14 +46,13 @@ const List = () => {
       const data = await response.json();
       setData(data?.data || []); // Ensure that data is an array
     } catch (error) {
-      console.error("Failed to fetch logs:", error);
       setData([]); // Set data to an empty array on error
     }
   };
 
-
   useEffect(() => {
     handleLogs();
+    fetchTags()
   }, [id]);
 
   const formatTime = (dateString) => {
@@ -79,13 +76,13 @@ const List = () => {
     setIsEditLogModalOpen(false);
     setCurrentLog(null);
     setEditLogs({
-      _id: '',
-      title: '',
-      projects:'',
-      tags:[],
+      _id: "",
+      title: "",
+      projects: "",
+      tags: [],
       startTIme: new Date(),
       endTIme: new Date(),
-    })
+    });
   };
 
   const fetchProjects = async () => {
@@ -97,7 +94,7 @@ const List = () => {
           "content-type": "application/json",
         },
       });
-  
+
       const data = await res.json();
       if (data.success) {
         setProjectOptions(
@@ -113,7 +110,7 @@ const List = () => {
       toast.error(error.message);
     }
   };
-  
+
   const fetchTags = async () => {
     try {
       const res = await fetch(apiUrl.getTags.url, {
@@ -131,7 +128,6 @@ const List = () => {
             label: tag.name,
           }))
         );
-        console.log("tags: ", tags);
       } else {
         setTags([]);
       }
@@ -139,19 +135,26 @@ const List = () => {
       toast.error(error.message);
     }
   };
-  
 
   const handleLogModal = (log) => {
-  setCurrentLog(log);
-  setIsEditLogModalOpen(true);
-  fetchProjects();
-  fetchTags();
-};
+    setCurrentLog(log);
+    setIsEditLogModalOpen(true);
+    fetchProjects();
+    fetchTags();
+    setEditLogs({
+      _id: log._id,
+      title: log.title,
+      projects: log.projects,
+      tags: tags.filter((tag) => log.tags.includes(tag.label)),
+      startTIme: new Date(log.startTIme),
+      endTIme: new Date(log.endTIme),
+    });
+  };
 
-  const handleFormSubmit = async(e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(apiUrl.editLogs.url,{
+      const res = await fetch(`${apiUrl.editLogs.url}/${editLogs._id}`, {
         method: apiUrl.editLogs.method,
         credentials: "include",
         headers: {
@@ -159,12 +162,13 @@ const List = () => {
         },
         body: JSON.stringify({
           ...editLogs,
+          tags: editLogs.tags.map((tag) => tag.label), // Sending tags in the required format
           startTIme: editLogs.startTIme,
-          endTIme: editLogs.endTIme
-        })
-      })
+          endTIme: editLogs.endTIme,
+        }),
+      });
       const data = await res.json();
-      if(data.success) {
+      if (data.success) {
         toast.success(data.message);
         closeEditLogModal();
         handleLogs();
@@ -178,23 +182,30 @@ const List = () => {
     const { name, value } = e.target;
     setEditLogs({
       ...editLogs,
-      [name]: value
-    })
-  }
+      [name]: value,
+    });
+  };
 
-  const handleStartTime = (date) => {
+  const handlestartTIme = (date) => {
     setEditLogs((prev) => ({
       ...prev,
-      startTIme: date
+      startTIme: date,
     }));
-  }
+  };
 
-  const handleEndTime = (date) => {
+  const handleendTIme = (date) => {
     setEditLogs((prev) => ({
       ...prev,
-      endTIme: date
+      endTIme: date,
     }));
-  }
+  };
+
+  const handleTagChange = (selectedOptions) => {
+    setEditLogs((prev) => ({
+      ...prev,
+      tags: selectedOptions,
+    }));
+  };
 
   return (
     <TableContainer component={Paper} className="table">
@@ -248,98 +259,87 @@ const List = () => {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
       {isEditLogModalOpen && currentLog && (
-  <div className="edit-log-modal">
-    <div className="edit-log-modal-overlay">
-      <div className="edit-log-modal-content">
-        <h2 className="modal-title">Edit User Log</h2>
-        <form onSubmit={handleFormSubmit}>
-          <div className="form-group">
-            <label htmlFor="title">Title</label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              className="form-control"
-              defaultValue={currentLog.title}
-              onChange={handleChangeLog}
-              required
-            />
+        <div className="edit-log-modal">
+          <div className="edit-log-modal-overlay">
+            <div className="edit-log-modal-content">
+              <h2 className="modal-title">Edit User Log</h2>
+              <form onSubmit={handleFormSubmit}>
+                <div className="form-group">
+                  <label htmlFor="title">Title</label>
+                  <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    className="form-control"
+                    value={editLogs.title}
+                    onChange={handleChangeLog}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="projects">Projects</label>
+                  <select
+                    name="projects"
+                    className="form-control"
+                    value={editLogs.projects}
+                    onChange={handleChangeLog}
+                  >
+                    {projectOptions.map((project) => (
+                      <option key={project.value} value={project.value}>
+                        {project.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="tags">Tags</label>
+                  <Select
+                    isMulti
+                    name="tags"
+                    options={tags}
+                    value={editLogs.tags}
+                    onChange={handleTagChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="startTIme">Start Time</label>
+                  <input
+                    type="datetime-local"
+                    id="startTIme"
+                    name="startTIme"
+                    className="form-control"
+                    value={moment(editLogs.startTIme).format("YYYY-MM-DDTHH:mm")}
+                    onChange={(e) => handlestartTIme(new Date(e.target.value))}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="endTIme">End Time</label>
+                  <input
+                    type="datetime-local"
+                    id="endTIme"
+                    name="endTIme"
+                    className="form-control"
+                    value={moment(editLogs.endTIme).format("YYYY-MM-DDTHH:mm")}
+                    onChange={(e) => handleendTIme(new Date(e.target.value))}
+                  />
+                </div>
+                <div className="modal-buttons">
+                  <button
+                    type="button"
+                    onClick={closeEditLogModal}
+                    className="cancel-button"
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" className="submit-button">
+                    Save
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="projects">Projects</label>
-            {/* <Select
-              name="projects"
-              options={projectOptions}
-              defaultValue={Array.isArray(currentLog.projects) ? 
-                currentLog.projects.map(project => ({
-                  value: project._id,
-                  label: project.name
-                })) : []}
-
-            /> */}
-            <select
-              name="projects"
-              className="form-control"
-              defaultValue={currentLog.projects}
-              onChange={handleChangeLog}
-            >
-              {projectOptions.map((project) => (
-                <option key={project.value} value={project.value}>
-                  {project.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="form-group">
-            <label htmlFor="tags">Tags</label>
-            <Select
-              isMulti
-              name="tags"
-              options={tags}
-              defaultValue={tags.filter(tag => currentLog.tags.includes(tag.label))}
-
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="startTIme">Start Time</label>
-            <input
-              type="datetime-local"
-              id="startTIme"
-              name="startTIme"
-              className="form-control"
-              defaultValue={moment(currentLog.startTIme).format("YYYY-MM-DDTHH:mm")}
-              onChange={handleStartTime}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="endTIme">End Time</label>
-            <input
-              type="datetime-local"
-              id="endTIme"
-              name="endTIme"
-              className="form-control"
-              defaultValue={moment(currentLog.endTIme).format("YYYY-MM-DDTHH:mm")}
-              onChange={handleEndTime}
-            />
-          </div>
-          <div className="modal-buttons">
-            <button
-              type="button"
-              onClick={closeEditLogModal}
-              className="cancel-button"
-            >
-              Cancel
-            </button>
-            <button type="submit" className="submit-button">
-              Save
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-)}
-
+        </div>
+      )}
     </TableContainer>
   );
 };

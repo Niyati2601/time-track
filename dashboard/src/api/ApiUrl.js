@@ -118,7 +118,7 @@ const apiUrl = {
         method: "get",
     },
     editLogs: {
-        url: `${backendDomain}/api/edit-log`,
+        url: `${backendDomain}/api/admin-edit-log`,
         method: "PATCH",
     },
     getTags:{
