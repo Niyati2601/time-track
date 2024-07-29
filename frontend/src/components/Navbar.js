@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useSelector } from "react-redux";
 import { CgProfile } from "react-icons/cg";
 import { RiLogoutCircleRLine } from "react-icons/ri";
@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import defaultImage from "../assets/defaultImage.jpg";
 import {VscFeedback} from 'react-icons/vsc';
 import { PiSquaresFour } from "react-icons/pi";
+import { ClockingContext } from "../context/ClockingContext";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -26,6 +27,8 @@ const Navbar = () => {
 
   const [navHeader, setNavHeader] = useState({ text: "", icon: null });
 
+  const { setIsClockOut,setIsDayIn } = useContext(ClockingContext);
+
   useEffect(() => {
     const pathToHeaderMap = {
       "/home": { text: "Dashboard", icon: <IoHomeOutline /> },
@@ -34,7 +37,6 @@ const Navbar = () => {
       "/projects": { text: "Projects", icon: <PiSquaresFour /> },
       "/project-details/:id": { text: "Project Details", icon: <PiSquaresFour /> },
       "/feedback": { text: "Feedback", icon: <VscFeedback /> },
-      // Add other paths and their corresponding headers and icons here
     };
 
     setNavHeader(
@@ -55,7 +57,6 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      // Call the logout API
       const res = await fetch(apiUrl.logout.url, {
         method: apiUrl.logout.method,
         credentials: "include",
@@ -66,8 +67,9 @@ const Navbar = () => {
 
       const data = await res.json();
 
-      // Check if logout was successful
       if (data.success) {
+        setIsClockOut(true);
+        setIsDayIn(false);
         toast.success("Logout Successful");
         navigate("/");
       } else {
@@ -99,7 +101,7 @@ const Navbar = () => {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         MySwal.fire({
           title: "Cancelled",
-          text: "Your session is safe :)",
+          text: "Your session is safe  🥂",
           icon: "error",
         });
       }

@@ -116,6 +116,14 @@ const apiUrl = {
     getAllFeedbacks:{
         url: `${backendDomain}/api/get-all-feedbacks`,
         method: "get",
-    }
+    },
+    editLogs: {
+        url: `${backendDomain}/api/edit-log`,
+        method: "PATCH",
+    },
+    getTags:{
+        url: `${backendDomain}/api/tags`,
+        method: "get",
+    },
 };
 export default apiUrl;

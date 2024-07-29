@@ -9,6 +9,7 @@ import { ClockingContext } from '../context/ClockingContext';
 import apiUrl from '../api/Api';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 const MainButtons = ({ className }) => {
   const { isClocking, setIsClocking, isDayIn, clockInTime, setClockInTime } = useContext(ClockingContext);
@@ -45,7 +46,11 @@ const MainButtons = ({ className }) => {
    } else {
     handleClockIn(user.user._id);
    }
-  }, [isDayIn]);
+   setInterval(() => {
+    if(moment(Date.now()).format('hh:mm A') === '11:55 PM') {
+      handleClockOut();
+   }}, 100000);
+  }, []);
 
   const handleClockIn = async () => {
     try {
@@ -94,14 +99,16 @@ const MainButtons = ({ className }) => {
         setIsClocking(false);
         setClockInTime(null);
       } else {
-        // toast.error(data.message);
+        toast.error(data.message);
         console.error(data.message);
       }
     } catch (error) {
-      // toast.error('Failed to clock out. Please try again.');
+      toast.error('Failed to clock out. Please try again.');
       console.error('Failed to clock out. Please try again.', error);
     }
   };
+
+
 
   return (
     <div className={`flex justify-end items-center ${className}`}>

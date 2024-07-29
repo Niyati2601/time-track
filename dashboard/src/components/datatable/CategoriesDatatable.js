@@ -3,10 +3,9 @@ import "./Datatable.scss";
 import React, { useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { CategoriesColumn } from "../../DataSource";
-import { useNavigate } from "react-router-dom";
 import apiUrl from "../../api/ApiUrl";
 import { MdDeleteOutline, MdEdit } from "react-icons/md";
-import { VscEye } from "react-icons/vsc";
+// import { VscEye } from "react-icons/vsc";
 import toast from "react-hot-toast";
 
 export default function CategoriesDataTable() {
@@ -18,7 +17,6 @@ export default function CategoriesDataTable() {
     const [categoryName, setCategoryName] = useState("");
     const [editCategoryId, setEditCategoryId] = useState("");
 
-    const navigate = useNavigate();
 
     const fetchCategories = async () => {
         const res = await fetch(apiUrl.getCategories.url, {

@@ -34,27 +34,6 @@ const Timesheet = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteLogId, setDeleteLogId] = useState(null);
 
-  // const getAllLogsApi = async () => {
-  //   try {
-  //     const res = await fetch(apiUrl.getAllLogs.url, {
-  //       method: apiUrl.getAllLogs.method,
-  //       credentials: "include",
-  //       headers: {
-  //         "content-type": "application/json",
-  //       },
-  //     });
-  //     const data = await res.json();
-
-  //     if (data.success) {
-  //       setLogs(data.data);
-  //     } else {
-  //       toast.error(data.message);
-  //     }
-  //   } catch (error) {
-  //     toast.error(error.message);
-  //   }
-  // };
-
   const fetchUserDetails = async () => {
     try {
       const response = await fetch(apiUrl.current_user.url, {

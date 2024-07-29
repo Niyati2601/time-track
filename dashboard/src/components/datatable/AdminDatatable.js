@@ -3,9 +3,8 @@ import "./Datatable.scss";
 import React, { useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { userColumns } from "../../DataSource";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import apiUrl from "../../api/ApiUrl";
-import { BiSolidEdit } from "react-icons/bi";
 import { MdDeleteOutline } from "react-icons/md";
 import { VscEye } from "react-icons/vsc";
 import toast from "react-hot-toast";
@@ -88,7 +87,7 @@ export default function AdminDataTable() {
         },
     ];
     const userRows = users
-  .filter(user => user.role !== 'user') // Filter users with role "User"
+  .filter(user => user.role !== 'user') 
   .map(user => {
     console.log('user: ', user);
     return {
