@@ -370,7 +370,6 @@ const Dashboard = () => {
               <p className="mt-2 text-red-600">No logs for today.</p>
             )}
           </div>
-
           <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow-md">
             <div className="flex justify-between items-center border-b-2">
               <h1 className="text-xl font-semibold pb-2 text-gray-600">
@@ -405,18 +404,16 @@ const Dashboard = () => {
                 return (
                   <div key={index} className="mt-2">
                     <div className="text-gray-600 flex justify-between items-center">
-                      <div className="text-md text-blue-800">{group.project}</div>
+                      <div className="text-md text-red-500">{group.project}</div>
                       <div className="text-md ml-10 text-gray-500">
                         {totalProjectDuration}
                       </div>
                     </div>
                     <div className="w-full bg-gray-200 mt-1 rounded-full">
                       <div
-                        className="bg-blue-500 text-xs leading-none rounded-full text-center text-white"
+                        className="bg-red-400 text-xs leading-none py-1 rounded-full text-center text-white"
                         style={{ width: `${projectPercentage}%` }}
-                      >
-                        {Math.round(projectPercentage)}%
-                      </div>
+                      ></div>
                     </div>
                   </div>
                 );
@@ -425,8 +422,6 @@ const Dashboard = () => {
               <p className="mt-2 text-red-600">No logs for today.</p>
             )}
           </div>
-
-
           <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow-md">
             <h1 className="text-2xl text-gray-600 font-semibold border-b-2 pb-2">
               Activity Logs
