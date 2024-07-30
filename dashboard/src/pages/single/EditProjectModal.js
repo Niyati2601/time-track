@@ -45,27 +45,31 @@ const EditModal = ({ project, onClose, onSave }) => {
           "Content-Type": "application/json",
         },
       });
-
+  
       const data = await res.json();
-      
-
+  
       if (data.success) {
-        const userOptions = data.data.map((user) => ({
+        // Filter users with role 'user'
+        const usersWithRoleUser = data.data.filter((user) => user.role === "user");
+        console.log('usersWithRoleUser: ', usersWithRoleUser);
+  
+        const userOptions = usersWithRoleUser.map((user) => ({
           value: user._id,
           label: user.username,
         }));
         setAllUsers(userOptions);
+  
         const availableAssignees = userOptions.filter(
           (user) => !project.assignees.some((assignee) => assignee._id === user.value)
         );
-        
+  
         setAssigneeOptions(availableAssignees);
       }
     } catch (error) {
       toast.error(error.message);
     }
   };
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });

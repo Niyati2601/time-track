@@ -230,7 +230,32 @@ const List = () => {
             <TableRow key={log._id}>
               <TableCell className="tableCell-id">{log._id}</TableCell>
               <TableCell className="tableCell">{log.title}</TableCell>
-              <TableCell className="tableCell">{log.tags.join(",")}</TableCell>
+              <TableCell className="tableCell" style={{display:"flex", width:"500px", flexWrap:"wrap"}}>
+                {log.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    style={{
+                      padding: "0.2rem 0.2rem",
+                      borderRadius: "5px",
+                      color: 'orange',
+                      backgroundColor: "white",
+                      textAlign: "center",
+                      fontSize: "0.875rem",
+                      fontWeight: "bold",
+                      display: "inline-block",
+                      width: 'max-content',
+                      height: "30px",
+                      lineHeight: "30px",
+                      border: "1px solid orange",
+                      margin: "0.1rem 0.1rem",
+                      marginTop: "8px",
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </TableCell>
+
               <TableCell className="tableCell">{log.projects}</TableCell>
               <TableCell className="tableCell">
                 {formatTime(log.startTIme)} - {formatTime(log.endTIme)}
