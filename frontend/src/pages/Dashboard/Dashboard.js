@@ -11,7 +11,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { IoMdClose } from "react-icons/io";
 import { GrFormNextLink } from "react-icons/gr";
 import { AiOutlineMinusCircle } from "react-icons/ai";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 const Dashboard = () => {
@@ -191,12 +191,12 @@ const Dashboard = () => {
       const data = await res.json();
       if (data.success) {
         const formattedProjects = data.data
-        .filter((project) => project.type === "personal")
-        .map((project) => ({
-          logo: project.logo,
-          value: project._id,
-          label: project.name,
-        }));
+          .filter((project) => project.type === "personal")
+          .map((project) => ({
+            logo: project.logo,
+            value: project._id,
+            label: project.name,
+          }));
         setProjects(formattedProjects);
       } else {
         toast.error(data.message);
@@ -257,12 +257,12 @@ const Dashboard = () => {
             {project.label}
           </div>
           <div className="float-right flex gap-2">
-          <button onClick={() => handleRemoveProject(index)}>
-            <AiOutlineMinusCircle size={20} />
-          </button>
-          <button onClick={() => navigate(`/project-details/${project.value}`)}>
-          <GrFormNextLink size={25} />
-          </button>
+            <button onClick={() => handleRemoveProject(index)}>
+              <AiOutlineMinusCircle size={20} />
+            </button>
+            <button onClick={() => navigate(`/project-details/${project.value}`)}>
+              <GrFormNextLink size={25} />
+            </button>
           </div>
         </div>
       </div>
@@ -391,21 +391,32 @@ const Dashboard = () => {
                   .padStart(2, "0");
                 const totalProjectDuration = `${totalProjectHours}hr ${totalProjectMinutes}m`;
 
+                // Calculate the percentage width based on total duration of all projects
+                const totalLogsDuration = logs.reduce((total, log) => {
+                  if (log.duration !== "-") {
+                    const [hours, minutes] = log.duration.split(":").map(Number);
+                    return total + hours * 60 * 60 * 1000 + minutes * 60 * 1000;
+                  }
+                  return total;
+                }, 0);
+                const projectPercentage =
+                  (group.totalDuration / totalLogsDuration) * 100;
+
                 return (
                   <div key={index} className="mt-2">
                     <div className="text-gray-600 flex justify-between items-center">
-                      <div className="text-md text-red-500">
-                        {group.project}
-                      </div>
+                      <div className="text-md text-blue-800">{group.project}</div>
                       <div className="text-md ml-10 text-gray-500">
                         {totalProjectDuration}
                       </div>
                     </div>
                     <div className="w-full bg-gray-200 mt-1 rounded-full">
                       <div
-                        className="bg-red-400 text-xs leading-none py-1 rounded-full text-center text-white"
-                        style={{ width: "100%" }}
-                      ></div>
+                        className="bg-blue-500 text-xs leading-none rounded-full text-center text-white"
+                        style={{ width: `${projectPercentage}%` }}
+                      >
+                        {Math.round(projectPercentage)}%
+                      </div>
                     </div>
                   </div>
                 );
@@ -414,6 +425,7 @@ const Dashboard = () => {
               <p className="mt-2 text-red-600">No logs for today.</p>
             )}
           </div>
+
 
           <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow-md">
             <h1 className="text-2xl text-gray-600 font-semibold border-b-2 pb-2">
@@ -432,20 +444,20 @@ const Dashboard = () => {
             <button
               className="bg-blue-600 text-white rounded px-2 py-1 "
               onClick={toggleAddProjectModal}
-            > 
+            >
               <span className="flex items-center gap-1">
-              <GoPlus />
-              Add Projects
+                <GoPlus />
+                Add Projects
               </span>
             </button>
           </div>
           {addedItems.length > 0 ? (
             addedItems.map((project, index) => (
               <DraggableProject
-              key={project.value}
-              project={project}
-              index={index}
-              moveProject={moveProject}
+                key={project.value}
+                project={project}
+                index={index}
+                moveProject={moveProject}
               />
             ))
           ) : (
