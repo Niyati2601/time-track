@@ -273,6 +273,30 @@ const Timesheet = () => {
     doc.save("TimeTrack.pdf");
   };
 
+  const downloadIndividualPdf = (date) => {
+    const doc = new jsPDF();
+    const title = `TimeTrack Report - ${date}`;
+    const padding = 10;
+    const titleWidth = doc.getTextWidth(title);
+    const center = doc.internal.pageSize.width / 2 - titleWidth / 2;
+
+    doc.text(title, center, padding);
+
+    doc.autoTable({
+      head: [["S.No", "Task", "Date", "Start Time", "End Time", "Duration"]],
+      body: groupedLogs[date].logs.map((log, i) => [
+        i + 1,
+        log.title,
+        moment(log.createdAt).format("MMM DD, YYYY"),
+        moment(log.startTIme).format("hh:mm A"),
+        log.endTIme ? moment(log.endTIme).format("hh:mm A") : "-",
+        log.duration,
+      ]),
+    });
+
+    doc.save(`TimeTrack - ${date}.pdf`);
+  };
+
   return (
     <>
       <div className="flex justify-end">
@@ -302,6 +326,14 @@ const Timesheet = () => {
         ) : (
           Object.keys(groupedLogs).map((date) => (
             <div key={date} className="mb-8 m-4">
+              {logs.length > 0 && (
+            <button
+              onClick={() => downloadIndividualPdf(date)}
+              className="bg-[#283046] text-white px-4 py-2 rounded-md mb-5 float-right"
+            >
+              <FiDownload className="text-xl" />
+            </button>
+          )}
               <div className="flex justify-between">
                 <h2 className="text-xl font-bold text-orange-600 uppercase">
                   {date} {formatDuration(groupedLogs[date].totalDuration)}
