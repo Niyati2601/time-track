@@ -90,7 +90,6 @@ export default function DataTable() {
     const userRows = users
   .filter(user => user.role !== 'admin') // Filter users with role "User"
   .map(user => {
-    console.log('user: ', user);
     return {
       ...user,
       role: user.role === 'admin' ? 'Admin' : 'User',

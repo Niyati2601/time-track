@@ -9,7 +9,7 @@ const imageToBase64 = async(image) => {
     })
     return data
     } catch (error) {
-        console.log("error", error);
+        console.error("error", error);
     }
     
 }

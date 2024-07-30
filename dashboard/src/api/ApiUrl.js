@@ -125,5 +125,9 @@ const apiUrl = {
         url: `${backendDomain}/api/tags`,
         method: "get",
     },
+    getFilteredProjectsAdmin:{
+        url: `${backendDomain}/api/getFilteredProjectsAdmin`,
+        method: "get",
+    }
 };
 export default apiUrl;

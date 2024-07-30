@@ -91,6 +91,7 @@ router.get("/user-logs/:id", Middleware.isAdmin, GetUserLogsById);
 router.get("/user-given-feedback/:id", Middleware.isAdmin, GetGivenFeedbacksById);
 router.get("/user-received-feedback/:id", Middleware.isAdmin, GetReceivedFeedbacksById);
 router.get('/get-projects', Middleware.isAdmin,projectController.getAllProjects);
+router.get('/getFilteredProjectsAdmin/:id', Middleware.isAdmin,projectController.getFilteredProjectsAdmin);
 router.get('/get-projects/:id', Middleware.isAdmin,projectController.getProjectById);
 router.post('/add-project', Middleware.isAdmin,projectController.createProject);
 router.patch('/update-project/:id', Middleware.isAdmin,projectController.updateProject);

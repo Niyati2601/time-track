@@ -31,7 +31,6 @@ const ReceivedFeedbackTable = () => {
         },
       });
       const data = await response.json();
-      console.log('data: ', data);
       setData(data.data || []);
     } catch (error) {
       console.error('Failed to fetch feedbacks:', error);

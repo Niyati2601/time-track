@@ -14,8 +14,8 @@ const ProjectsSingle = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(null);
-  console.log('project: ', project);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [logoPreview, setLogoPreview] = useState(false);
 
 
   const handleEditModal = () => {
@@ -127,6 +127,7 @@ const ProjectsSingle = () => {
                 alt=""
                 className="itemImg"
                 style={{ border: "1px solid #7451f8", objectFit:"contain" }}
+                onClick={() => setLogoPreview(true)}
               />
               <div className="details">
                 <h1 className="itemTitle">{project?.name}</h1>
@@ -215,6 +216,40 @@ const ProjectsSingle = () => {
                 )}
               </div>
             </div>
+            {logoPreview && (
+              <div className="previewContainer">
+              <button
+                  onClick={() => setLogoPreview(false)}
+                  className="closeIcon"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    x="0px"
+                    y="0px"
+                    width="50"
+                    height="50"
+                    viewBox="0 0 50 50"
+                  >
+                    <path
+                      fill="red"
+                      d="M 7.71875 6.28125 L 6.28125 7.71875 L 23.5625 25 L 6.28125 42.28125 L 7.71875 43.71875 L 25 26.4375 L 42.28125 43.71875 L 43.71875 42.28125 L 26.4375 25 L 43.71875 7.71875 L 42.28125 6.28125 L 25 23.5625 Z"
+                    ></path>
+                  </svg>
+                </button>
+              <div className="photoPreview">
+                <img
+                  src={project?.logo ? project?.logo : projectDefaultImage}
+                  alt="profile"
+                  className="modal-logo"
+                  style={{
+                    cursor: "pointer",
+                    width: "70%",
+                    height: "50%",
+                  }}
+                />
+              </div>
+            </div>
+            )}
             {isEditModalOpen && (
               <EditModal
                 project={project}
