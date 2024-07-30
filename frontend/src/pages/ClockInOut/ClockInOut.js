@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import apiUrl from "../../api/Api";
 import { useSelector } from "react-redux";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 import { GoDotFill } from "react-icons/go";
 import noData from "../../assets/noData.svg";
 
@@ -26,10 +26,10 @@ const ClockInOut = () => {
       if (data.success) {
         setHistory(data.history);
       } else {
-        toast.error(data.message);
+        console.error(data.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      console.error(error.message);
     }
   };
 

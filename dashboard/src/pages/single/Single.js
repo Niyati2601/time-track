@@ -13,7 +13,6 @@ import defaultImage from "../../assests/defaultImage.jpg";
 import ProjectAssignedForUsers from "../../components/ProjectAssignedTableForUsers/ProjectAssignedForUsers";
 import imageToBase64 from "../../helpers/imageToBase64";
 import ClockInOutTable from "../../components/clockInOutTable/ClockInOutTable";
-import { Button } from "@mui/material";
 
 const Single = () => {
   const { id } = useParams();
