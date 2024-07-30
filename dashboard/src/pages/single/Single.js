@@ -13,6 +13,7 @@ import defaultImage from "../../assests/defaultImage.jpg";
 import ProjectAssignedForUsers from "../../components/ProjectAssignedTableForUsers/ProjectAssignedForUsers";
 import imageToBase64 from "../../helpers/imageToBase64";
 import ClockInOutTable from "../../components/clockInOutTable/ClockInOutTable";
+import { Button } from "@mui/material";
 
 const Single = () => {
   const { id } = useParams();
@@ -23,6 +24,7 @@ const Single = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [file, setFile] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(false);
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -104,6 +106,7 @@ const Single = () => {
                 src={user?.profilePhoto ? user?.profilePhoto : defaultImage}
                 alt=""
                 className="itemImg"
+                onClick={() => setPhotoPreview(true)}
               />
               <div className="details">
                 <h1 className="itemTitle">{user?.username}</h1>
@@ -122,25 +125,65 @@ const Single = () => {
             <Chart aspect={3 / 1} title="User Spending ( Last 6 Months)" />
           </div>
         </div>
-        {user?.role === "user" &&
-          <><div className="bottom">
-            <h1 className="title">User Logs</h1>
-            <List />
-          </div><div className="bottom">
+        {user?.role === "user" && (
+          <>
+            <div className="bottom">
+              <h1 className="title">User Logs</h1>
+              <List />
+            </div>
+            <div className="bottom">
               <h1 className="title">Feedbacks (Given)</h1>
               <FeedbackTable />
-            </div><div className="bottom">
+            </div>
+            <div className="bottom">
               <h1 className="title">Feedbacks (Received)</h1>
               <ReceivedFeedbackTable />
-            </div><div className="bottom">
+            </div>
+            <div className="bottom">
               <h1 className="title">Projects</h1>
               <ProjectAssignedForUsers />
-            </div><div className="bottom">
+            </div>
+            <div className="bottom">
               <h1 className="title">Clock In/Out Details</h1>
               <ClockInOutTable />
-            </div></>
-        }
+            </div>
+          </>
+        )}
       </div>
+      {photoPreview && (
+        <div className="previewContainer">
+          <button
+              onClick={() => setPhotoPreview(false)}
+              className="closeIcon"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="50"
+                height="50"
+                viewBox="0 0 50 50"
+              >
+                <path
+                  fill="red"
+                  d="M 7.71875 6.28125 L 6.28125 7.71875 L 23.5625 25 L 6.28125 42.28125 L 7.71875 43.71875 L 25 26.4375 L 42.28125 43.71875 L 43.71875 42.28125 L 26.4375 25 L 43.71875 7.71875 L 42.28125 6.28125 L 25 23.5625 Z"
+                ></path>
+              </svg>
+            </button>
+          <div className="photoPreview">
+            <img
+              src={profilePhoto}
+              alt="profile"
+              className="modal-logo"
+              style={{
+                cursor: "pointer",
+                width: "70%",
+                height: "50%",
+              }}
+            />
+          </div>
+        </div>
+      )}
 
       {isEditProfileModalOpen && (
         <div className="edit-profile-modal-overlay">

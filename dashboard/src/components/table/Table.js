@@ -23,7 +23,6 @@ const List = () => {
   const [isEditLogModalOpen, setIsEditLogModalOpen] = useState(false);
   const [currentLog, setCurrentLog] = useState(null);
 
-  const [projectOptions, setProjectOptions] = useState([]);
   const [tags, setTags] = useState([]);
   const [editLogs, setEditLogs] = useState({
     _id: "",
@@ -33,6 +32,7 @@ const List = () => {
     startTIme: new Date(),
     endTIme: new Date(),
   });
+  const [filteredProjects, setFilteredProjects] = useState([]);
 
   const handleLogs = async () => {
     try {
@@ -52,7 +52,7 @@ const List = () => {
 
   useEffect(() => {
     handleLogs();
-    fetchTags()
+    fetchTags();
   }, [id]);
 
   const formatTime = (dateString) => {
@@ -85,32 +85,6 @@ const List = () => {
     });
   };
 
-  const fetchProjects = async () => {
-    try {
-      const res = await fetch(apiUrl.getProjects.url, {
-        method: apiUrl.getProjects.method,
-        credentials: "include",
-        headers: {
-          "content-type": "application/json",
-        },
-      });
-
-      const data = await res.json();
-      if (data.success) {
-        setProjectOptions(
-          data.data.map((project) => ({
-            value: project._id,
-            label: project.name,
-          }))
-        );
-      } else {
-        setProjectOptions([]);
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
-
   const fetchTags = async () => {
     try {
       const res = await fetch(apiUrl.getTags.url, {
@@ -139,7 +113,7 @@ const List = () => {
   const handleLogModal = (log) => {
     setCurrentLog(log);
     setIsEditLogModalOpen(true);
-    fetchProjects();
+    getFilteredProjectsAdmin();
     fetchTags();
     setEditLogs({
       _id: log._id,
@@ -205,6 +179,33 @@ const List = () => {
       ...prev,
       tags: selectedOptions,
     }));
+  };
+
+  const getFilteredProjectsAdmin = async () => {
+    try {
+      const res = await fetch(`${apiUrl.getFilteredProjectsAdmin.url}/${id}`, {
+        method: apiUrl.getFilteredProjectsAdmin.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setFilteredProjects(
+          data.data.map((project) => ({
+            value: project._id,
+            label: project.name,
+          }))
+        );
+      } else {
+        setFilteredProjects([]);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -309,7 +310,7 @@ const List = () => {
                     value={editLogs.projects}
                     onChange={handleChangeLog}
                   >
-                    {projectOptions.map((project) => (
+                    {filteredProjects.map((project) => (
                       <option key={project.value} value={project.label}>
                         {project.label}
                       </option>
@@ -333,7 +334,9 @@ const List = () => {
                     id="startTIme"
                     name="startTIme"
                     className="form-control"
-                    value={moment(editLogs.startTIme).format("YYYY-MM-DDTHH:mm")}
+                    value={moment(editLogs.startTIme).format(
+                      "YYYY-MM-DDTHH:mm"
+                    )}
                     onChange={(e) => handlestartTIme(new Date(e.target.value))}
                   />
                 </div>

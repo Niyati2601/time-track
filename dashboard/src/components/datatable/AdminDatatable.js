@@ -89,7 +89,6 @@ export default function AdminDataTable() {
     const userRows = users
   .filter(user => user.role !== 'user') 
   .map(user => {
-    console.log('user: ', user);
     return {
       ...user,
       role: user.role === 'user' ? 'User' : 'Admin',

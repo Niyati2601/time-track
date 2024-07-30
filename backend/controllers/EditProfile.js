@@ -46,7 +46,6 @@ const EditProfile = async (req, res) => {
 const AdminEditProfile = async (req, res) => {
   try {
     const user = await adminModal.findById(req.userId);
-    console.log('user: ', user);
     if (user) {
       const updatedData = {
         username: req.body.username,
@@ -54,7 +53,6 @@ const AdminEditProfile = async (req, res) => {
         profilePhoto: req.body.profilePhoto,
         role: req.body.role,
       };
-      console.log(updatedData)
 
       const updatedAdmin = await adminModal.findByIdAndUpdate(
         req.userId,

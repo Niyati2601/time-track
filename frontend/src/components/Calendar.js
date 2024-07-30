@@ -45,7 +45,7 @@ const Calendar = () => {
           setLogs([]);
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 

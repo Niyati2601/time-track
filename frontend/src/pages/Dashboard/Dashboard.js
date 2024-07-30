@@ -189,8 +189,6 @@ const Dashboard = () => {
         },
       });
       const data = await res.json();
-    //  const projectImage = data?.data?.map((project) => project?.logo)
-    //  console.log('projectImage: ', projectImage);
       if (data.success) {
         const formattedProjects = data.data
         .filter((project) => project.type === "personal")
@@ -199,7 +197,6 @@ const Dashboard = () => {
           value: project._id,
           label: project.name,
         }));
-        // console.log('formattedProjects: ', formattedProjects);
         setProjects(formattedProjects);
       } else {
         toast.error(data.message);

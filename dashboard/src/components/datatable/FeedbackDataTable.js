@@ -24,7 +24,6 @@ const FeedbackDataTable = () => {
         },
       });
       const data = await res.json();
-      console.log('data: ', data);
       if (data.success) {
         setFeedbacks(data.data);
       }
