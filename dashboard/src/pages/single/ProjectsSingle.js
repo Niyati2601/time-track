@@ -126,7 +126,7 @@ const ProjectsSingle = () => {
                 src={project?.logo ? project?.logo : projectDefaultImage}
                 alt=""
                 className="itemImg"
-                style={{ border: "1px solid #7451f8", objectFit:"contain" }}
+                style={{ border: "1px solid #7451f8", objectFit:"contain" , cursor:"pointer"}}
                 onClick={() => setLogoPreview(true)}
               />
               <div className="details">

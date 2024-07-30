@@ -117,6 +117,7 @@ export default function CategoriesDataTable() {
                 setCategoryName("");
                 setEditCategoryId("");
                 toast.success("Category updated successfully");
+                closeEditCategoryModal();
             }
         } catch (error) {
             console.error("Failed to edit category:", error);
@@ -257,7 +258,6 @@ export default function CategoriesDataTable() {
                                         <button
                                             type="submit"
                                             className="submit-button"
-                                            onClick={closeEditCategoryModal}
                                         >
                                             Edit
                                         </button>
