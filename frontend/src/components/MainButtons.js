@@ -37,14 +37,16 @@ const MainButtons = ({ className }) => {
       const elapsedTime = Math.floor((new Date() - startTime) / 1000);
       timer.start({ startValues: { seconds: elapsedTime } });
     }
+    // eslint-disable-next-line
   }, [isDayIn]);
 
   useEffect(() => {
    if(isClocking === false) {
     handleClockOut();
    } else {
-    handleClockIn(user.user._id);
+    handleClockIn(user?.user?._id);
    }
+   // eslint-disable-next-line
   }, [isDayIn]);
 
   const handleClockIn = async () => {
@@ -94,7 +96,6 @@ const MainButtons = ({ className }) => {
         setIsClocking(false);
         setClockInTime(null);
       } else {
-        console.error(data.message);
         console.error(data.message);
       }
     } catch (error) {

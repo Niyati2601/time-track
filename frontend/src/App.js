@@ -11,7 +11,6 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import apiUrl from "./api/Api";
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "./redux/userSlice";
-// import { toast } from "react-hot-toast";
 import { useEffect } from "react";
 import FeedBack from "./pages/Feedback/FeedBack";
 import Project from "./pages/project/Project";
@@ -35,14 +34,13 @@ function App() {
         dispatch(setUserDetails(data.data));
       }
     } catch (error) {
-      // toast.error(error.message);
       console.error(error);
     }
   };
 
   useEffect(() => {
     fetchUserDetails();
-  }, []);
+  },);
   return (
     <>
       <Toaster />

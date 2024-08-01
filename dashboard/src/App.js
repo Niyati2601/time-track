@@ -15,7 +15,6 @@ import Signup from './pages/signup/Signup';
 import Profile from './pages/profile/Profile';
 import { Toaster } from "react-hot-toast";
 import Feedback from './pages/projects/Feedback';
-import AdminDataTable from './components/datatable/AdminDatatable';
 import Admin from './pages/list/Admin';
 
 

@@ -11,6 +11,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import noData from "../assets/noData.svg";
 import jsPDF from "jspdf";
+// eslint-disable-next-line 
 import autoTable from "jspdf-autotable";
 import { FiDownload } from "react-icons/fi";
 import Calendar from "../components/Calendar";
@@ -59,6 +60,7 @@ const Timesheet = () => {
     fetchUserDetails();
     fetchProjects();
     fetchTags();
+    // eslint-disable-next-line
   }, []);
 
   const fetchProjects = async () => {

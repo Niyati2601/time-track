@@ -37,6 +37,7 @@ const ClockInOut = () => {
     if (user?.user?._id) {
       fetchHistory();
     }
+    // eslint-disable-next-line 
   }, [user]);
 
   const formatTime = (dateString) => {

@@ -22,7 +22,7 @@ const Single = () => {
   const [profilePhoto, setProfilePhoto] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [file, setFile] = useState(null);
+  const [mentor, setMentor] = useState(false);
   const [photoPreview, setPhotoPreview] = useState(false);
 
   useEffect(() => {
@@ -40,6 +40,7 @@ const Single = () => {
         setProfilePhoto(data.data.profilePhoto || defaultImage);
         setUsername(data.data.username);
         setEmail(data.data.email);
+        setMentor(data.data.isMentor);
       } catch (error) {
         console.error("Failed to fetch user details:", error);
       }
@@ -54,7 +55,6 @@ const Single = () => {
 
   const handleProfilePhotoChange = async (e) => {
     const file = e.target.files[0];
-    setFile(file);
     const base64 = await imageToBase64(file);
     setProfilePhoto(base64);
   };
@@ -117,6 +117,11 @@ const Single = () => {
                   <span className="itemKey">User Id:</span>
                   <span className="itemValue">{user?._id}</span>
                 </div>
+                <div className="detailItem">
+                  <span className="itemKey">Mentor:</span>
+                  <span className="itemValue">{user?.isMentor ? "Yes" : "No"}</span>
+                </div>
+
               </div>
             </div>
           </div>
