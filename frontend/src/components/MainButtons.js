@@ -86,7 +86,7 @@ const MainButtons = ({ className }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          userId: user?.user?._id, // Replace with actual user ID
+          userId: user?.user?._id, 
         }),
       });
       const data = await response.json();
@@ -103,6 +103,11 @@ const MainButtons = ({ className }) => {
       console.error('Failed to clock out. Please try again.', error);
     }
   };
+  useEffect(() => {
+    if (!isDayIn) {
+      handleClockOut();
+    }
+  },[isDayIn])
 
 
 

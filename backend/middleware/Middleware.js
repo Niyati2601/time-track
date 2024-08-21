@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const Middleware = (req, res, next) => {
     const token = req.cookies?.token;
     if (!token) {
-        return res.status(403).json({ message: 'No token provided' });
+        return res.status(403).json({ message: 'Please login...' });
     }
 
     jwt.verify(token, process.env.TOKEN_SECRET_KEY, (err, decoded) => {
